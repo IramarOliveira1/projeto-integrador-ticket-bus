@@ -1,0 +1,21 @@
+package br.ba.fvc.principal;
+
+import br.ba.fvc.controllrs.LoginController;
+import br.ba.fvc.database.connection.ConnectionMysql;
+
+public class Principal {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		LoginController login = new LoginController();
+		ConnectionMysql conn = new ConnectionMysql();
+		
+		conn.getConnectionMysql();
+		
+	
+		
+		System.out.println(login.login());
+		
+	}
+
+}

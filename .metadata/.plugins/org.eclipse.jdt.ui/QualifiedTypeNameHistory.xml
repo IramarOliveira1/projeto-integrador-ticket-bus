@@ -1,2 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.sql.ConnectionBuilder"/>
+    <fullyQualifiedTypeName name="java.sql.DriverManager"/>
+    <fullyQualifiedTypeName name="java.sql.Statement"/>
+    <fullyQualifiedTypeName name="com.mysql.cj.jdbc.JdbcPreparedStatement"/>
+    <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
+    <fullyQualifiedTypeName name="com.mysql.cj.protocol.x.SyncFlushDeflaterOutputStream"/>
+    <fullyQualifiedTypeName name="br.ba.fvc.database.connection.ConnectionMysql"/>
+    <fullyQualifiedTypeName name="java.sql.Connection"/>
+    <fullyQualifiedTypeName name="java.lang.Exception"/>
+    <fullyQualifiedTypeName name="br.ba.fvc.models.Login"/>
+    <fullyQualifiedTypeName name="java.sql.Array"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
+    <fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
+    <fullyQualifiedTypeName name="java.lang.Object"/>
+    <fullyQualifiedTypeName name="java.sql.ResultSet"/>
+    <fullyQualifiedTypeName name="br.ba.fvc.views.Teste"/>
+    <fullyQualifiedTypeName name="br.ba.fvc.views.TesteView"/>
+    <fullyQualifiedTypeName name="java.awt.Window"/>
+    <fullyQualifiedTypeName name="java.sql.SQLException"/>
+    <fullyQualifiedTypeName name="br.ba.fvc.controllrs.LoginController"/>
+    <fullyQualifiedTypeName name="java.net.URL"/>
+    <fullyQualifiedTypeName name="br.ba.fvc.views.menuView"/>
+    <fullyQualifiedTypeName name="java.lang.String"/>
+    <fullyQualifiedTypeName name="javax.swing.JPasswordField"/>
+    <fullyQualifiedTypeName name="br.ba.fvc.views.ListarFuncionario"/>
+    <fullyQualifiedTypeName name="br.ba.fvc.views.CadastrarFuncionario"/>
+    <fullyQualifiedTypeName name="br.ba.fvc.views.ListarVeiculo"/>
+    <fullyQualifiedTypeName name="br.ba.fvc.views.MenuView"/>
+    <fullyQualifiedTypeName name="br.ba.fvc.views.ListarCidadeView"/>
+    <fullyQualifiedTypeName name="br.ba.fvc.views.CadastrarCidadeView"/>
+    <fullyQualifiedTypeName name="br.ba.fvc.views.ListarRotaView"/>
+    <fullyQualifiedTypeName name="br.ba.fvc.views.CadastrarRotaView"/>
+    <fullyQualifiedTypeName name="br.ba.fvc.views.CadastrarVeiculoView"/>
+</qualifiedTypeNameHistroy>

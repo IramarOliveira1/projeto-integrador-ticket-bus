@@ -1,0 +1,104 @@
+package br.ba.fvc.views;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JSeparator;
+import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
+import javax.swing.border.EtchedBorder;
+import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollPane;
+
+public class ListarCidadeView {
+
+	private JFrame frame;
+	private JTextField textField;
+	private JTable table;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ListarCidadeView window = new ListarCidadeView();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public ListarCidadeView() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 722, 349);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(
+				new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)),
+				"Listar cidades", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel.setBounds(4, 0, 692, 299);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
+
+		JLabel lblNewLabel = new JLabel("Pesquisar");
+		lblNewLabel.setBounds(10, 29, 149, 14);
+		panel.add(lblNewLabel);
+
+		textField = new JTextField();
+		textField.setBounds(10, 48, 465, 20);
+		panel.add(textField);
+		textField.setColumns(10);
+
+		JButton btnNewButton = new JButton("Editar");
+		btnNewButton.setBounds(494, 234, 89, 23);
+		panel.add(btnNewButton);
+
+		JButton btnNewButton_1 = new JButton("Excluir");
+		btnNewButton_1.setBounds(593, 234, 89, 23);
+		panel.add(btnNewButton_1);
+
+		JLabel lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1
+				.setIcon(new ImageIcon("C:\\Users\\D Paula\\Desktop\\JAVA\\views\\img\\icons8-city-block-100.png"));
+		lblNewLabel_1.setBounds(523, 83, 122, 123);
+		panel.add(lblNewLabel_1);
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 90, 465, 167);
+		panel.add(scrollPane);
+
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Nome cidade", "CEP" }));
+
+		JLabel lblNewLabel_2 = new JLabel("");
+		lblNewLabel_2.setIcon(new ImageIcon("C:\\Users\\D Paula\\Desktop\\JAVA\\views\\img\\logo-dark min.png"));
+		lblNewLabel_2.setBounds(289, 274, 105, 14);
+		panel.add(lblNewLabel_2);
+		table.getColumnModel().getColumn(0).setPreferredWidth(514);
+		table.getColumnModel().getColumn(1).setPreferredWidth(110);
+	}
+
+}
