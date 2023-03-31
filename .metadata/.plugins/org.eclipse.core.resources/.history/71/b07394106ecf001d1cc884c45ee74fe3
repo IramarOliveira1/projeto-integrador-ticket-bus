@@ -63,12 +63,6 @@ public class MenuView {
 		windowRouter.setVisible(true);
 		frame.dispose();
 	}
-	
-	private void windowSale() {
-		ListarVendaView windowSale = new ListarVendaView(this.user);
-		windowSale.setVisible(true);
-		frame.dispose();
-	}
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -131,11 +125,6 @@ public class MenuView {
 		frame.getContentPane().add(btn_rota);
 
 		JButton btn_venda = new JButton("");
-		btn_venda.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				windowSale();
-			}
-		});
 		URL venda_image = this.getClass().getResource("/public/venda_menu.png");
 		btn_venda.setIcon(new ImageIcon(venda_image));
 		btn_venda.setBounds(164, 119, 97, 73);
