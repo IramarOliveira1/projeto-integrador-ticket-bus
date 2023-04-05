@@ -1,0 +1,50 @@
+package br.ba.fvc.dao;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.swing.JOptionPane;
+
+import br.ba.fvc.database.connection.ConnectionMysql;
+
+public class GenericDAO {
+
+	Connection connection = null;
+
+	public GenericDAO() {
+		this.connection = new ConnectionMysql().getConnectionMysql();
+	}
+
+	public ResultSet all(String table, String fields) {
+		ResultSet result = null;
+		try {
+			Statement instance = this.connection.createStatement();
+
+			String query = "SELECT " + fields + " FROM " + table;
+
+			result = instance.executeQuery(query);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return result;
+	}
+
+	public void store(String table, String fields, Object values) {
+		Boolean result = false;
+		
+		try {
+			Statement instance = this.connection.createStatement();
+
+			String query = "INSERT INTO " + table + "(" + fields + ") VALUES (" + values + ")";
+
+			result = instance.execute(query);
+
+			JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!");
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+	}
+
+}

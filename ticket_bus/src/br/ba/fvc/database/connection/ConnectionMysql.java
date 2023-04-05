@@ -8,15 +8,13 @@ public class ConnectionMysql {
 
 	public Connection getConnectionMysql() {
 		Connection connection = null;
-
 		try {
 
-			String url = "jdbc:mysql://localhost:3306/db_ticket_bus?user=root&password=";
+			String url = "jdbc:mysql://containers-us-west-135.railway.app:5908/railway?user=root&password=e0f4eE2N8TWZyK0gIK6y";
 
 			connection = DriverManager.getConnection(url);
 
 		} catch (SQLException error) {
-			// TODO: handle exception
 			System.out.println(error.getMessage());
 		}
 		return connection;
