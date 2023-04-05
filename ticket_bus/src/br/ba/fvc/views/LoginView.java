@@ -15,7 +15,11 @@ import java.sql.ResultSet;
 
 import javax.swing.JTextField;
 
+<<<<<<< HEAD
 import br.ba.fvc.controllrs.FuncionarioController;
+=======
+import br.ba.fvc.controllrs.LoginController;
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 
 import javax.swing.JButton;
 import java.awt.Color;
@@ -52,7 +56,11 @@ public class LoginView {
 
 	private void View() {
 		try {
+<<<<<<< HEAD
 			FuncionarioController fields = new FuncionarioController();
+=======
+			LoginController fields = new LoginController();
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 
 			char[] senhaChar = senha.getPassword();
 
@@ -69,10 +77,16 @@ public class LoginView {
 				fields.setCargo(result.getString(3));
 				fields.setEmail(result.getString(4));
 				fields.setSenha(result.getString(5));
+<<<<<<< HEAD
 				
 				System.out.println(fields);
 
 				MenuView windowMenu = new MenuView(fields);
+=======
+
+				MenuView windowMenu = new MenuView(fields);
+
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 				windowMenu.setVisible(true);
 
 				frame.dispose();

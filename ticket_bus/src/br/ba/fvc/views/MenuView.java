@@ -8,7 +8,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JSeparator;
 
+<<<<<<< HEAD
 import br.ba.fvc.controllrs.FuncionarioController;
+=======
+import br.ba.fvc.controllrs.LoginController;
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
@@ -17,7 +21,11 @@ import java.net.URL;
 public class MenuView {
 
 	private JFrame frame;
+<<<<<<< HEAD
 	public FuncionarioController user;
+=======
+	public LoginController user;
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 
 	/**
 	 * Launch the application.
@@ -35,7 +43,11 @@ public class MenuView {
 		});
 	}
 
+<<<<<<< HEAD
 	public MenuView(FuncionarioController fields) {
+=======
+	public MenuView(LoginController fields) {
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 		this.user = fields;
 		initialize();
 	}

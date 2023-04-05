@@ -4,18 +4,28 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+<<<<<<< HEAD
 import java.net.URL;
+=======
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 
 import javax.swing.JFrame;
 import javax.swing.JSeparator;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+<<<<<<< HEAD
 import javax.swing.ImageIcon;
+=======
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+<<<<<<< HEAD
 import br.ba.fvc.controllrs.FuncionarioController;
+=======
+import br.ba.fvc.controllrs.LoginController;
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 
 import javax.swing.JScrollPane;
 
@@ -24,7 +34,11 @@ public class ListarRotaView {
 	private JFrame frame;
 	private JTextField textField;
 	private JTable table;
+<<<<<<< HEAD
 	public FuncionarioController user;
+=======
+	public LoginController user;
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 
 	/**
 	 * Launch the application.
@@ -47,7 +61,11 @@ public class ListarRotaView {
 	 * 
 	 * @param user
 	 */
+<<<<<<< HEAD
 	public ListarRotaView(FuncionarioController fields) {
+=======
+	public ListarRotaView(LoginController fields) {
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 		this.user = fields;
 		initialize();
 	}
@@ -126,6 +144,7 @@ public class ListarRotaView {
 				home();
 			}
 		});
+<<<<<<< HEAD
 		home.setBounds(10, 3, 137, 23);
 		frame.getContentPane().add(home);
 
@@ -136,6 +155,13 @@ public class ListarRotaView {
 		frame.getContentPane().add(lblNewLabel_1);
 
 		frame.setLocationRelativeTo(frame);
+=======
+		home.setBounds(10, 11, 137, 23);
+		frame.getContentPane().add(home);
+
+		frame.setLocationRelativeTo(frame);
+
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 	}
 
 	public void setVisible(boolean b) {

@@ -11,7 +11,11 @@ public class ConnectionMysql {
 
 		try {
 
+<<<<<<<< HEAD:.metadata/.plugins/org.eclipse.core.resources/.history/a9/30e964bdc9c9001d108bb986989a7612
 			String url = "jdbc:mysql://localhost:3306/db_ticket_bus?user=root&password=2222";
+========
+			String url = "jdbc:mysql://localhost:3306/db_ticket_bus?user=root&password=";
+>>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff:.metadata/.plugins/org.eclipse.core.resources/.history/56/00adebed7ece001d1345918602c4349a
 
 			connection = DriverManager.getConnection(url);
 

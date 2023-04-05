@@ -9,7 +9,10 @@ import javax.swing.JFrame;
 import javax.swing.JSeparator;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
@@ -43,6 +46,13 @@ public class CadastrarRotaView {
 		initialize();
 	}
 
+<<<<<<< HEAD
+=======
+	private void close() {
+		frame.setVisible(false);
+	}
+
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -101,7 +111,11 @@ public class CadastrarRotaView {
 		JButton cancelar = new JButton("Cancelar");
 		cancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
 				frame.setVisible(false);
+=======
+				close();
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 			}
 		});
 		cancelar.setBounds(435, 258, 111, 23);

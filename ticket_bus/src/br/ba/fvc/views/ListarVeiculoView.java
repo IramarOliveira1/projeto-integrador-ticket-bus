@@ -13,7 +13,11 @@ import javax.swing.JTextField;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+<<<<<<< HEAD
 import br.ba.fvc.controllrs.FuncionarioController;
+=======
+import br.ba.fvc.controllrs.LoginController;
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 
 import javax.swing.JScrollPane;
 import javax.swing.ImageIcon;
@@ -24,7 +28,11 @@ public class ListarVeiculoView {
 	private JFrame frame;
 	private JTextField textField;
 	private JTable table;
+<<<<<<< HEAD
 	public FuncionarioController user;
+=======
+	public LoginController user;
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 
 	/**
 	 * Launch the application.
@@ -45,7 +53,11 @@ public class ListarVeiculoView {
 	/**
 	 * Create the application.
 	 */
+<<<<<<< HEAD
 	public ListarVeiculoView(FuncionarioController fields) {
+=======
+	public ListarVeiculoView(LoginController fields) {
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 		this.user = fields;
 		initialize();
 	}
@@ -78,7 +90,11 @@ public class ListarVeiculoView {
 		scrollPane.setBounds(26, 131, 646, 363);
 		frame.getContentPane().add(scrollPane);
 
+<<<<<<< HEAD
 		JLabel listar_veiculo = new JLabel("Listar  VeÃ­culos");
+=======
+		JLabel listar_veiculo = new JLabel("Listar  Veículos");
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 		listar_veiculo.setFont(new Font("Tahoma", Font.BOLD, 12));
 		listar_veiculo.setBounds(319, 19, 185, 14);
 		frame.getContentPane().add(listar_veiculo);

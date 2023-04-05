@@ -1,5 +1,6 @@
 package br.ba.fvc.principal;
 
+<<<<<<< HEAD
 <<<<<<<< HEAD:.metadata/.plugins/org.eclipse.core.resources/.history/f7/7067a18f01cf001d1c26952355bcd62d
 import br.ba.fvc.controllrs.GenericController;
 ========
@@ -7,11 +8,17 @@ import br.ba.fvc.controllrs.LoginController;
 import br.ba.fvc.database.connection.ConnectionMysql;
 import br.ba.fvc.models.Login;
 >>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff:.metadata/.plugins/org.eclipse.core.resources/.history/f0/e00e8658cec9001d108bb986989a7612
+=======
+import br.ba.fvc.controllrs.LoginController;
+import br.ba.fvc.database.connection.ConnectionMysql;
+import br.ba.fvc.models.Login;
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 
 public class Principal {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+<<<<<<< HEAD
 <<<<<<<< HEAD:.metadata/.plugins/org.eclipse.core.resources/.history/f7/7067a18f01cf001d1c26952355bcd62d
 	
 		GenericController generic = new GenericController();
@@ -19,16 +26,39 @@ public class Principal {
 		generic.all("Usuario");
 ========
 		Login result = new Login();
+=======
+		Login result = new Login();
+<<<<<<<< HEAD:.metadata/.plugins/org.eclipse.core.resources/.history/82/70508b5da1ca001d108bb986989a7612
+		
+		
+		
+		result.loginModel("iramar", "teste");
+		
+	
+
+
+		
+	
+		
+========
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 
 		System.out.println(result);
 
 		
 	
+<<<<<<< HEAD
 >>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff:.metadata/.plugins/org.eclipse.core.resources/.history/f0/e00e8658cec9001d108bb986989a7612
 		
 
 		
 		 
+=======
+		
+>>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff:.metadata/.plugins/org.eclipse.core.resources/.history/f0/e00e8658cec9001d108bb986989a7612
+
+		
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 	}
 
 }

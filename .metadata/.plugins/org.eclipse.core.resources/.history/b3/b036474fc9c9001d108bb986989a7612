@@ -2,15 +2,19 @@ package br.ba.fvc.principal;
 
 import br.ba.fvc.controllrs.LoginController;
 
+<<<<<<< HEAD
 <<<<<<<< HEAD:.metadata/.plugins/org.eclipse.core.resources/.history/be/607e3e5ea2ca001d108bb986989a7612
 
 
 ========
 >>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff:.metadata/.plugins/org.eclipse.core.resources/.history/b3/b036474fc9c9001d108bb986989a7612
+=======
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 public class Principal {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+<<<<<<< HEAD
 <<<<<<<< HEAD:.metadata/.plugins/org.eclipse.core.resources/.history/be/607e3e5ea2ca001d108bb986989a7612
 		LoginController result = new LoginController();
 				
@@ -19,6 +23,13 @@ public class Principal {
 ========
 		LoginController login = new LoginController();
 		
+=======
+		LoginController login = new LoginController();
+		
+<<<<<<<< HEAD:.metadata/.plugins/org.eclipse.core.resources/.history/7e/7037ec7fc9c9001d108bb986989a7612
+		System.out.println(login.email);;
+========
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 		login.email();
 >>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff:.metadata/.plugins/org.eclipse.core.resources/.history/b3/b036474fc9c9001d108bb986989a7612
 		

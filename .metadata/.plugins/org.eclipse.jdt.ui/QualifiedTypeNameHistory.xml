@@ -11,14 +11,28 @@
     <fullyQualifiedTypeName name="java.lang.Exception"/>
     <fullyQualifiedTypeName name="br.ba.fvc.models.Login"/>
     <fullyQualifiedTypeName name="java.sql.Array"/>
+<<<<<<< HEAD
     <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
     <fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
     <fullyQualifiedTypeName name="br.ba.fvc.views.Teste"/>
+=======
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
+    <fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
+    <fullyQualifiedTypeName name="java.lang.Object"/>
+    <fullyQualifiedTypeName name="java.sql.ResultSet"/>
+    <fullyQualifiedTypeName name="br.ba.fvc.views.Teste"/>
+    <fullyQualifiedTypeName name="br.ba.fvc.views.TesteView"/>
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
     <fullyQualifiedTypeName name="java.awt.Window"/>
     <fullyQualifiedTypeName name="java.sql.SQLException"/>
     <fullyQualifiedTypeName name="br.ba.fvc.controllrs.LoginController"/>
     <fullyQualifiedTypeName name="java.net.URL"/>
     <fullyQualifiedTypeName name="br.ba.fvc.views.menuView"/>
+<<<<<<< HEAD
+=======
+    <fullyQualifiedTypeName name="java.lang.String"/>
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
     <fullyQualifiedTypeName name="javax.swing.JPasswordField"/>
     <fullyQualifiedTypeName name="br.ba.fvc.views.ListarFuncionario"/>
     <fullyQualifiedTypeName name="br.ba.fvc.views.CadastrarFuncionario"/>
@@ -29,6 +43,7 @@
     <fullyQualifiedTypeName name="br.ba.fvc.views.ListarRotaView"/>
     <fullyQualifiedTypeName name="br.ba.fvc.views.CadastrarRotaView"/>
     <fullyQualifiedTypeName name="br.ba.fvc.views.CadastrarVeiculoView"/>
+<<<<<<< HEAD
     <fullyQualifiedTypeName name="br.ba.fvc.views.ListarVendaView"/>
     <fullyQualifiedTypeName name="br.ba.fvc.views.CadastrarVendaView"/>
     <fullyQualifiedTypeName name="javax.swing.JFrame"/>
@@ -44,4 +59,6 @@
     <fullyQualifiedTypeName name="java.sql.ResultSet"/>
     <fullyQualifiedTypeName name="com.mysql.cj.xdevapi.Result"/>
     <fullyQualifiedTypeName name="java.lang.Object"/>
+=======
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 </qualifiedTypeNameHistroy>

@@ -8,7 +8,11 @@ public class Principal {
 		// TODO Auto-generated method stub
 		LoginController login = new LoginController();
 		
+<<<<<<<< HEAD:.metadata/.plugins/org.eclipse.core.resources/.history/7e/7037ec7fc9c9001d108bb986989a7612
 		System.out.println(login.email);;
+========
+		login.email();
+>>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff:.metadata/.plugins/org.eclipse.core.resources/.history/b3/b036474fc9c9001d108bb986989a7612
 		
 	}
 

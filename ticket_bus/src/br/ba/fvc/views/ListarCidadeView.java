@@ -15,7 +15,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+<<<<<<< HEAD
 import br.ba.fvc.controllrs.FuncionarioController;
+=======
+import br.ba.fvc.controllrs.LoginController;
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 
 import javax.swing.JScrollPane;
 
@@ -24,7 +28,11 @@ public class ListarCidadeView {
 	private JFrame frame;
 	private JTextField textField;
 	private JTable table;
+<<<<<<< HEAD
 	public FuncionarioController user;
+=======
+	public LoginController user;
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 
 	/**
 	 * Launch the application.
@@ -47,7 +55,11 @@ public class ListarCidadeView {
 	 * 
 	 * @param user
 	 */
+<<<<<<< HEAD
 	public ListarCidadeView(FuncionarioController fields) {
+=======
+	public ListarCidadeView(LoginController fields) {
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 		this.user = fields;
 		initialize();
 	}
@@ -135,12 +147,15 @@ public class ListarCidadeView {
 		excluir.setBounds(642, 431, 158, 23);
 		frame.getContentPane().add(excluir);
 
+<<<<<<< HEAD
 		JLabel lblNewLabel_1 = new JLabel("");
 		URL logo = this.getClass().getResource("/public/dark_logo_min.png");
 		lblNewLabel_1.setIcon(new ImageIcon(logo));
 		lblNewLabel_1.setBounds(367, 523, 137, 14);
 		frame.getContentPane().add(lblNewLabel_1);
 
+=======
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 		frame.setLocationRelativeTo(frame);
 	}
 

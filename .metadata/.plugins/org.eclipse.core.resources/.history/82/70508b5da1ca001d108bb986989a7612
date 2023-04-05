@@ -9,6 +9,7 @@ public class Principal {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Login result = new Login();
+<<<<<<<< HEAD:.metadata/.plugins/org.eclipse.core.resources/.history/82/70508b5da1ca001d108bb986989a7612
 		
 		
 		
@@ -20,6 +21,14 @@ public class Principal {
 		
 	
 		
+========
+
+		System.out.println(result);
+
+		
+	
+		
+>>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff:.metadata/.plugins/org.eclipse.core.resources/.history/f0/e00e8658cec9001d108bb986989a7612
 
 		
 	}

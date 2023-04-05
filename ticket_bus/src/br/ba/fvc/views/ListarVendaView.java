@@ -14,7 +14,11 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+<<<<<<< HEAD
 import br.ba.fvc.controllrs.FuncionarioController;
+=======
+import br.ba.fvc.controllrs.LoginController;
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 
 import javax.swing.JScrollPane;
 
@@ -25,7 +29,11 @@ public class ListarVendaView {
 	private JTextField input_de;
 	private JTextField input_ate;
 	private JTextField rota;
+<<<<<<< HEAD
 	public FuncionarioController user;
+=======
+	public LoginController user;
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 
 	/**
 	 * Launch the application.
@@ -47,7 +55,11 @@ public class ListarVendaView {
 	 * Create the application.
 	 * @param fields 
 	 */
+<<<<<<< HEAD
 	public ListarVendaView(FuncionarioController fields) {
+=======
+	public ListarVendaView(LoginController fields) {
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 		this.user = fields;
 		initialize();
 	}

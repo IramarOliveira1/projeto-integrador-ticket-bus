@@ -16,6 +16,10 @@ public class ConnectionMysql {
 			connection = DriverManager.getConnection(url);
 
 		} catch (SQLException error) {
+<<<<<<< HEAD
+=======
+			// TODO: handle exception
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 			System.out.println(error.getMessage());
 		}
 		return connection;

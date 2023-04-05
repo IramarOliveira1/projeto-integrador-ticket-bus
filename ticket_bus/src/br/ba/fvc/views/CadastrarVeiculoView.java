@@ -44,6 +44,13 @@ public class CadastrarVeiculoView {
 		initialize();
 	}
 	
+<<<<<<< HEAD
+=======
+	private void close() {
+		frame.setVisible(false);
+	}
+
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -87,7 +94,11 @@ public class CadastrarVeiculoView {
 		JButton btnNewButton = new JButton(" Cancelar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
 				frame.setVisible(false);
+=======
+				close();
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 			}
 		});
 		btnNewButton.setBounds(361, 257, 89, 23);

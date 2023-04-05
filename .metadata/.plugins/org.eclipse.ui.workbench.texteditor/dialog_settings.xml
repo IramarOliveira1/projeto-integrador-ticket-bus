@@ -6,7 +6,11 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
+<<<<<<< HEAD
 		<item key="selection" value=""/>
+=======
+		<item key="selection" value="Adicionar"/>
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 		<list key="findhistory">
 			<item value="adicionar"/>
 			<item value="funcioanrio"/>

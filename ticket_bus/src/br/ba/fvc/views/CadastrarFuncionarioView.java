@@ -6,9 +6,12 @@ import javax.swing.JFrame;
 import javax.swing.JSeparator;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+<<<<<<< HEAD
 
 import br.ba.fvc.controllrs.FuncionarioController;
 
+=======
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Font;
@@ -23,7 +26,11 @@ public class CadastrarFuncionarioView {
 	private JFrame frame;
 	private JTextField nome;
 	private JTextField cpf;
+<<<<<<< HEAD
 	private JTextField email;
+=======
+	private JTextField textField_2;
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 	private JTextField cargo;
 	private JPasswordField senha;
 
@@ -50,6 +57,7 @@ public class CadastrarFuncionarioView {
 		initialize();
 	}
 
+<<<<<<< HEAD
 	private void cadastrar() {
 		FuncionarioController funcionario = new FuncionarioController();
 		char[] senhaChar = senha.getPassword();
@@ -62,6 +70,10 @@ public class CadastrarFuncionarioView {
 		funcionario.setEmail(email.getText());
 		funcionario.setSenha(ConvertChar);
 		funcionario.incluir();
+=======
+	private void close() {
+		frame.setVisible(false);
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 	}
 
 	/**
@@ -89,17 +101,29 @@ public class CadastrarFuncionarioView {
 		lblNewLabel_5.setBounds(387, 109, 46, 14);
 		frame.getContentPane().add(lblNewLabel_5);
 
+<<<<<<< HEAD
 		nome = new JTextField("teste save");
+=======
+		nome = new JTextField();
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 		nome.setBounds(49, 78, 634, 20);
 		frame.getContentPane().add(nome);
 		nome.setColumns(10);
 
+<<<<<<< HEAD
 		cpf = new JTextField("999.444.666-11");
+=======
+		cpf = new JTextField();
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 		cpf.setBounds(49, 130, 310, 20);
 		frame.getContentPane().add(cpf);
 		cpf.setColumns(10);
 
+<<<<<<< HEAD
 		cargo = new JTextField("empresario");
+=======
+		cargo = new JTextField();
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 		cargo.setBounds(387, 130, 294, 20);
 		frame.getContentPane().add(cargo);
 		cargo.setColumns(10);
@@ -111,28 +135,40 @@ public class CadastrarFuncionarioView {
 		frame.getContentPane().add(lblNewLabel_6);
 
 		JButton btnNewButton = new JButton("Adicionar");
+<<<<<<< HEAD
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cadastrar();
 			}
 		});
+=======
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 		btnNewButton.setBounds(589, 256, 94, 23);
 		frame.getContentPane().add(btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("Cancelar");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
 				frame.setVisible(false);
+=======
+				close();
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 			}
 		});
 		btnNewButton_1.setBounds(476, 256, 89, 23);
 		frame.getContentPane().add(btnNewButton_1);
 
+<<<<<<< HEAD
 		JLabel lblNewLabel = new JLabel("Adicionar FuncionÃ¡rios");
+=======
+		JLabel lblNewLabel = new JLabel("Adicionar funcionários");
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel.setBounds(10, 13, 156, 14);
 		frame.getContentPane().add(lblNewLabel);
 
+<<<<<<< HEAD
 		email = new JTextField("teste@save.com");
 		email.setBounds(49, 193, 310, 20);
 		frame.getContentPane().add(email);
@@ -145,6 +181,20 @@ public class CadastrarFuncionarioView {
 		JLabel label_email = new JLabel("Email");
 		label_email.setBounds(49, 167, 46, 14);
 		frame.getContentPane().add(label_email);
+=======
+		textField_2 = new JTextField();
+		textField_2.setBounds(49, 193, 310, 20);
+		frame.getContentPane().add(textField_2);
+		textField_2.setColumns(10);
+
+		senha = new JPasswordField();
+		senha.setBounds(389, 194, 294, 18);
+		frame.getContentPane().add(senha);
+
+		JLabel email = new JLabel("Email");
+		email.setBounds(49, 167, 46, 14);
+		frame.getContentPane().add(email);
+>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
 
 		JLabel lblNewLabel_1 = new JLabel("Senha");
 		lblNewLabel_1.setBounds(387, 167, 46, 14);
