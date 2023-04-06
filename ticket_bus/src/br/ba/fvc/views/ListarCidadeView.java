@@ -15,6 +15,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+
+import br.ba.fvc.controllrs.CidadeController;
 import br.ba.fvc.controllrs.FuncionarioController;
 
 import javax.swing.JScrollPane;
@@ -24,6 +26,7 @@ public class ListarCidadeView {
 	private JFrame frame;
 	private JTextField textField;
 	private JTable table;
+	public DefaultTableModel list;
 	public FuncionarioController user;
 
 	/**
@@ -48,6 +51,8 @@ public class ListarCidadeView {
 	 * @param user
 	 */
 	public ListarCidadeView(FuncionarioController fields) {
+		CidadeController cidade = new CidadeController();
+		this.list = cidade.listar();
 		this.user = fields;
 		initialize();
 	}
@@ -85,9 +90,9 @@ public class ListarCidadeView {
 		listar_cidade.setBounds(319, 19, 185, 14);
 		frame.getContentPane().add(listar_cidade);
 
-		table = new JTable();
+		table = new JTable(this.list);
 		scrollPane.setViewportView(table);
-		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Nome cidade", "UF" }));
+		
 
 		JLabel lblNewLabel_3 = new JLabel("");
 		URL urlToImage = this.getClass().getResource("/public/cidade.png");
