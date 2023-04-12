@@ -22,7 +22,7 @@ public class GenericDAO {
 		try {
 			Statement instance = this.connection.createStatement();
 
-			String query = "SELECT " + fields + " FROM " + table;
+			String query = "SELECT id," + fields + " FROM " + table;
 
 			result = instance.executeQuery(query);
 		} catch (SQLException e) {
@@ -32,7 +32,6 @@ public class GenericDAO {
 	}
 
 	public void store(String table, String fields, Object values) {
-
 		try {
 			Statement instance = this.connection.createStatement();
 
@@ -45,5 +44,4 @@ public class GenericDAO {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}
-
 }

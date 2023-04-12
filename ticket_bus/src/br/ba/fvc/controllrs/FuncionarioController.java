@@ -17,11 +17,11 @@ public class FuncionarioController {
 	private GenericController generic;
 	private FuncionarioDAO dao;
 	private String table = "Usuario";
-	public String[] columns = {"Nome", "CPF", "Email", "Cargo" };
+	private String[] columns = { "ID", "Nome", "CPF", "Email", "Cargo" };
 	private String fields = "nome, cpf, email, cargo, senha";
 
 	public FuncionarioController() {
-		this.generic = new GenericController();
+		this.generic = new GenericController(this.columns);
 		this.dao = new FuncionarioDAO();
 	}
 
@@ -30,7 +30,6 @@ public class FuncionarioController {
 		try {
 
 			result = this.dao.login(email, senha);
-
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -39,32 +38,38 @@ public class FuncionarioController {
 
 	public DefaultTableModel listar() {
 		DefaultTableModel result = null;
-		System.out.println(this.columns[0]);
-		result = this.generic.all(this.table, this.columns, this.fields);
+		try {
 
+			result = this.generic.all(this.table, this.fields);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 		return result;
 	}
 
-	public void incluir() {
-		ResultSet result = null;
+	public DefaultTableModel incluir() {
+		DefaultTableModel result = null;
+		ResultSet resultSet = null;
 		try {
+			resultSet = this.dao.verifyCpfExists(cpf, email);
 
-			result = this.dao.verifyCpfExists(cpf, email);
+			// if (resultSet.next()) {
+			// 	if (resultSet.getString("cpf").equals(cpf)) {
+			// 		throw new Exception("CPF já cadastrado!");
+			// 	} else {
+			// 		throw new Exception("Email já cadastrado!");
+			// 	}
+			// }
 
-			if (result.next()) {
-				if (result.getString("email").equals(email)) {
-					throw new Exception("Email já cadastrado!");
-				} else {
-					throw new Exception("CPF já cadastrado!");
-				}
-			}
+			// System.out.println("passei aqui");
 
 			Object[] data = { nome, cpf, email, cargo, senha };
-			this.generic.store(this.table, this.fields, data);
+			result = this.generic.store(this.table, this.fields, data);
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
+		return result;
 	}
 
 	public String getNome() {
