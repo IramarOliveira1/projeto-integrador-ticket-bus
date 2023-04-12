@@ -1,0 +1,32 @@
+package br.ba.fvc.database.connection;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class ConnectionMysql {
+
+	public Connection getConnectionMysql() {
+		Connection connection = null;
+
+		try {
+
+<<<<<<<< HEAD:.metadata/.plugins/org.eclipse.core.resources/.history/1e/20adecef7ece001d1345918602c4349a
+			String url = "jdbc:mysql://localhost:3306/db_ticket_bus?user=root&password=";
+========
+			String url = "jdbc:mysql://localhost:3306/db_ticket_bus?user=root&password=2222";
+>>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff:.metadata/.plugins/org.eclipse.core.resources/.history/a9/30e964bdc9c9001d108bb986989a7612
+
+			connection = DriverManager.getConnection(url);
+
+		} catch (SQLException error) {
+<<<<<<<< HEAD:.metadata/.plugins/org.eclipse.core.resources/.history/1e/20adecef7ece001d1345918602c4349a
+========
+			// TODO: handle exception
+>>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff:.metadata/.plugins/org.eclipse.core.resources/.history/a9/30e964bdc9c9001d108bb986989a7612
+			System.out.println(error.getMessage());
+		}
+		return connection;
+	}
+
+}

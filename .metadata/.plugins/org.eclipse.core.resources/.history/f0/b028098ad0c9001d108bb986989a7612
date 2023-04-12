@@ -1,0 +1,33 @@
+package br.ba.fvc.principal;
+
+import br.ba.fvc.controllrs.LoginController;
+import br.ba.fvc.database.connection.ConnectionMysql;
+import br.ba.fvc.models.Login;
+
+public class Principal {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+<<<<<<<< HEAD:.metadata/.plugins/org.eclipse.core.resources/.history/f0/b028098ad0c9001d108bb986989a7612
+		Login result = new Login();
+		result.loginModel("iramar", "teste");
+
+
+		
+	
+		
+
+========
+		LoginController login = new LoginController();
+		ConnectionMysql conn = new ConnectionMysql();
+		
+		conn.getConnectionMysql();
+		
+	
+		
+		System.out.println(login.login());
+>>>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff:.metadata/.plugins/org.eclipse.core.resources/.history/c2/b0d497cbccc9001d108bb986989a7612
+		
+	}
+
+}

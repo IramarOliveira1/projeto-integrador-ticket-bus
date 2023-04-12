@@ -1,0 +1,144 @@
+package br.ba.fvc.views;
+
+import java.awt.EventQueue;
+import javax.swing.ImageIcon;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.swing.JTextField;
+
+import br.ba.fvc.controllrs.LoginController;
+
+import javax.swing.JButton;
+import java.awt.Color;
+import javax.swing.JPasswordField;
+
+public class LoginView {
+
+	private JFrame frame;
+	private JTextField email;
+	private JPasswordField senha;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					LoginView window = new LoginView();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public LoginView() {
+		initialize();
+	}
+	
+	private void View() {
+		try {
+			LoginController fields = new LoginController();
+
+			fields.setEmail(email.getText());
+			fields.setSenha(senha.getPassword().toString());
+			
+			System.out.println(fields.getSenha());
+
+			ResultSet result = fields.login();
+			
+			System.out.println(result);
+
+			if (result.next()) {
+				fields.setNome(result.getString(2));
+				fields.setCargo(result.getString(3));
+				fields.setEmail(result.getString(4));
+				fields.setSenha(result.getString(5));
+
+				MenuView menuWindow = new MenuView();
+							
+				menuWindow.setVisible(true);
+
+				frame.dispose();
+
+			} else {
+				JOptionPane.showMessageDialog(null, "LOGIN OU SENHA INVALIDOS!");
+				System.out.println();
+			}
+
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 862, 613);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+
+		JLabel label_email = new JLabel("Email");
+		label_email.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		label_email.setBounds(293, 175, 141, 40);
+		frame.getContentPane().add(label_email);
+
+		email = new JTextField();
+		email.setBounds(293, 219, 295, 34);
+		frame.getContentPane().add(email);
+		email.setColumns(10);
+
+		JLabel label_senha = new JLabel("Senha");
+		label_senha.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		label_senha.setBounds(293, 264, 46, 14);
+		frame.getContentPane().add(label_senha);
+		
+		
+		JButton btnEntrar = new JButton("Entrar");
+		btnEntrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				View();
+			}
+		});
+
+		btnEntrar.setBounds(293, 348, 295, 34);
+		frame.getContentPane().add(btnEntrar);
+
+		JLabel lblNewLabel_2 = new JLabel();
+		lblNewLabel_2.setBackground(new Color(192, 192, 192));
+		lblNewLabel_2.setForeground(new Color(192, 192, 192));
+
+		lblNewLabel_2.setBounds(102, 26, 243, 59);
+
+		frame.getContentPane().add(lblNewLabel_2);
+
+		senha = new JPasswordField();
+		senha.setBounds(293, 290, 295, 34);
+		frame.getContentPane().add(senha);
+
+		JLabel lblNewLabel_3 = new JLabel();
+		URL urlToImage = this.getClass().getResource("/public/logo-dark.png");
+		lblNewLabel_3.setIcon(new ImageIcon(urlToImage));
+
+		lblNewLabel_3.setBounds(324, 94, 522, 59);
+		frame.getContentPane().add(lblNewLabel_3);
+
+	}
+}

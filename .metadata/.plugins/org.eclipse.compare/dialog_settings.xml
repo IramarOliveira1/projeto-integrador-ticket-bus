@@ -9,4 +9,10 @@
 		<item key="DIALOG_HEIGHT" value="714"/>
 		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
 	</section>
+	<section name="ResizableDialogBounds">
+		<item key="x" value="599"/>
+		<item key="y" value="140"/>
+		<item key="width" value="800"/>
+		<item key="height" value="600"/>
+	</section>
 </section>
