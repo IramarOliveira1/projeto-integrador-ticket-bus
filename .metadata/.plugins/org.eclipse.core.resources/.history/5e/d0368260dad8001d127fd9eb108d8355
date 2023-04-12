@@ -5,6 +5,8 @@ import javax.swing.table.DefaultTableModel;
 
 public class CidadeController {
 
+
+
     private String nome;
     private String uf;
 
@@ -15,19 +17,16 @@ public class CidadeController {
     private String fields = "nome, uf";
 
     public CidadeController() {
-        this.generic = new GenericController(this.columns);
+        this.generic = new GenericController();
 
     }
 
     public DefaultTableModel listar() {
         DefaultTableModel result = null;
-		try {
 
-			result = this.generic.all(this.table, this.fields);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return result;
+       this.generic.all(this.table, this.fields);
+
+        return result;
     }
 
 }

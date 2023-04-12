@@ -49,9 +49,9 @@ public class FuncionarioController {
 
 	public DefaultTableModel incluir() {
 		DefaultTableModel result = null;
-		//ResultSet resultSet = null;
+		ResultSet resultSet = null;
 		try {
-			//resultSet = this.dao.verifyCpfExists(cpf, email);
+			resultSet = this.dao.verifyCpfExists(cpf, email);
 
 			// if (resultSet.next()) {
 			// 	if (resultSet.getString("cpf").equals(cpf)) {

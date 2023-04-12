@@ -92,6 +92,7 @@ public class ListarCidadeView {
 
 		table = new JTable(this.list);
 		scrollPane.setViewportView(table);
+		
 
 		JLabel lblNewLabel_3 = new JLabel("");
 		URL urlToImage = this.getClass().getResource("/public/cidade.png");

@@ -21,13 +21,16 @@ public class CidadeController {
 
     public DefaultTableModel listar() {
         DefaultTableModel result = null;
-		try {
-
-			result = this.generic.all(this.table, this.fields);
+        try {
+			
+            this.generic.all(this.table, this.fields);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			// TODO: handle exception
 		}
-		return result;
+
+   
+
+        return result;
     }
 
 }

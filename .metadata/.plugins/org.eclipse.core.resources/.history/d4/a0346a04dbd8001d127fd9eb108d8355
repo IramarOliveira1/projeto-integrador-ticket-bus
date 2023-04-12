@@ -41,7 +41,7 @@ public class MenuView {
 	}
 
 	private void windowEmployee() {
-		FuncionarioView windowEmployee = new FuncionarioView(this.user);
+		ListarFuncionarioView windowEmployee = new ListarFuncionarioView(this.user);
 		windowEmployee.setVisible(true);
 		frame.dispose();
 	}

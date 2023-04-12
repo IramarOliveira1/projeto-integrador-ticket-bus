@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;br.ba.fvc.views.ListarFuncionarioView&apos; to &apos;FuncionarioView&apos;&#x0D;&#x0A;- Original project: &apos;ticket_bus&apos;&#x0D;&#x0A;- Original element: &apos;br.ba.fvc.views.ListarFuncionarioView&apos;&#x0D;&#x0A;- Renamed element: &apos;br.ba.fvc.views.FuncionarioView&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;ListarFuncionarioView&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;br.ba.fvc.views{ListarFuncionarioView.java[ListarFuncionarioView" matchStrategy="1" name="FuncionarioView" qualified="false" references="true" similarDeclarations="false" stamp="1681267070231" textual="false" version="1.0"/>
+</session>
