@@ -16,6 +16,11 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+import br.ba.fvc.controllrs.CidadeController;
+>>>>>>> 31df16b8d376dbd399ac9ad8602385f2ea6da61f
 import br.ba.fvc.controllrs.FuncionarioController;
 =======
 import br.ba.fvc.controllrs.LoginController;
@@ -29,6 +34,10 @@ public class ListarCidadeView {
 	private JTextField textField;
 	private JTable table;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+	public DefaultTableModel list;
+>>>>>>> 31df16b8d376dbd399ac9ad8602385f2ea6da61f
 	public FuncionarioController user;
 =======
 	public LoginController user;
@@ -57,9 +66,14 @@ public class ListarCidadeView {
 	 */
 <<<<<<< HEAD
 	public ListarCidadeView(FuncionarioController fields) {
+<<<<<<< HEAD
 =======
 	public ListarCidadeView(LoginController fields) {
 >>>>>>> 1c435c280ed7b4627346279ca7ad428c3e44a9ff
+=======
+		CidadeController cidade = new CidadeController();
+		this.list = cidade.listar();
+>>>>>>> 31df16b8d376dbd399ac9ad8602385f2ea6da61f
 		this.user = fields;
 		initialize();
 	}
@@ -97,9 +111,9 @@ public class ListarCidadeView {
 		listar_cidade.setBounds(319, 19, 185, 14);
 		frame.getContentPane().add(listar_cidade);
 
-		table = new JTable();
+		table = new JTable(this.list);
 		scrollPane.setViewportView(table);
-		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Nome cidade", "UF" }));
+		
 
 		JLabel lblNewLabel_3 = new JLabel("");
 		URL urlToImage = this.getClass().getResource("/public/cidade.png");
