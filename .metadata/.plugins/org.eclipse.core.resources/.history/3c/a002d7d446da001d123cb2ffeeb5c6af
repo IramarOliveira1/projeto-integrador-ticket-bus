@@ -11,7 +11,7 @@ public class CidadeController {
     private GenericController generic;
 
     private String tabela = "Cidade";
-    public String[] colunas = { "ID", "Nome", "UF" };
+    public String[] colunas = { "Nome", "UF" };
     private String campos = "nome, uf";
 
     public CidadeController() {
