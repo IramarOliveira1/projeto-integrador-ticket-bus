@@ -10,12 +10,12 @@ public class CidadeController {
 
     private GenericController generic;
 
-    private String table = "Cidade";
-    public String[] columns = { "Nome", "UF" };
-    private String fields = "nome, uf";
+    private String tabela = "Cidade";
+    public String[] colunas = { "Nome", "UF" };
+    private String campos = "nome, uf";
 
     public CidadeController() {
-        this.generic = new GenericController(this.columns);
+        this.generic = new GenericController(tabela, colunas, campos);
 
     }
 
@@ -23,7 +23,7 @@ public class CidadeController {
         DefaultTableModel result = null;
 		try {
 
-			result = this.generic.all(this.table, this.fields);
+			result = this.generic.all();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

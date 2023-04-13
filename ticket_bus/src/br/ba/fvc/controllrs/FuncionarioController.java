@@ -17,12 +17,12 @@ public class FuncionarioController {
 	private GenericController generic;
 	private FuncionarioDAO dao;
 	private String tabela = "Usuario";
-	private String[] coluna = { "ID", "Nome", "CPF", "Email", "Cargo" };
+	private String[] colunas = { "ID", "Nome", "CPF", "Email", "Cargo" };
 	private String campos = "nome, cpf, email, cargo, senha";
 	private String[] campo_filtro = { "nome", "cpf" };
 
 	public FuncionarioController() {
-		this.generic = new GenericController(tabela, coluna, campos);
+		this.generic = new GenericController(tabela, colunas, campos);
 		this.dao = new FuncionarioDAO();
 	}
 
