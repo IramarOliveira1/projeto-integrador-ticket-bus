@@ -16,12 +16,13 @@ public class FuncionarioController {
 	private String senha;
 	private GenericController generic;
 	private FuncionarioDAO dao;
-	private String table = "Usuario";
-	private String[] columns = { "ID", "Nome", "CPF", "Email", "Cargo" };
-	private String fields = "nome, cpf, email, cargo, senha";
+	private String tabela = "Usuario";
+	private String[] coluna = { "ID", "Nome", "CPF", "Email", "Cargo" };
+	private String campos = "nome, cpf, email, cargo, senha";
+	private String[] campo_filtro = { "nome", "cpf" };
 
 	public FuncionarioController() {
-		this.generic = new GenericController(this.columns);
+		this.generic = new GenericController(tabela, coluna, campos);
 		this.dao = new FuncionarioDAO();
 	}
 
@@ -39,8 +40,7 @@ public class FuncionarioController {
 	public DefaultTableModel listar() {
 		DefaultTableModel result = null;
 		try {
-
-			result = this.generic.all(this.table, this.fields);
+			result = this.generic.all();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -49,22 +49,23 @@ public class FuncionarioController {
 
 	public DefaultTableModel incluir() {
 		DefaultTableModel result = null;
-		//ResultSet resultSet = null;
+//		ResultSet resultSet = null;
 		try {
-			//resultSet = this.dao.verifyCpfExists(cpf, email);
-
-			// if (resultSet.next()) {
-			// 	if (resultSet.getString("cpf").equals(cpf)) {
-			// 		throw new Exception("CPF já cadastrado!");
-			// 	} else {
-			// 		throw new Exception("Email já cadastrado!");
-			// 	}
-			// }
-
-			// System.out.println("passei aqui");
+//
+//			resultSet = this.dao.verifyCpfExists(cpf, email);
+//
+//			if (resultSet.next()) {
+//				if (resultSet.getString("cpf").equals(cpf)) {
+//					throw new Exception("CPF jÃ¡ cadastrado!");
+//				} else {
+//					throw new Exception("Email jÃ¡ cadastrado!");
+//				}
+//			}
+//
+//			System.out.println("passei aqui");
 
 			Object[] data = { nome, cpf, email, cargo, senha };
-			result = this.generic.store(this.table, this.fields, data);
+			result = this.generic.store(data);
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
@@ -72,6 +73,59 @@ public class FuncionarioController {
 		return result;
 	}
 
+	public DefaultTableModel filtrar() {
+		DefaultTableModel result = null;
+		try {
+
+			result = this.generic.filter(this.campo_filtro, nome);
+
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return result;
+	}
+
+	public DefaultTableModel excluir(String id) {
+		DefaultTableModel result = null;
+		try {
+
+			result = this.generic.destroy(id);
+
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return result;
+	}
+	
+	public ResultSet carregaCamposAlterar(String id) {
+		ResultSet result = null;
+		try {
+
+			result = this.generic.index(id);
+
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return result;
+	}
+	
+	public DefaultTableModel alterar(String id) {
+		DefaultTableModel result = null;
+		
+		try {
+			
+			Object[] data = { nome, cpf, email, cargo, senha };
+			
+			result = this.generic.update(data, id);
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		
+		return result;
+	}
+
+	
 	public String getNome() {
 		return nome;
 	}

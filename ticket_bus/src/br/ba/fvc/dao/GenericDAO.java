@@ -12,17 +12,21 @@ import br.ba.fvc.database.connection.ConnectionMysql;
 public class GenericDAO {
 
 	Connection connection = null;
+	private String table;
+	private String fields;
 
-	public GenericDAO() {
+	public GenericDAO(String table, String fields) {
 		this.connection = new ConnectionMysql().getConnectionMysql();
+		this.table = table;
+		this.fields = fields;
 	}
 
-	public ResultSet all(String table, String fields) {
+	public ResultSet all() {
 		ResultSet result = null;
 		try {
 			Statement instance = this.connection.createStatement();
 
-			String query = "SELECT id," + fields + " FROM " + table;
+			String query = "SELECT id," + this.fields + " FROM " + this.table;
 
 			result = instance.executeQuery(query);
 		} catch (SQLException e) {
@@ -31,15 +35,60 @@ public class GenericDAO {
 		return result;
 	}
 
-	public void store(String table, String fields, Object values) {
+	public void store(Object values) {
 		try {
 			Statement instance = this.connection.createStatement();
 
-			String query = "INSERT INTO " + table + "(" + fields + ") VALUES (" + values + ")";
+			String query = "INSERT INTO " + this.table + "(" + this.fields + ") VALUES (" + values + ")";
 
 			instance.execute(query);
 
 			JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!");
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+	}
+
+	public ResultSet filter(String[] fieldsFilter, String values) {
+		ResultSet result = null;
+
+		try {
+			Statement instance = this.connection.createStatement();
+
+			String query = "SELECT id, nome, cpf, email, cargo FROM " + this.table + " WHERE " + fieldsFilter[0] + " = "
+					+ "'" + values + "' OR " + fieldsFilter[1] + "  = '" + values + "' ";
+
+			result = instance.executeQuery(query);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return result;
+	}
+	
+	public ResultSet index(String id) {
+		ResultSet result = null;
+		try {
+			Statement instance = this.connection.createStatement();
+
+			String query = "SELECT * FROM " + this.table + " WHERE id = " + id;
+
+			result = instance.executeQuery(query);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		
+		return result;
+	}
+
+	public void destroy(String id) {
+		try {
+			Statement instance = this.connection.createStatement();
+
+			String query = "DELETE FROM " + this.table + " WHERE id = " + id;
+
+			instance.execute(query);
+			
+			JOptionPane.showMessageDialog(null, "Item excluir com sucesso!");
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
