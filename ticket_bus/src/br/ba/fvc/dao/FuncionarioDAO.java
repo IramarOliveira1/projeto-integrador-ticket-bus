@@ -26,8 +26,6 @@ public class FuncionarioDAO {
 			String query = "SELECT * FROM Usuario WHERE email = '" + email + "' AND senha = '" + senha + "' ";
 
 			result = instance.executeQuery(query);
-
-			return result;
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}

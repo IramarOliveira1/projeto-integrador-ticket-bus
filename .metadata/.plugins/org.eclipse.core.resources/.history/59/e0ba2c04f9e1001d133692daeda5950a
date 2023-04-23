@@ -47,25 +47,25 @@ public class MenuView {
 	}
 	
 	private void windowVehicle() {
-		VeiculoView windowVehicle = new VeiculoView(this.user);
+		ListarVeiculoView windowVehicle = new ListarVeiculoView(this.user);
 		windowVehicle.setVisible(true);
 		frame.dispose();
 	}
 
 	private void windowCity() {
-		CidadeView windowCity = new CidadeView(this.user);
+		ListarCidadeView windowCity = new ListarCidadeView(this.user);
 		windowCity.setVisible(true);
 		frame.dispose();
 	}
 	
 	private void windowRouter() {
-		RotaView windowRouter = new RotaView(this.user);
+		ListarRotaView windowRouter = new ListarRotaView(this.user);
 		windowRouter.setVisible(true);
 		frame.dispose();
 	}
 	
 	private void windowSale() {
-		VendaView windowSale = new VendaView(this.user);
+		ListarVendaView windowSale = new ListarVendaView(this.user);
 		windowSale.setVisible(true);
 		frame.dispose();
 	}
