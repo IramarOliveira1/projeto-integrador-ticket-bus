@@ -27,7 +27,7 @@ public class RotaView {
 	private JTextField input_filtrar;
 	private JTextField data;
 	private JTable table;
-	public FuncionarioController user;
+	public FuncionarioController funcionario;
 
 	/**
 	 * Launch the application.
@@ -48,15 +48,14 @@ public class RotaView {
 	/**
 	 * Create the application.
 	 * 
-	 * @param user
 	 */
 	public RotaView(FuncionarioController fields) {
-		this.user = fields;
+		this.funcionario = fields;
 		initialize();
 	}
 
 	private void home() {
-		MenuView menu = new MenuView(this.user);
+		MenuView menu = new MenuView(this.funcionario);
 		menu.setVisible(true);
 		frame.dispose();
 	}

@@ -52,7 +52,6 @@ public class VendaView {
 
 	/**
 	 * Create the application.
-	 * @param fields 
 	 */
 	public VendaView(FuncionarioController fields) {
 		this.funcionario = fields;

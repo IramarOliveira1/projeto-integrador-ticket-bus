@@ -29,7 +29,7 @@ public class CidadeView {
 	private JTextField cidade;
 	private JTextField uf;
 	public DefaultTableModel list;
-	public FuncionarioController user;
+	public FuncionarioController funcionario;
 
 	/**
 	 * Launch the application.
@@ -50,17 +50,16 @@ public class CidadeView {
 	/**
 	 * Create the application.
 	 * 
-	 * @param user
 	 */
 	public CidadeView(FuncionarioController fields) {
 		CidadeController cidade = new CidadeController();
 		// this.list = cidade.listar();
-		this.user = fields;
+		this.funcionario = fields;
 		initialize();
 	}
 
 	private void home() {
-		MenuView menu = new MenuView(this.user);
+		MenuView menu = new MenuView(this.funcionario);
 		menu.setVisible(true);
 		frame.dispose();
 	}
