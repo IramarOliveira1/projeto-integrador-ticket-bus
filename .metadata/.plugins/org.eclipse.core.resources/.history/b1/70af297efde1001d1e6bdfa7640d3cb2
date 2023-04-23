@@ -24,7 +24,6 @@ public class RotaView {
 
 	private JFrame frame;
 	private JTextField placa;
-	private JTextField input_filtrar;
 	private JTextField data;
 	private JTable table;
 	public FuncionarioController user;
@@ -129,7 +128,7 @@ public class RotaView {
 					// cadastrar();
 				}
 			});
-			adicionar.setBounds(565, 258, 111, 23);
+			cadastrar.setBounds(565, 258, 111, 23);
 			frame.getContentPane().add(adicionar);
 		} else {
 			JLabel lable_adicionar = new JLabel("Atualizar Rotas");

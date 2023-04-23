@@ -24,7 +24,6 @@ public class RotaView {
 
 	private JFrame frame;
 	private JTextField placa;
-	private JTextField input_filtrar;
 	private JTextField data;
 	private JTable table;
 	public FuncionarioController user;
@@ -118,34 +117,6 @@ public class RotaView {
 		cidade_destino.setBounds(360, 194, 316, 22);
 		frame.getContentPane().add(cidade_destino);
 
-		if (criarOuAlterar.equals("cadastrar")) {
-			JLabel lable_adicionar = new JLabel("Adicionar Rotas");
-			lable_adicionar.setBounds(10, 20, 115, 14);
-			frame.getContentPane().add(lable_adicionar);
-
-			JButton adicionar = new JButton("Adicionar");
-			adicionar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					// cadastrar();
-				}
-			});
-			adicionar.setBounds(565, 258, 111, 23);
-			frame.getContentPane().add(adicionar);
-		} else {
-			JLabel lable_adicionar = new JLabel("Atualizar Rotas");
-			lable_adicionar.setBounds(10, 20, 115, 14);
-			frame.getContentPane().add(lable_adicionar);
-
-			JButton alterar = new JButton("Atualizar");
-			alterar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					// alterar();
-				}
-			});
-			alterar.setBounds(589, 256, 94, 23);
-			frame.getContentPane().add(alterar);
-		}
-
 		JButton cancelar = new JButton("Cancelar");
 		cancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -154,6 +125,14 @@ public class RotaView {
 		});
 		cancelar.setBounds(435, 258, 111, 23);
 		frame.getContentPane().add(cancelar);
+
+		JButton cadastrar = new JButton("Cadastrar");
+		cadastrar.setBounds(565, 258, 111, 23);
+		frame.getContentPane().add(cadastrar);
+
+		JLabel lblNewLabel = new JLabel("Adicionar Rotas");
+		lblNewLabel.setBounds(10, 20, 115, 14);
+		frame.getContentPane().add(lblNewLabel);
 
 		JLabel lblNewLabel_6 = new JLabel("");
 		URL logo = this.getClass().getResource("/public/dark_logo_min.png");
@@ -193,44 +172,32 @@ public class RotaView {
 				"Data de partida", "Cidade origem", "Cidade destino" }));
 
 		JButton alterar = new JButton("Alterar");
-		alterar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// alterar();
-			}
-		});
 		alterar.setBounds(705, 425, 123, 23);
 		frame.getContentPane().add(alterar);
 
 		JButton excluir = new JButton("Excluir");
-		excluir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// excluir();
-			}
-		});
 		excluir.setBounds(572, 425, 123, 23);
 		frame.getContentPane().add(excluir);
 
-		input_filtrar = new JTextField();
-		input_filtrar.setBounds(10, 70, 424, 20);
-		frame.getContentPane().add(input_filtrar);
-		input_filtrar.setColumns(10);
+		textField = new JTextField();
+		textField.setBounds(10, 70, 424, 20);
+		frame.getContentPane().add(textField);
+		textField.setColumns(10);
+
+		JLabel lblNewLabel = new JLabel(" Pesquisar");
+		lblNewLabel.setBounds(10, 50, 102, 14);
+		frame.getContentPane().add(lblNewLabel);
 
 		JButton cadastrar = new JButton("Cadastrar");
 		cadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				campos("cadastrar");
-				frame.setVisible(true);
+				cadastrar();
 			}
 		});
 		cadastrar.setBounds(838, 425, 123, 23);
 		frame.getContentPane().add(cadastrar);
 
 		JButton pesquisar = new JButton("Pesquisar");
-		pesquisar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// filtrar();
-			}
-		});
 		pesquisar.setBounds(444, 69, 137, 23);
 		frame.getContentPane().add(pesquisar);
 
@@ -243,11 +210,11 @@ public class RotaView {
 		home.setBounds(10, 3, 137, 23);
 		frame.getContentPane().add(home);
 
-		JLabel dark_logo_min = new JLabel("");
+		JLabel lblNewLabel_1 = new JLabel("");
 		URL logo = this.getClass().getResource("/public/dark_logo_min.png");
-		dark_logo_min.setIcon(new ImageIcon(logo));
-		dark_logo_min.setBounds(456, 524, 137, 14);
-		frame.getContentPane().add(dark_logo_min);
+		lblNewLabel_1.setIcon(new ImageIcon(logo));
+		lblNewLabel_1.setBounds(456, 524, 137, 14);
+		frame.getContentPane().add(lblNewLabel_1);
 
 		frame.setLocationRelativeTo(frame);
 	}

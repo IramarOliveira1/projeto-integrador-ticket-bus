@@ -129,7 +129,7 @@ public class RotaView {
 					// cadastrar();
 				}
 			});
-			adicionar.setBounds(565, 258, 111, 23);
+			cadastrar.setBounds(565, 258, 111, 23);
 			frame.getContentPane().add(adicionar);
 		} else {
 			JLabel lable_adicionar = new JLabel("Atualizar Rotas");
