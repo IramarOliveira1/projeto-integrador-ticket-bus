@@ -29,7 +29,7 @@ public class VeiculoView {
 	private JTextField numero_veiculo;
 	private JTextField input_pesquisar;
 	private JTable table;
-	public FuncionarioController user;
+	public FuncionarioController funcionario;
 
 	/**
 	 * Launch the application.
@@ -51,19 +51,14 @@ public class VeiculoView {
 	 * Create the application.
 	 */
 	public VeiculoView(FuncionarioController fields) {
-		this.user = fields;
+		this.funcionario = fields;
 		initialize();
 	}
 
 	private void home() {
-		MenuView menu = new MenuView(this.user);
+		MenuView menu = new MenuView(this.funcionario);
 		menu.setVisible(true);
 		frame.dispose();
-	}
-
-	private void cadastrar() {
-		CadastrarVeiculoView cadastrar = new CadastrarVeiculoView();
-		cadastrar.setVisible(true);
 	}
 
 	private void campos(String criarOuAlterar) {
@@ -149,22 +144,20 @@ public class VeiculoView {
 			frame.getContentPane().add(alterar);
 		}
 
-		JButton btnNewButton = new JButton(" Cancelar");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btn_cancelar = new JButton(" Cancelar");
+		btn_cancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
 			}
 		});
-		btnNewButton.setBounds(361, 257, 89, 23);
-		frame.getContentPane().add(btnNewButton);
+		btn_cancelar.setBounds(361, 257, 89, 23);
+		frame.getContentPane().add(btn_cancelar);
 
-
-
-		JLabel lblNewLabel_6 = new JLabel("");
+		JLabel dark_logo_min = new JLabel("");
 		URL logo = this.getClass().getResource("/public/dark_logo_min.png");
-		lblNewLabel_6.setIcon(new ImageIcon(logo));
-		lblNewLabel_6.setBounds(245, 317, 114, 14);
-		frame.getContentPane().add(lblNewLabel_6);
+		dark_logo_min.setIcon(new ImageIcon(logo));
+		dark_logo_min.setBounds(245, 317, 114, 14);
+		frame.getContentPane().add(dark_logo_min);
 		frame.setLocationRelativeTo(frame);
 	}
 	/**

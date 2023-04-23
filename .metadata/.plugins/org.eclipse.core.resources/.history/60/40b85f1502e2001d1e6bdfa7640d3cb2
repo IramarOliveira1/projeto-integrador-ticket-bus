@@ -147,6 +147,7 @@ public class VendaView {
 		
 		if (criarOuAlterar.equals("cadastrar")) {
 			JLabel label_adicionar = new JLabel("Adicionar Vendas");
+			label_adicionar.setFont(new Font("Tahoma", Font.BOLD, 11));
 			label_adicionar.setBounds(10, 18, 145, 14);
 			frame.getContentPane().add(label_adicionar);
 
@@ -160,6 +161,7 @@ public class VendaView {
 			frame.getContentPane().add(adicionar);
 		} else {
 			JLabel label_adicionar = new JLabel("Atualizar Vendas");
+			label_adicionar.setFont(new Font("Tahoma", Font.BOLD, 11));
 			label_adicionar.setBounds(10, 18, 145, 14);
 			frame.getContentPane().add(label_adicionar);
 
@@ -207,10 +209,6 @@ public class VendaView {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 192, 605, 278);
 		frame.getContentPane().add(scrollPane);
-
-		JLabel label_listar_venda = new JLabel("Listar Vendas");
-		label_listar_venda.setBounds(394, 12, 129, 14);
-		frame.getContentPane().add(label_listar_venda);
 
 		table = new JTable();
 		scrollPane.setViewportView(table);
@@ -277,15 +275,14 @@ public class VendaView {
 		cadastrar.setBounds(661, 344, 162, 23);
 		frame.getContentPane().add(cadastrar);
 		
-		JButton cancelar_passagem = new JButton("Cancelar Passagem");
-		cancelar_passagem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// excluir();
-			}
-		});
-		cancelar_passagem.setBounds(661, 378, 162, 23);
-		frame.getContentPane().add(cancelar_passagem);
+		JButton btnNewButton_2_1_1 = new JButton("Cancelar Passagem");
+		btnNewButton_2_1_1.setBounds(661, 378, 162, 23);
+		frame.getContentPane().add(btnNewButton_2_1_1);
 		
+		JLabel label_listar_venda = new JLabel("Listar Vendas");
+		label_listar_venda.setBounds(394, 12, 129, 14);
+		frame.getContentPane().add(label_listar_venda);
+
 		JLabel dark_logo_min = new JLabel("");
 		URL logo = this.getClass().getResource("/public/dark_logo_min.png");
 		dark_logo_min.setIcon(new ImageIcon(logo));
