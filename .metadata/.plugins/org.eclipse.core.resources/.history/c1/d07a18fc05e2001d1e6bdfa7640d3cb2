@@ -11,10 +11,12 @@ public class GenericController {
 
 	public GenericDAO dao;
 	private DefaultTableModel tableModel;
+	private String fields;
 
 	public GenericController(String table, String[] columns, String fields) {
 		this.dao = new GenericDAO(table, fields);
 		this.tableModel = new DefaultTableModel(null, columns);
+		this.fields = fields;
 	}
 
 	public DefaultTableModel all() {

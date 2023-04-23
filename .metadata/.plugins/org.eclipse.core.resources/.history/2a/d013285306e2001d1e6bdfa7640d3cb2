@@ -65,13 +65,13 @@ public class LoginView {
 			ResultSet result = fields.login();
 			
 			if (result.next()) {
-				fields.setIdLogado(result.getString("id"));
-				fields.setLogado(result.getString("nome"));
-				fields.setNome(result.getString("nome"));
-				fields.setCargo(result.getString("cargo"));
-				fields.setEmail(result.getString("email"));
-				fields.setSenha(result.getString("senha"));
+				fields.setNome(result.getString(1));
+				fields.setCargo(result.getString(2));
+				fields.setEmail(result.getString(3));
+				fields.setSenha(result.getString(4));
 				
+				System.out.println(result.getString(1));
+
 				MenuView windowMenu = new MenuView(fields);
 				windowMenu.setVisible(true);
 

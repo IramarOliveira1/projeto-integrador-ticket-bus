@@ -53,7 +53,7 @@ public class CidadeView {
 	 */
 	public CidadeView(FuncionarioController fields) {
 		CidadeController cidade = new CidadeController();
-		this.list = cidade.listar();
+		// this.list = cidade.listar();
 		this.funcionario = fields;
 		initialize();
 	}

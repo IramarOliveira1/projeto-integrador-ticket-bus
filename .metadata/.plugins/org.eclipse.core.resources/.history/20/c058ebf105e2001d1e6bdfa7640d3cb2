@@ -15,6 +15,7 @@ public class GenericController {
 	public GenericController(String table, String[] columns, String fields) {
 		this.dao = new GenericDAO(table, fields);
 		this.tableModel = new DefaultTableModel(null, columns);
+		this.fields = fields;
 	}
 
 	public DefaultTableModel all() {

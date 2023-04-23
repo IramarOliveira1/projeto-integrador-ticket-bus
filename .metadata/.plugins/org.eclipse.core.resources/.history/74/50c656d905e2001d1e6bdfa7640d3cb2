@@ -12,7 +12,7 @@ public class ConnectionMysql {
 
 			//String url = "jdbc:mysql://containers-us-west-135.railway.app:5908/railway?user=root&password=e0f4eE2N8TWZyK0gIK6y";
 
-			String url = "jdbc:mysql://localhost/pi?user=root&password=";
+			String url = "jdbc:mysql://localhost";
 			connection = DriverManager.getConnection(url);
 
 		} catch (SQLException error) {
