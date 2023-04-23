@@ -64,7 +64,7 @@ public class GenericDAO {
 		}
 		return result;
 	}
-	
+
 	public ResultSet index(String id) {
 		ResultSet result = null;
 		try {
@@ -76,8 +76,21 @@ public class GenericDAO {
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
-		
+
 		return result;
+	}
+
+	public void update(String data, String id) {
+		try {
+			Statement instance = this.connection.createStatement();
+
+			String query = "UPDATE " + this.table + " SET " + data + " WHERE id = " + id;
+
+			instance.execute(query);
+			JOptionPane.showMessageDialog(null, "Cadastro atualizado com sucesso!");
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
 	}
 
 	public void destroy(String id) {
@@ -87,7 +100,7 @@ public class GenericDAO {
 			String query = "DELETE FROM " + this.table + " WHERE id = " + id;
 
 			instance.execute(query);
-			
+
 			JOptionPane.showMessageDialog(null, "Item excluir com sucesso!");
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());

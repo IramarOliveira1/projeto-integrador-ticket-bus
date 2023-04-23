@@ -8,7 +8,8 @@ import javax.swing.table.DefaultTableModel;
 import br.ba.fvc.dao.FuncionarioDAO;
 
 public class FuncionarioController {
-
+	private String IdLogado;
+	private String logado;
 	private String nome;
 	private String cpf;
 	private String cargo;
@@ -17,12 +18,12 @@ public class FuncionarioController {
 	private GenericController generic;
 	private FuncionarioDAO dao;
 	private String tabela = "Usuario";
-	private String[] colunas = { "ID", "Nome", "CPF", "Email", "Cargo" };
+	private String[] coluna = { "ID", "Nome", "CPF", "Email", "Cargo" };
 	private String campos = "nome, cpf, email, cargo, senha";
 	private String[] campo_filtro = { "nome", "cpf" };
 
 	public FuncionarioController() {
-		this.generic = new GenericController(tabela, colunas, campos);
+		this.generic = new GenericController(tabela, coluna, campos);
 		this.dao = new FuncionarioDAO();
 	}
 
@@ -40,6 +41,7 @@ public class FuncionarioController {
 	public DefaultTableModel listar() {
 		DefaultTableModel result = null;
 		try {
+
 			result = this.generic.all();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -49,24 +51,20 @@ public class FuncionarioController {
 
 	public DefaultTableModel incluir() {
 		DefaultTableModel result = null;
-//		ResultSet resultSet = null;
+		ResultSet resultSet = null;
 		try {
-//
-//			resultSet = this.dao.verifyCpfExists(cpf, email);
-//
-//			if (resultSet.next()) {
-//				if (resultSet.getString("cpf").equals(cpf)) {
-//					throw new Exception("CPF jÃ¡ cadastrado!");
-//				} else {
-//					throw new Exception("Email jÃ¡ cadastrado!");
-//				}
-//			}
-//
-//			System.out.println("passei aqui");
+			resultSet = this.dao.verifyCpfExists(cpf, email);
+
+			if (resultSet.next()) {
+				if (resultSet.getString("cpf").equals(cpf)) {
+					throw new Exception("CPF jÃ¡ cadastrado!");
+				} else {
+					throw new Exception("Email jÃ¡ cadastrado!");
+				}
+			}
 
 			Object[] data = { nome, cpf, email, cargo, senha };
 			result = this.generic.store(data);
-
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
@@ -78,7 +76,6 @@ public class FuncionarioController {
 		try {
 
 			result = this.generic.filter(this.campo_filtro, nome);
-
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
@@ -90,42 +87,41 @@ public class FuncionarioController {
 		try {
 
 			result = this.generic.destroy(id);
-
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return result;
 	}
-	
+
 	public ResultSet carregaCamposAlterar(String id) {
 		ResultSet result = null;
 		try {
 
 			result = this.generic.index(id);
-
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return result;
 	}
-	
+
 	public DefaultTableModel alterar(String id) {
 		DefaultTableModel result = null;
-		
 		try {
-			
+			Object[] fields = { "nome", "cpf", "email", "cargo", "senha" };
 			Object[] data = { nome, cpf, email, cargo, senha };
 			
-			result = this.generic.update(data, id);
-			
+			if (this.getIdLogado().equals(id)) {
+				this.setLogado(this.getNome());
+			}
+
+			result = this.generic.update(fields, data, id);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
-		
+
 		return result;
 	}
 
-	
 	public String getNome() {
 		return nome;
 	}
@@ -166,4 +162,19 @@ public class FuncionarioController {
 		this.senha = senha;
 	}
 
+	public String getIdLogado() {
+		return IdLogado;
+	}
+
+	public void setIdLogado(String idLogado) {
+		IdLogado = idLogado;
+	}
+	
+	public String getLogado() {
+		return logado;
+	}
+
+	public void setLogado(String logado) {
+		this.logado = logado;
+	}
 }

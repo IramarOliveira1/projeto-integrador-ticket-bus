@@ -5,8 +5,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JSeparator;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTable;
@@ -32,7 +34,6 @@ public class FuncionarioView {
 	private JTextField input_filtrar;
 	private JPasswordField senha;
 	public DefaultTableModel list;
-	public FuncionarioController user;
 	private FuncionarioController funcionario;
 
 	/**
@@ -54,24 +55,24 @@ public class FuncionarioView {
 	/**
 	 * Create the application.
 	 * 
-	 * @param user
+	 * @param fields
 	 */
 	@SuppressWarnings("serial")
 	public FuncionarioView(FuncionarioController fields) {
-		FuncionarioController funcionario = new FuncionarioController();
-		this.funcionario = funcionario;
-		this.list = funcionario.listar();
+		this.funcionario = new FuncionarioController();
+		this.list = this.funcionario.listar();
+		this.funcionario = fields;
 		this.table = new JTable(this.list) {
 			public boolean editCellAt(int row, int column, java.util.EventObject e) {
 				return false;
 			}
 		};
-		this.user = fields;
+		
 		initialize();
 	}
 
 	private void home() {
-		MenuView menu = new MenuView(this.user);
+		MenuView menu = new MenuView(this.funcionario);
 		menu.setVisible(true);
 		frame.dispose();
 	}
@@ -87,6 +88,11 @@ public class FuncionarioView {
 		this.funcionario.setEmail(email.getText());
 		this.funcionario.setSenha(ConvertChar);
 		this.list = funcionario.incluir();
+
+		if (this.list == null) {
+			frame.setVisible(true);
+			return;
+		}
 
 		frame.setVisible(false);
 
@@ -111,6 +117,11 @@ public class FuncionarioView {
 	}
 
 	private void excluir() {
+		if (this.table.getSelectedRowCount() == 0) {
+			JOptionPane.showMessageDialog(null, "Selecione um registro na tabela para excluir!");
+			return;
+		}
+
 		String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
 
 		this.list = this.funcionario.excluir(id);
@@ -119,8 +130,53 @@ public class FuncionarioView {
 		this.list.fireTableDataChanged();
 	}
 
-	private void campos(String criarOuAlterar) {
+	private void carregarCamposAlterar() {
+		if (this.table.getSelectedRowCount() == 0) {
+			JOptionPane.showMessageDialog(null, "Selecione um registro na tabela para alterar!");
+			return;
+		}
+		campos("alterar");
 
+		String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
+
+		ResultSet result = null;
+
+		try {
+			result = funcionario.carregaCamposAlterar(id);
+			result.next();
+
+			nome.setText(result.getString("nome"));
+			cpf.setText(result.getString("cpf"));
+			cargo.setText(result.getString("cargo"));
+			email.setText(result.getString("email"));
+			senha.setText(result.getString("senha"));
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	private void alterar() {
+		String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
+
+		char[] senhaChar = senha.getPassword();
+
+		String ConvertChar = String.valueOf(senhaChar);
+
+		this.funcionario.setNome(nome.getText());
+		this.funcionario.setCpf(cpf.getText());
+		this.funcionario.setCargo(cargo.getText());
+		this.funcionario.setEmail(email.getText());
+		this.funcionario.setSenha(ConvertChar);
+		this.list = funcionario.alterar(id);
+
+		frame.setVisible(false);
+
+		this.table.setModel(this.list);
+		this.list.fireTableDataChanged();
+	}
+
+	private void campos(String criarOuAlterar) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 722, 353);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -130,17 +186,25 @@ public class FuncionarioView {
 		separator.setBounds(10, 45, 686, 9);
 		frame.getContentPane().add(separator);
 
-		JLabel lblNewLabel_2 = new JLabel("Nome completo");
-		lblNewLabel_2.setBounds(49, 53, 114, 14);
-		frame.getContentPane().add(lblNewLabel_2);
+		JLabel nome_label = new JLabel("Nome completo");
+		nome_label.setBounds(49, 53, 114, 14);
+		frame.getContentPane().add(nome_label);
 
-		JLabel lblNewLabel_3 = new JLabel("CPF");
-		lblNewLabel_3.setBounds(49, 109, 46, 14);
-		frame.getContentPane().add(lblNewLabel_3);
+		JLabel cpf_label = new JLabel("CPF");
+		cpf_label.setBounds(49, 109, 46, 14);
+		frame.getContentPane().add(cpf_label);
 
-		JLabel lblNewLabel_5 = new JLabel("Cargo");
-		lblNewLabel_5.setBounds(387, 109, 46, 14);
-		frame.getContentPane().add(lblNewLabel_5);
+		JLabel cargo_label = new JLabel("Cargo");
+		cargo_label.setBounds(387, 109, 46, 14);
+		frame.getContentPane().add(cargo_label);
+
+		JLabel label_email = new JLabel("Email");
+		label_email.setBounds(49, 167, 46, 14);
+		frame.getContentPane().add(label_email);
+
+		JLabel senha_label = new JLabel("Senha");
+		senha_label.setBounds(387, 167, 46, 14);
+		frame.getContentPane().add(senha_label);
 
 		nome = new JTextField("");
 		nome.getText();
@@ -158,19 +222,27 @@ public class FuncionarioView {
 		frame.getContentPane().add(cargo);
 		cargo.setColumns(10);
 
-		JLabel lblNewLabel_6 = new JLabel("");
+		email = new JTextField("");
+		email.setBounds(49, 193, 310, 20);
+		frame.getContentPane().add(email);
+		email.setColumns(10);
+
+		senha = new JPasswordField("");
+		senha.setBounds(389, 194, 294, 18);
+		frame.getContentPane().add(senha);
+
+		JLabel dark_logo = new JLabel("");
 		URL logo = this.getClass().getResource("/public/dark_logo_min.png");
-		lblNewLabel_6.setIcon(new ImageIcon(logo));
-		lblNewLabel_6.setBounds(302, 289, 114, 14);
-		frame.getContentPane().add(lblNewLabel_6);
-		
+		dark_logo.setIcon(new ImageIcon(logo));
+		dark_logo.setBounds(302, 289, 114, 14);
+		frame.getContentPane().add(dark_logo);
+
 		if (criarOuAlterar.equals("cadastrar")) {
-			
-			JLabel lblNewLabel = new JLabel("Adicionar Funcionários");
-			lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
-			lblNewLabel.setBounds(10, 13, 156, 14);
-			frame.getContentPane().add(lblNewLabel);
-						
+			JLabel adicionar_func_label = new JLabel("Adicionar Funcionários");
+			adicionar_func_label.setFont(new Font("Tahoma", Font.BOLD, 12));
+			adicionar_func_label.setBounds(10, 13, 156, 14);
+			frame.getContentPane().add(adicionar_func_label);
+
 			JButton adicionar = new JButton("Adicionar");
 			adicionar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -179,13 +251,12 @@ public class FuncionarioView {
 			});
 			adicionar.setBounds(589, 256, 94, 23);
 			frame.getContentPane().add(adicionar);
-		}else {
-			
-			JLabel lblNewLabel = new JLabel("Atualizar Funcionários");
-			lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
-			lblNewLabel.setBounds(10, 13, 156, 14);
-			frame.getContentPane().add(lblNewLabel);
-			
+		} else {
+			JLabel atualizar_func_label = new JLabel("Atualizar Funcionários");
+			atualizar_func_label.setFont(new Font("Tahoma", Font.BOLD, 12));
+			atualizar_func_label.setBounds(10, 13, 156, 14);
+			frame.getContentPane().add(atualizar_func_label);
+
 			JButton alterar = new JButton("Atualizar");
 			alterar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -196,115 +267,67 @@ public class FuncionarioView {
 			frame.getContentPane().add(alterar);
 		}
 
-		JButton btnNewButton_1 = new JButton("Cancelar");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		JButton btn_cancelar = new JButton("Cancelar");
+		btn_cancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
 			}
 		});
-		btnNewButton_1.setBounds(476, 256, 89, 23);
-		frame.getContentPane().add(btnNewButton_1);
-
-		email = new JTextField("");
-		email.setBounds(49, 193, 310, 20);
-		frame.getContentPane().add(email);
-		email.setColumns(10);
-
-		senha = new JPasswordField("");
-		senha.setBounds(389, 194, 294, 18);
-		frame.getContentPane().add(senha);
-
-		JLabel label_email = new JLabel("");
-		label_email.setBounds(49, 167, 46, 14);
-		frame.getContentPane().add(label_email);
-
-		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.setBounds(387, 167, 46, 14);
-		frame.getContentPane().add(lblNewLabel_1);
+		btn_cancelar.setBounds(476, 256, 89, 23);
+		frame.getContentPane().add(btn_cancelar);
 
 		frame.setLocationRelativeTo(frame);
 
 		frame.setVisible(true);
 	}
 
-	private void carregarCamposAlterar() {
-		String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
-		ResultSet result = null;
-
-		try {
-			result = funcionario.carregaCamposAlterar(id);
-			result.next();
-			
-			nome.setText(result.getString("nome"));
-			cpf.setText(result.getString("cpf"));
-			cargo.setText(result.getString("cargo"));
-			email.setText(result.getString("email"));
-			senha.setText(result.getString("senha"));
-			
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		
-	}
-	
-	private void alterar() {
-		String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
-		
-		char[] senhaChar = senha.getPassword();
-
-		String ConvertChar = String.valueOf(senhaChar);
-
-		this.funcionario.setNome(nome.getText());
-		this.funcionario.setCpf(cpf.getText());
-		this.funcionario.setCargo(cargo.getText());
-		this.funcionario.setEmail(email.getText());
-		this.funcionario.setSenha(ConvertChar);
-		this.list = funcionario.alterar(id);
-		
-		frame.setVisible(false);
-
-		this.table.setModel(this.list);
-		this.list.fireTableDataChanged();
-	}
-
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	public void initialize() {
-
-		this.table.setRowSelectionAllowed(false);
 		frame = new JFrame();
 		frame.setBounds(100, 100, 862, 613);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(20, 150, 662, 321);
+		frame.getContentPane().add(scrollPane);
+		scrollPane.setViewportView(this.table);
+
 		JSeparator separator = new JSeparator();
-		separator.setBounds(10, 60, 672, -6);
+		separator.setBounds(10, 44, 807, 7);
 		frame.getContentPane().add(separator);
 
-		JSeparator separator_1 = new JSeparator();
-		separator_1.setBounds(10, 44, 807, 7);
-		frame.getContentPane().add(separator_1);
+		JLabel listar_func_label = new JLabel("Listar  Funcionário");
+		listar_func_label.setFont(new Font("Tahoma", Font.BOLD, 12));
+		listar_func_label.setBounds(319, 19, 185, 14);
+		frame.getContentPane().add(listar_func_label);
 
 		input_filtrar = new JTextField("");
 		input_filtrar.setBounds(20, 87, 447, 20);
 		frame.getContentPane().add(input_filtrar);
 		input_filtrar.setColumns(10);
 
-		JLabel lblNewLabel_2 = new JLabel("Pesquisar");
-		lblNewLabel_2.setBounds(20, 65, 76, 14);
-		frame.getContentPane().add(lblNewLabel_2);
+		JLabel btn_pesquisar = new JLabel("Pesquisar");
+		btn_pesquisar.setBounds(20, 65, 76, 14);
+		frame.getContentPane().add(btn_pesquisar);
 
-		JLabel lblNewLabel_3 = new JLabel("");
+		JLabel img_listar_func = new JLabel("");
 		URL urlToImage = this.getClass().getResource("/public/listagem_funcionario.png");
-		lblNewLabel_3.setIcon(new ImageIcon(urlToImage));
-		lblNewLabel_3.setBounds(711, 164, 106, 130);
-		frame.getContentPane().add(lblNewLabel_3);
+		img_listar_func.setIcon(new ImageIcon(urlToImage));
+		img_listar_func.setBounds(711, 164, 106, 130);
+		frame.getContentPane().add(img_listar_func);
+
+		JLabel img_dark_logo = new JLabel("");
+		URL logo = this.getClass().getResource("/public/dark_logo_min.png");
+		img_dark_logo.setIcon(new ImageIcon(logo));
+		img_dark_logo.setBounds(349, 519, 106, 14);
+		frame.getContentPane().add(img_dark_logo);
 
 		JButton alterar = new JButton("Alterar");
 		alterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				campos("alterar");
 				carregarCamposAlterar();
 			}
 		});
@@ -320,30 +343,12 @@ public class FuncionarioView {
 		excluir.setBounds(692, 409, 125, 23);
 		frame.getContentPane().add(excluir);
 
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(20, 150, 662, 321);
-		frame.getContentPane().add(scrollPane);
-
-		scrollPane.setViewportView(this.table);
-
-		JLabel lblNewLabel_4 = new JLabel("");
-		URL logo = this.getClass().getResource("/public/dark_logo_min.png");
-		lblNewLabel_4.setIcon(new ImageIcon(logo));
-		lblNewLabel_4.setBounds(349, 519, 106, 14);
-		frame.getContentPane().add(lblNewLabel_4);
-
-		JLabel lblNewLabel = new JLabel("Listar  Funcionário");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNewLabel.setBounds(319, 19, 185, 14);
-		frame.getContentPane().add(lblNewLabel);
-
 		JButton home = new JButton("Home");
 		home.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				home();
 			}
 		});
-
 		home.setBounds(7, 16, 89, 23);
 		frame.getContentPane().add(home);
 
@@ -378,7 +383,7 @@ public class FuncionarioView {
 		frame.setLocationRelativeTo(frame);
 	}
 
-	public void setVisible(boolean b) {
-		frame.setVisible(b);
+	public void setVisible(boolean visible) {
+		frame.setVisible(visible);
 	}
 }

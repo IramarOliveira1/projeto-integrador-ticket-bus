@@ -1,10 +1,7 @@
 package br.ba.fvc.controllrs;
 
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -14,10 +11,12 @@ public class GenericController {
 
 	public GenericDAO dao;
 	private DefaultTableModel tableModel;
+	private String fields;
 
 	public GenericController(String table, String[] columns, String fields) {
 		this.dao = new GenericDAO(table, fields);
 		this.tableModel = new DefaultTableModel(null, columns);
+		this.fields = fields;
 	}
 
 	public DefaultTableModel all() {
@@ -38,6 +37,7 @@ public class GenericController {
 			for (Object values : data) {
 				addQuotationMarks.append("'" + values + "'" + ",");
 			}
+
 			addQuotationMarks.deleteCharAt(addQuotationMarks.length() - 1);
 
 			this.dao.store(addQuotationMarks);
@@ -64,9 +64,10 @@ public class GenericController {
 
 	public DefaultTableModel destroy(String id) {
 		try {
-			this.dao.destroy(id);
-			this.tableModel = this.all();
 
+			this.dao.destroy(id);
+
+			this.tableModel = this.all();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -78,43 +79,28 @@ public class GenericController {
 		try {
 
 			result = this.dao.index(id);
-
 		} catch (Exception e) {
-			System.err.println(e.getMessage());
+			System.out.println(e.getMessage());
 		}
-
 		return result;
 	}
 
-	public DefaultTableModel update(Object[] data, String id) {
-		ResultSet result = null;
-		StringBuilder addQuotationMarks = new StringBuilder();
+	public DefaultTableModel update(Object[] fields, Object[] data, String id) {
+		StringBuilder removeKey = new StringBuilder();
 		try {
+			HashMap<Object, Object> values = new HashMap<>();
 
-			Object[] testando = { "teste", "testando", "agora", "vai", "nos" };
+			int count = 0;
+			for (Object object : data) {
+				values.put(fields[count], "'" + object + "'");
+				count++;
+			}
+			removeKey.append(values);
+			removeKey.deleteCharAt(-0);
+			removeKey.deleteCharAt(removeKey.length() - 1);
 
-//			 String campos = "nome, cpf, email, cargo, senha";
-			HashMap<Object, Object> mp = new HashMap<>();
-
-				
-
-				for (Object values : data) {
-					mp.put(testando[0], values);
-//					addQuotationMarks.append(mp.keySet() + " = '" + mp.values() + "'" + ",");
-				}
-
-//			System.out.println(addQuotationMarks);
-//			
-
-//			 String campos = "nome, cpf, email, cargo, senha";
-//			
-//			for (Object values : data) {
-//				addQuotationMarks.append(campos + " = '" + values + "'" + ",");
-//			}
-//
-
-//			result = this.index(id);
-
+			this.dao.update(removeKey.toString(), id);
+			this.all();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

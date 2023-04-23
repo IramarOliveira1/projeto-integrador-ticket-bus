@@ -78,8 +78,8 @@ public class MenuView {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("Funcionario: " + this.user.getNome());
-		lblNewLabel.setBounds(136, 28, 135, 14);
+		JLabel lblNewLabel = new JLabel("Funcionario: " + this.user.getLogado());
+		lblNewLabel.setBounds(136, 28, 248, 14);
 		frame.getContentPane().add(lblNewLabel);
 
 		JSeparator separator = new JSeparator();

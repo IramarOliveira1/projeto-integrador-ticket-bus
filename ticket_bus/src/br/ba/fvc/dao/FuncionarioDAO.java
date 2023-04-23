@@ -17,22 +17,6 @@ public class FuncionarioDAO {
 		this.connection = new ConnectionMysql().getConnectionMysql();
 	}
 
-	public ResultSet verifyCpfExists(String cpf, String email) {
-		ResultSet result = null;
-
-		try {
-			Statement instance = this.connection.createStatement();
-
-			String query = "SELECT cpf, email FROM Usuario WHERE cpf = " + "'" + cpf + "' OR email = '" + email + "' ";
-
-			result = instance.executeQuery(query);
-
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage());
-		}
-		return result;
-	}
-
 	public ResultSet login(String email, String senha) {
 		ResultSet result = null;
 
@@ -44,11 +28,24 @@ public class FuncionarioDAO {
 			result = instance.executeQuery(query);
 
 			return result;
-
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return result;
 	}
 
+	public ResultSet verifyCpfExists(String cpf, String email) {
+		ResultSet result = null;
+
+		try {
+			Statement instance = this.connection.createStatement();
+
+			String query = "SELECT cpf, email FROM Usuario WHERE cpf = " + "'" + cpf + "' OR email = '" + email + "' ";
+
+			result = instance.executeQuery(query);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return result;
+	}
 }
