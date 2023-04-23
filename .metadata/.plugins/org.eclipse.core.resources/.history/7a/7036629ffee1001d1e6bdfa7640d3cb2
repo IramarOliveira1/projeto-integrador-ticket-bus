@@ -27,7 +27,6 @@ public class VeiculoView {
 	private JTextField modelo;
 	private JTextField qtd_poltrona;
 	private JTextField numero_veiculo;
-	private JTextField input_pesquisar;
 	private JTable table;
 	public FuncionarioController user;
 
@@ -122,22 +121,22 @@ public class VeiculoView {
 		numero_veiculo.setColumns(10);
 
 		if (criarOuAlterar.equals("cadastrar")) {
-			JLabel label_cadastrar = new JLabel("Adicionar Veículos");
-			label_cadastrar.setBounds(10, 20, 115, 14);
-			frame.getContentPane().add(label_cadastrar);
+			JLabel lblNewLabel = new JLabel("Adicionar Veículos");
+			lblNewLabel.setBounds(10, 20, 115, 14);
+			frame.getContentPane().add(lblNewLabel);
 
-			JButton adicionar = new JButton(" Adicionar");
+			JButton adicionar = new JButton("Adicionar");
 			adicionar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					// cadastrar();
 				}
 			});
-			adicionar.setBounds(473, 257, 100, 23);
+			adicionar.setBounds(565, 258, 111, 23);
 			frame.getContentPane().add(adicionar);
 		} else {
-			JLabel label_atualizar = new JLabel("Atualizar Veículos");
-			label_atualizar.setBounds(10, 20, 115, 14);
-			frame.getContentPane().add(label_atualizar);
+			JLabel  = new JLabel("Atualizar Veículos");
+			lable_adicionar.setBounds(10, 20, 115, 14);
+			frame.getContentPane().add(lable_adicionar);
 
 			JButton alterar = new JButton("Atualizar");
 			alterar.addActionListener(new ActionListener() {
@@ -145,7 +144,7 @@ public class VeiculoView {
 					// alterar();
 				}
 			});
-			alterar.setBounds(473, 257, 100, 23);
+			alterar.setBounds(589, 256, 94, 23);
 			frame.getContentPane().add(alterar);
 		}
 
@@ -158,7 +157,9 @@ public class VeiculoView {
 		btnNewButton.setBounds(361, 257, 89, 23);
 		frame.getContentPane().add(btnNewButton);
 
-
+		JButton btnNewButton_1 = new JButton(" Adicionar");
+		btnNewButton_1.setBounds(473, 257, 100, 23);
+		frame.getContentPane().add(btnNewButton_1);
 
 		JLabel lblNewLabel_6 = new JLabel("");
 		URL logo = this.getClass().getResource("/public/dark_logo_min.png");
@@ -184,59 +185,45 @@ public class VeiculoView {
 		scrollPane.setBounds(26, 131, 646, 363);
 		frame.getContentPane().add(scrollPane);
 
-		JLabel listar_veiculo = new JLabel("Listar  Veículos");
+		JLabel listar_veiculo = new JLabel("Listar  VeÃ­culos");
 		listar_veiculo.setFont(new Font("Tahoma", Font.BOLD, 12));
 		listar_veiculo.setBounds(319, 19, 185, 14);
 		frame.getContentPane().add(listar_veiculo);
 
-		JLabel logo_onibus = new JLabel("");
-		URL url_logo = this.getClass().getResource("/public/onibus.png");
-		logo_onibus.setIcon(new ImageIcon(url_logo));
-		logo_onibus.setBounds(712, 169, 105, 130);
-		frame.getContentPane().add(logo_onibus);
+		JLabel lblNewLabel_3 = new JLabel("");
+		URL urlToImage = this.getClass().getResource("/public/onibus.png");
+		lblNewLabel_3.setIcon(new ImageIcon(urlToImage));
+		lblNewLabel_3.setBounds(712, 169, 105, 130);
+		frame.getContentPane().add(lblNewLabel_3);
 
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		table.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "Numero", "Placa", "Modelo", "Data compra", "Quant. poltrona" }));
 
+		textField = new JTextField();
+		textField.setBounds(26, 87, 421, 20);
+		frame.getContentPane().add(textField);
+		textField.setColumns(10);
 
-		
-		JLabel label_pesquisar = new JLabel("Pesquisar");
-		label_pesquisar.setBounds(20, 62, 105, 14);
-		frame.getContentPane().add(label_pesquisar);
-
-		input_pesquisar = new JTextField();
-		input_pesquisar.setBounds(26, 87, 421, 20);
-		frame.getContentPane().add(input_pesquisar);
-		input_pesquisar.setColumns(10);
-
+		JLabel lblNewLabel = new JLabel("Pesquisar");
+		lblNewLabel.setBounds(20, 62, 105, 14);
+		frame.getContentPane().add(lblNewLabel);
 
 		JButton cadastrar = new JButton("Cadastrar");
 		cadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				campos("cadastrar");
-				frame.setVisible(true);
+				cadastrar();
 			}
 		});
 		cadastrar.setBounds(682, 356, 135, 23);
 		frame.getContentPane().add(cadastrar);
 
 		JButton alterar = new JButton("Alterar");
-		alterar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// carregarCamposAlterar();
-			}
-		});
 		alterar.setBounds(682, 393, 135, 23);
 		frame.getContentPane().add(alterar);
 
 		JButton excluir = new JButton("Excluir");
-		excluir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// excluir();
-			}
-		});
 		excluir.setBounds(682, 427, 135, 23);
 		frame.getContentPane().add(excluir);
 
@@ -249,21 +236,15 @@ public class VeiculoView {
 		home.setBounds(10, 11, 89, 23);
 		frame.getContentPane().add(home);
 
+		JLabel lblNewLabel_4 = new JLabel("");
+		URL logo = this.getClass().getResource("/public/dark_logo_min.png");
+		lblNewLabel_4.setIcon(new ImageIcon(logo));
+		lblNewLabel_4.setBounds(349, 519, 106, 14);
+		frame.getContentPane().add(lblNewLabel_4);
+
 		JButton pesquisar = new JButton("Pesquisar");
-		pesquisar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// filtrar();
-			}
-		});
 		pesquisar.setBounds(455, 86, 113, 23);
 		frame.getContentPane().add(pesquisar);
-
-		JLabel logo_dark_min = new JLabel("");
-		URL logo = this.getClass().getResource("/public/dark_logo_min.png");
-		logo_dark_min.setIcon(new ImageIcon(logo));
-		logo_dark_min.setBounds(349, 519, 106, 14);
-		frame.getContentPane().add(logo_dark_min);
-
 
 		frame.setLocationRelativeTo(frame);
 	}

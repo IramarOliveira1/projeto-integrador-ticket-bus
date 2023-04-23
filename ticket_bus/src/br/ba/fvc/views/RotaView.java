@@ -61,11 +61,6 @@ public class RotaView {
 		frame.dispose();
 	}
 
-	private void cadastrar() {
-		CadastrarRotaView cadastrar = new CadastrarRotaView();
-		cadastrar.setVisible(true);
-	}
-
 	private void campos(String criarOuAlterar) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 717, 389);
@@ -80,7 +75,7 @@ public class RotaView {
 		label_nome_motorista.setBounds(10, 62, 149, 14);
 		frame.getContentPane().add(label_nome_motorista);
 
-		JLabel label_placa = new JLabel("Placa Ve�culo");
+		JLabel label_placa = new JLabel("Placa Veículo");
 		label_placa.setBounds(10, 116, 86, 14);
 		frame.getContentPane().add(label_placa);
 
