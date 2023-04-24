@@ -1,0 +1,188 @@
+package br.ba.fvc.views;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JSeparator;
+import java.awt.BorderLayout;
+import javax.swing.JLabel;
+import javax.swing.JSplitPane;
+import javax.swing.JPanel;
+import java.awt.Color;
+import javax.swing.JButton;
+import javax.swing.JScrollPane;
+import javax.swing.JComboBox;
+import javax.swing.border.BevelBorder;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.URL;
+
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.ImageIcon;
+import javax.swing.JTextField;
+import javax.swing.JList;
+
+public class CadastrarVendaView {
+
+	private JFrame frame;
+	private JTextField nome;
+	private JTextField cpf;
+	private JTextField textField_2;
+	private JTextField textField_4;
+	private JTextField textField_5;
+	private JTextField textField_7;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					CadastrarVendaView window = new CadastrarVendaView();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public CadastrarVendaView() {
+		initialize();
+	}
+	
+	private void close() {
+		frame.setVisible(false);
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 714, 391);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JLabel lblNewLabel_1 = new JLabel("Adicionar Vendas");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_1.setBounds(10, 18, 145, 14);
+		frame.getContentPane().add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\D Paula\\Desktop\\JAVA\\views\\img\\logo-dark min.png"));
+		lblNewLabel_3.setBounds(305, 329, 102, 14);
+		frame.getContentPane().add(lblNewLabel_3);
+		
+		JLabel lblNewLabel_4 = new JLabel("CPF");
+		lblNewLabel_4.setBounds(361, 53, 46, 14);
+		frame.getContentPane().add(lblNewLabel_4);
+		
+		JLabel lblNewLabel_7 = new JLabel("Data Partida");
+		lblNewLabel_7.setBounds(10, 167, 122, 14);
+		frame.getContentPane().add(lblNewLabel_7);
+		
+		JLabel lblNewLabel_8 = new JLabel("Hora Partida");
+		lblNewLabel_8.setBounds(361, 167, 145, 14);
+		frame.getContentPane().add(lblNewLabel_8);
+		
+		JLabel lblNewLabel_9 = new JLabel("Nome");
+		lblNewLabel_9.setBounds(10, 53, 46, 14);
+		frame.getContentPane().add(lblNewLabel_9);
+		
+		JLabel lblNewLabel_10 = new JLabel("Poltrona");
+		lblNewLabel_10.setBounds(10, 209, 70, 14);
+		frame.getContentPane().add(lblNewLabel_10);
+		
+		JLabel lblNewLabel_11 = new JLabel("Valor Passagem:");
+		lblNewLabel_11.setBounds(30, 209, 102, -14);
+		frame.getContentPane().add(lblNewLabel_11);
+		
+		nome = new JTextField();
+		nome.setBounds(10, 78, 327, 20);
+		frame.getContentPane().add(nome);
+		nome.setColumns(10);
+		
+		cpf = new JTextField();
+		cpf.setBounds(361, 78, 327, 20);
+		frame.getContentPane().add(cpf);
+		cpf.setColumns(10);
+		
+		textField_2 = new JTextField();
+		textField_2.setBounds(361, 231, 327, 20);
+		frame.getContentPane().add(textField_2);
+		textField_2.setColumns(10);
+		
+		textField_4 = new JTextField();
+		textField_4.setBounds(361, 183, 327, 20);
+		frame.getContentPane().add(textField_4);
+		textField_4.setColumns(10);
+		
+		textField_5 = new JTextField();
+		textField_5.setBounds(10, 184, 327, 17);
+		frame.getContentPane().add(textField_5);
+		textField_5.setColumns(10);
+		
+		textField_7 = new JTextField();
+		textField_7.setBounds(10, 231, 327, 20);
+		frame.getContentPane().add(textField_7);
+		textField_7.setColumns(10);
+		
+		JLabel lblNewLabel_12 = new JLabel("Valor Passagem");
+		lblNewLabel_12.setBounds(361, 209, 102, 23);
+		frame.getContentPane().add(lblNewLabel_12);
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setBounds(10, 43, 678, 12);
+		frame.getContentPane().add(separator_1);
+		
+		JButton btnNewButton = new JButton("Cancelar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				close();
+			}
+		});
+		btnNewButton.setBounds(402, 279, 138, 23);
+		frame.getContentPane().add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Concluir venda");
+		btnNewButton_1.setBounds(550, 279, 140, 23);
+		frame.getContentPane().add(btnNewButton_1);
+		
+		
+		JComboBox origem = new JComboBox();
+		origem.setBounds(10, 134, 327, 22);
+		frame.getContentPane().add(origem);
+		
+		JComboBox destino = new JComboBox();
+		destino.setBounds(361, 134, 327, 22);
+		frame.getContentPane().add(destino);
+		
+		JLabel lblNewLabel_2 = new JLabel("Cidade Origem");
+		lblNewLabel_2.setBounds(10, 109, 122, 20);
+		frame.getContentPane().add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_5 = new JLabel("Cidade Destino");
+		lblNewLabel_5.setBounds(361, 109, 132, 14);
+		frame.getContentPane().add(lblNewLabel_5);
+		
+		JLabel lblNewLabel_6 = new JLabel("");
+		URL logo = this.getClass().getResource("/public/dark_logo_min.png");
+		lblNewLabel_6.setIcon(new ImageIcon(logo));
+		lblNewLabel_6.setBounds(305, 329, 114, 14);
+		frame.getContentPane().add(lblNewLabel_6);
+		
+		frame.setLocationRelativeTo(frame);
+	}
+
+	public void setVisible(boolean b) {
+		frame.setVisible(b);
+	}
+}

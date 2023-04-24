@@ -1,0 +1,60 @@
+package br.ba.fvc.models;
+
+import br.ba.fvc.controllrs.LoginController;
+import br.ba.fvc.database.connection.ConnectionMysql;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+import javax.swing.JOptionPane;
+
+import java.sql.SQLException;
+
+public class Login {
+
+	Connection connection = null;
+
+	public Login() {
+		this.connection = new ConnectionMysql().getConnectionMysql();
+	}
+
+	public LoginController loginModel(String email, String senha) {
+
+		LoginController user = new LoginController();
+
+		try {
+			Statement instance = this.connection.createStatement();
+
+			String query = "SELECT * FROM usuario WHERE email =  '" + email + "' AND senha = '" + senha + "' ";
+
+			ResultSet result = instance.executeQuery(query);
+
+			if (result.next()) {
+				user.setNome(result.getString(2));
+				user.setCargo(result.getString(3));
+				user.setEmail(result.getString(4));
+				user.setSenha(result.getString(5));
+			
+
+	
+			} else {
+				JOptionPane.showMessageDialog("LOGIN OU SENHA INVALIDOS!");
+				System.out.println();
+			}
+
+		} catch (Exception e) {
+
+			System.out.println(e.getMessage());
+		} finally {
+			try {
+				this.connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return user;
+	}
+
+}

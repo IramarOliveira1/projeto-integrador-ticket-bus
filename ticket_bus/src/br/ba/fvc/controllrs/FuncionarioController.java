@@ -17,7 +17,7 @@ public class FuncionarioController {
 	private String senha;
 	private GenericController generic;
 	private FuncionarioDAO dao;
-	private String tabela = "usuario";
+	private String tabela = "funcionario";
 	private String[] coluna = { "ID", "Nome", "CPF", "Email", "Cargo" };
 	private String campos = "nome, cpf, email, cargo, senha";
 	private String[] campo_filtro = { "nome", "cpf" };

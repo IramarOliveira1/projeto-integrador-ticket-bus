@@ -23,7 +23,7 @@ public class FuncionarioDAO {
 		try {
 			Statement instance = this.connection.createStatement();
 
-			String query = "SELECT * FROM Usuario WHERE email = '" + email + "' AND senha = '" + senha + "' ";
+			String query = "SELECT * FROM funcionario WHERE email = '" + email + "' AND senha = '" + senha + "' ";
 
 			result = instance.executeQuery(query);
 		} catch (SQLException e) {

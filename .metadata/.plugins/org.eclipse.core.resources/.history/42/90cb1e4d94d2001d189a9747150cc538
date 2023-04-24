@@ -1,0 +1,56 @@
+package br.ba.fvc.controllrs;
+
+import java.sql.ResultSet;
+import java.util.ArrayList;
+
+import javax.swing.JTable;
+
+import br.ba.fvc.dao.GenericDAO;
+
+public class GenericController {
+
+	public GenericDAO dao;
+
+	public GenericController() {
+		this.dao = new GenericDAO();
+	}
+
+	public Object[]  all(String table) {
+		ResultSet result = null;
+		ArrayList<Object> list = new ArrayList<Object>();
+		Object[] testando = new Object[0];
+
+		try {
+			result = this.dao.all(table);
+
+			Object[] row = new Object[result.getMetaData().getColumnCount()];
+			while (result.next()) {
+				
+				ArrayList<Object> vector = new ArrayList<Object>();
+
+				for (int i = 1; i < row.length; i++) {
+					// row[i][j] = result.getObject(i);
+
+					
+					row[i] = result.getObject(i);
+					System.out.println("Primeiro = " + row[i]);
+					list.add(row[i]);
+
+				}
+				
+
+				// System.out.println(testando);
+			}
+			
+			testando = row;
+			return testando;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		// System.out.println(testando[1][2]);
+		Object[] data = {};
+		return testando;
+
+	}
+}

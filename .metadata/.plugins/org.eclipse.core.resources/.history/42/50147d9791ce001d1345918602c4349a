@@ -1,0 +1,109 @@
+package br.ba.fvc.views;
+
+import java.awt.EventQueue;
+import java.net.URL;
+
+import javax.swing.JFrame;
+import javax.swing.JSeparator;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollPane;
+
+public class ListarCidadeView {
+
+	private JFrame frame;
+	private JTextField textField;
+	private JTable table;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ListarCidadeView window = new ListarCidadeView();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public ListarCidadeView() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 862, 613);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setBounds(10, 37, 826, 14);
+		frame.getContentPane().add(separator_1);
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 124, 561, 355);
+		frame.getContentPane().add(scrollPane);
+
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Nome cidade", "UF" }));
+		
+		JLabel lblNewLabel_3 = new JLabel("");
+		URL urlToImage = this.getClass().getResource("/public/cidade.png");
+		lblNewLabel_3.setIcon(new ImageIcon(urlToImage));
+		lblNewLabel_3.setBounds(668, 147, 105, 130);
+		frame.getContentPane().add(lblNewLabel_3);
+
+		textField = new JTextField();
+		textField.setBounds(10, 72, 475, 20);
+		frame.getContentPane().add(textField);
+		textField.setColumns(10);
+
+		JLabel lblNewLabel = new JLabel("Pesquisar");
+		lblNewLabel.setBounds(10, 47, 149, 14);
+		frame.getContentPane().add(lblNewLabel);
+		
+		JButton cadastrar = new JButton("Cadastrar");
+		cadastrar.setBounds(642, 363, 158, 23);
+		frame.getContentPane().add(cadastrar);
+		
+		JButton atualizar = new JButton("Atualizar");
+		atualizar.setBounds(642, 407, 158, 23);
+		frame.getContentPane().add(atualizar);
+		
+		JButton btnNewButton_1_1 = new JButton("New button");
+		btnNewButton_1_1.setBounds(642, 456, 158, 23);
+		frame.getContentPane().add(btnNewButton_1_1);
+		
+		JButton pesquisar = new JButton("Pesquisar");
+		pesquisar.setBounds(495, 71, 127, 23);
+		frame.getContentPane().add(pesquisar);
+		
+		JButton home = new JButton("Home");
+		home.setBounds(10, 11, 89, 23);
+		frame.getContentPane().add(home);
+
+		
+		frame.setLocationRelativeTo(frame);
+	}
+
+	public void setVisible(boolean b) {
+		frame.setVisible(b);
+	}
+
+}

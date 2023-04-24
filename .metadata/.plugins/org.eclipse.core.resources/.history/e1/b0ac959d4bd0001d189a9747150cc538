@@ -1,0 +1,185 @@
+package br.ba.fvc.views;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JSeparator;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import br.ba.fvc.controllrs.GenericController;
+import br.ba.fvc.controllrs.LoginController;
+
+import javax.swing.JScrollPane;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.URL;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Vector;
+
+public class ListarFuncionarioView {
+
+	private JFrame frame;
+	private JTextField textField;
+	private JTable table;
+	public LoginController user;
+	public ArrayList<Object> list;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ListarFuncionarioView window = new ListarFuncionarioView(null);
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 * 
+	 * @param user
+	 */
+	public ListarFuncionarioView(LoginController fields) {
+		GenericController generic = new GenericController();
+		this.list = generic.all("Usuario");
+		// System.out.println("tela funcionario " + this.list[0][2]);
+
+		this.user = fields;
+		initialize();
+	}
+
+	private void home() {
+		MenuView menu = new MenuView(this.user);
+		menu.setVisible(true);
+		frame.dispose();
+	}
+
+	private void cadastrar() {
+		CadastrarFuncionarioView cadastrar = new CadastrarFuncionarioView();
+		cadastrar.setVisible(true);
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 862, 613);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+
+		JSeparator separator = new JSeparator();
+		separator.setBounds(10, 60, 672, -6);
+		frame.getContentPane().add(separator);
+
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setBounds(10, 44, 807, 7);
+		frame.getContentPane().add(separator_1);
+
+		textField = new JTextField();
+		textField.setBounds(20, 87, 447, 20);
+		frame.getContentPane().add(textField);
+		textField.setColumns(10);
+
+		JLabel lblNewLabel_2 = new JLabel("Pesquisar");
+		lblNewLabel_2.setBounds(20, 65, 76, 14);
+		frame.getContentPane().add(lblNewLabel_2);
+
+		JLabel lblNewLabel_3 = new JLabel("");
+		URL urlToImage = this.getClass().getResource("/public/listagem_funcionario.png");
+		lblNewLabel_3.setIcon(new ImageIcon(urlToImage));
+		lblNewLabel_3.setBounds(711, 164, 106, 130);
+		frame.getContentPane().add(lblNewLabel_3);
+
+		JButton alterar = new JButton("Alterar");
+		alterar.setBounds(692, 375, 125, 23);
+		frame.getContentPane().add(alterar);
+
+		JButton excluir = new JButton("Excluir");
+		excluir.setBounds(692, 409, 125, 23);
+		frame.getContentPane().add(excluir);
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(20, 150, 662, 321);
+		frame.getContentPane().add(scrollPane);
+
+		String[] colunasTabela = new String[] { "ID", "Nome", "CPF", "Email", "Cargo" };
+
+		Object[][] conteudo = { { "Goiânia", "GO", "43.023.432", "testando@tese.com" },
+				{ "São Paulo", "SP", "5.343.234" }, { "Rio de Janeiro", "RJ", "6.434.212" },
+				{ "Jussara", "GO", "87.454" }, { "Barra do Garças", "MT", "64.344" } };
+
+		DefaultTableModel tableModel = new DefaultTableModel(null, colunasTabela);
+
+		table = new JTable(tableModel);
+		
+		Object [][] data = {this.list.toArray()};
+//		for (int i = 0; i < this.list.size(); i++) {
+//				tableModel.addRow(new Object [] {data[i]});
+
+//		}
+		
+	
+
+		scrollPane.setViewportView(table);
+		for (int i = 0; i < this.list.size(); i++) {
+//			System.out.println(data[i]);
+			 table.setModel(new DefaultTableModel(new Object[][] {{ data[i] }}, colunasTabela));
+		}
+
+
+
+		JLabel lblNewLabel_4 = new JLabel("");
+		URL logo = this.getClass().getResource("/public/dark_logo_min.png");
+		lblNewLabel_4.setIcon(new ImageIcon(logo));
+		lblNewLabel_4.setBounds(349, 519, 106, 14);
+		frame.getContentPane().add(lblNewLabel_4);
+
+		JLabel lblNewLabel = new JLabel("Listar  Funcionário");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel.setBounds(319, 19, 185, 14);
+		frame.getContentPane().add(lblNewLabel);
+
+		JButton home = new JButton("Home");
+		home.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				home();
+			}
+		});
+
+		home.setBounds(7, 16, 89, 23);
+		frame.getContentPane().add(home);
+
+		JButton cadastrar = new JButton("Cadastrar");
+		cadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cadastrar();
+			}
+		});
+		cadastrar.setBounds(692, 341, 125, 23);
+		frame.getContentPane().add(cadastrar);
+
+		JButton pesquisar = new JButton("Pesquisar");
+		pesquisar.setBounds(480, 86, 125, 23);
+		frame.getContentPane().add(pesquisar);
+
+		frame.setLocationRelativeTo(frame);
+	}
+
+	public void setVisible(boolean b) {
+		frame.setVisible(b);
+	}
+}
