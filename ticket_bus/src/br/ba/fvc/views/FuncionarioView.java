@@ -13,7 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import br.ba.fvc.controllrs.FuncionarioController;
+import br.ba.fvc.controller.FuncionarioController;
 
 import javax.swing.JScrollPane;
 import java.awt.Font;

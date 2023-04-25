@@ -16,7 +16,8 @@ import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import br.ba.fvc.controllrs.FuncionarioController;
+import br.ba.fvc.controller.FuncionarioController;
+import br.ba.fvc.controller.RotaController;
 
 import javax.swing.JScrollPane;
 
@@ -27,7 +28,9 @@ public class RotaView {
 	private JTextField input_filtrar;
 	private JTextField data;
 	private JTable table;
+	public DefaultTableModel list;
 	public FuncionarioController funcionario;
+	public RotaController rota;
 
 	/**
 	 * Launch the application.
@@ -49,8 +52,17 @@ public class RotaView {
 	 * Create the application.
 	 * 
 	 */
+	@SuppressWarnings("serial")
 	public RotaView(FuncionarioController fields) {
 		this.funcionario = fields;
+		this.rota = new RotaController();
+		//this.list = this.rota.listar();
+		this.funcionario = fields;
+		this.table = new JTable(this.list) {
+			public boolean editCellAt(int row, int column, java.util.EventObject e) {
+				return false;
+			}
+		};
 		initialize();
 	}
 
@@ -175,16 +187,12 @@ public class RotaView {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 117, 951, 297);
 		frame.getContentPane().add(scrollPane);
+		scrollPane.setViewportView(this.table);
 
 		JLabel listar_rota = new JLabel("Listar  Rotas");
 		listar_rota.setFont(new Font("Tahoma", Font.BOLD, 12));
 		listar_rota.setBounds(456, 20, 185, 14);
 		frame.getContentPane().add(listar_rota);
-
-		table = new JTable();
-		scrollPane.setViewportView(table);
-		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Nome motorista ", "Placa do veiculo ",
-				"Data de partida", "Cidade origem", "Cidade destino" }));
 
 		JButton alterar = new JButton("Alterar");
 		alterar.addActionListener(new ActionListener() {

@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JSeparator;
 
-import br.ba.fvc.controllrs.FuncionarioController;
+import br.ba.fvc.controller.FuncionarioController;
 
 import javax.swing.JButton;
 import javax.swing.ImageIcon;

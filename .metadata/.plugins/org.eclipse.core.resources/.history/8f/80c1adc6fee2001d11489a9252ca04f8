@@ -1,0 +1,31 @@
+package br.ba.fvc.controllrs;
+
+import javax.swing.table.DefaultTableModel;
+
+
+public class VeiculoController {
+
+	private GenericController generic;
+	private String tabela = "veiculo";
+	private String[] coluna = { "ID", "Número", "Placa", "Modelo", "Data Compra", "Qtd poltrona" };
+	private String campos = "nome, cpf, email, cargo, senha";
+	//private String[] campo_filtro = { "nome", "cpf" };
+
+	
+	public VeiculoController() {
+		this.generic = new GenericController(tabela, coluna, campos);
+	}
+	
+	public DefaultTableModel listar() {
+		DefaultTableModel result = null;
+		try {
+
+			result = this.generic.all();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return result;
+	}
+
+	
+}

@@ -15,9 +15,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-
-import br.ba.fvc.controllrs.CidadeController;
-import br.ba.fvc.controllrs.FuncionarioController;
+import br.ba.fvc.controller.CidadeController;
+import br.ba.fvc.controller.FuncionarioController;
 
 import javax.swing.JScrollPane;
 
@@ -26,10 +25,11 @@ public class CidadeView {
 	private JFrame frame;
 	private JTextField input_filtrar;
 	private JTable table;
-	private JTextField cidade;
+	private JTextField nome;
 	private JTextField uf;
 	public DefaultTableModel list;
 	public FuncionarioController funcionario;
+	public CidadeController cidade;
 
 	/**
 	 * Launch the application.
@@ -51,10 +51,16 @@ public class CidadeView {
 	 * Create the application.
 	 * 
 	 */
+	@SuppressWarnings("serial")
 	public CidadeView(FuncionarioController fields) {
-		CidadeController cidade = new CidadeController();
-		this.list = cidade.listar();
+		this.cidade = new CidadeController();
+		this.list = this.cidade.listar();
 		this.funcionario = fields;
+		this.table = new JTable(this.list) {
+			public boolean editCellAt(int row, int column, java.util.EventObject e) {
+				return false;
+			}
+		};
 		initialize();
 	}
 
@@ -74,10 +80,10 @@ public class CidadeView {
 		separator.setBounds(10, 45, 458, 9);
 		frame.getContentPane().add(separator);
 		
-		cidade = new JTextField();
-		cidade.setBounds(10, 85, 274, 20);
-		frame.getContentPane().add(cidade);
-		cidade.setColumns(10);
+		nome = new JTextField();
+		nome.setBounds(10, 85, 274, 20);
+		frame.getContentPane().add(nome);
+		nome.setColumns(10);
 		
 		uf = new JTextField();
 		uf.setBounds(10, 141, 86, 20);
@@ -162,6 +168,7 @@ public class CidadeView {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 124, 561, 355);
 		frame.getContentPane().add(scrollPane);
+		scrollPane.setViewportView(this.table);
 		
 		JLabel listar_cidade = new JLabel("Listar  Cidades");
 		listar_cidade.setFont(new Font("Tahoma", Font.BOLD, 12));

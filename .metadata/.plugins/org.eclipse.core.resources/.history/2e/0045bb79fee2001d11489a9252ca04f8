@@ -1,0 +1,15 @@
+package br.ba.fvc.controllrs;
+
+import br.ba.fvc.dao.FuncionarioDAO;
+
+public class VeiculoController {
+
+	private GenericController generic;
+	private String tabela = "funcionario";
+	private String[] coluna = { "ID", "Nome", "CPF", "Email", "Cargo" };
+	private String campos = "nome, cpf, email, cargo, senha";
+	private String[] campo_filtro = { "nome", "cpf" };
+
+	
+	
+}

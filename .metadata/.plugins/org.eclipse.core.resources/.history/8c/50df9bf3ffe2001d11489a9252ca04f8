@@ -1,0 +1,93 @@
+package br.ba.fvc.controllrs;
+
+import java.sql.ResultSet;
+
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+
+public class VeiculoController {
+
+	private String numero;
+	private String placa;
+	private String modelo;
+	private String data_compra;
+	private String quantidade_poltronas;
+	private GenericController generic;
+	private String tabela = "veiculo";
+	private String[] coluna = { "ID", "Número", "Placa", "Modelo", "Data Compra", "Qtd poltrona" };
+	private String campos = "numero, placa, modelo, data_compra, quantidade_poltronas";
+	//private String[] campo_filtro = { "nome", "cpf" };
+
+	
+	public VeiculoController() {
+		this.generic = new GenericController(tabela, coluna, campos);
+	}
+	
+	public DefaultTableModel listar() {
+		DefaultTableModel result = null;
+		try {
+
+			result = this.generic.all();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return result;
+	}
+	
+	public DefaultTableModel incluir() {
+		DefaultTableModel result = null;
+		ResultSet resultSet = null;
+		try {
+
+			Object[] data = { placa, modelo, data_compra, numero_veiculo, qtd_poltrona };
+			result = this.generic.store(data);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return result;
+	}
+
+	
+	public String getNumero() {
+		return numero;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+
+	public String getPlaca() {
+		return placa;
+	}
+
+	public void setPlaca(String placa) {
+		this.placa = placa;
+	}
+
+	public String getModelo() {
+		return modelo;
+	}
+
+	public void setModelo(String modelo) {
+		this.modelo = modelo;
+	}
+
+	public String getData_compra() {
+		return data_compra;
+	}
+
+	public void setData_compra(String data_compra) {
+		this.data_compra = data_compra;
+	}
+
+	public String getQuantidade_poltronas() {
+		return quantidade_poltronas;
+	}
+
+	public void setQuantidade_poltronas(String quantidade_poltronas) {
+		this.quantidade_poltronas = quantidade_poltronas;
+	}
+
+	
+}

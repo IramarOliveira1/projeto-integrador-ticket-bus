@@ -1,0 +1,32 @@
+package br.ba.fvc.controllrs;
+
+import javax.swing.table.DefaultTableModel;
+
+import br.ba.fvc.dao.FuncionarioDAO;
+
+public class VeiculoController {
+
+	private GenericController generic;
+	private String tabela = "funcionario";
+	private String[] coluna = { "ID", "Nome", "CPF", "Email", "Cargo" };
+	private String campos = "nome, cpf, email, cargo, senha";
+	private String[] campo_filtro = { "nome", "cpf" };
+
+	
+	public VeiculoController() {
+		this.generic = new GenericController(tabela, coluna, campos);
+	}
+	
+	public DefaultTableModel listar() {
+		DefaultTableModel result = null;
+		try {
+
+			result = this.generic.all();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return result;
+	}
+
+	
+}

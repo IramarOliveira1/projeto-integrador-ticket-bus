@@ -13,7 +13,8 @@ import javax.swing.JTextField;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import br.ba.fvc.controllrs.FuncionarioController;
+import br.ba.fvc.controller.FuncionarioController;
+import br.ba.fvc.controller.VeiculoController;
 
 import javax.swing.JScrollPane;
 import javax.swing.ImageIcon;
@@ -29,7 +30,9 @@ public class VeiculoView {
 	private JTextField numero_veiculo;
 	private JTextField input_pesquisar;
 	private JTable table;
+	public DefaultTableModel list;
 	public FuncionarioController funcionario;
+	public VeiculoController veiculo;
 
 	/**
 	 * Launch the application.
@@ -50,8 +53,18 @@ public class VeiculoView {
 	/**
 	 * Create the application.
 	 */
+	@SuppressWarnings("serial")
 	public VeiculoView(FuncionarioController fields) {
 		this.funcionario = fields;
+		this.veiculo = new VeiculoController();
+		//this.list = this.veiculo.listar();
+		this.funcionario = fields;
+		this.table = new JTable(this.list) {
+			public boolean editCellAt(int row, int column, java.util.EventObject e) {
+				return false;
+			}
+		};
+		initialize();
 		initialize();
 	}
 
@@ -176,6 +189,7 @@ public class VeiculoView {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(26, 131, 646, 363);
 		frame.getContentPane().add(scrollPane);
+		scrollPane.setViewportView(this.table);
 
 		JLabel listar_veiculo = new JLabel("Listar  Veículos");
 		listar_veiculo.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -187,13 +201,6 @@ public class VeiculoView {
 		logo_onibus.setIcon(new ImageIcon(url_logo));
 		logo_onibus.setBounds(712, 169, 105, 130);
 		frame.getContentPane().add(logo_onibus);
-
-		table = new JTable();
-		scrollPane.setViewportView(table);
-		table.setModel(new DefaultTableModel(new Object[][] {},
-				new String[] { "Numero", "Placa", "Modelo", "Data compra", "Quant. poltrona" }));
-
-
 		
 		JLabel label_pesquisar = new JLabel("Pesquisar");
 		label_pesquisar.setBounds(20, 62, 105, 14);

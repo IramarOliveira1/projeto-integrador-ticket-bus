@@ -15,7 +15,7 @@ import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import br.ba.fvc.controllrs.FuncionarioController;
+import br.ba.fvc.controller.FuncionarioController;
 
 import javax.swing.JScrollPane;
 

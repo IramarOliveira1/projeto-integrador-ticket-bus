@@ -1,0 +1,267 @@
+package br.ba.fvc.views;
+
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.URL;
+
+import javax.swing.JFrame;
+import javax.swing.JSeparator;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import br.ba.fvc.controllrs.CidadeController;
+import br.ba.fvc.controllrs.FuncionarioController;
+import br.ba.fvc.controllrs.RotaController;
+
+import javax.swing.JScrollPane;
+
+public class RotaView {
+
+	private JFrame frame;
+	private JTextField placa;
+	private JTextField input_filtrar;
+	private JTextField data;
+	private JTable table;
+	public DefaultTableModel list;
+	public FuncionarioController funcionario;
+	public RotaController rota;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					RotaView window = new RotaView(null);
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 * 
+	 */
+	@SuppressWarnings("serial")
+	public RotaView(FuncionarioController fields) {
+		this.funcionario = fields;
+		this.rota = new RotaController();
+		//this.list = this.rota.listar();
+		this.funcionario = fields;
+		this.table = new JTable(this.list) {
+			public boolean editCellAt(int row, int column, java.util.EventObject e) {
+				return false;
+			}
+		};
+		initialize();
+		initialize();
+	}
+
+	private void home() {
+		MenuView menu = new MenuView(this.funcionario);
+		menu.setVisible(true);
+		frame.dispose();
+	}
+
+	private void campos(String criarOuAlterar) {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 717, 389);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+
+		JSeparator separator = new JSeparator();
+		separator.setBounds(10, 40, 681, 14);
+		frame.getContentPane().add(separator);
+
+		JLabel label_nome_motorista = new JLabel("Nome Motorista");
+		label_nome_motorista.setBounds(10, 62, 149, 14);
+		frame.getContentPane().add(label_nome_motorista);
+
+		JLabel label_placa = new JLabel("Placa Veículo");
+		label_placa.setBounds(10, 116, 86, 14);
+		frame.getContentPane().add(label_placa);
+
+		JLabel label_destino = new JLabel("Cidade Destino");
+		label_destino.setBounds(360, 172, 120, 14);
+		frame.getContentPane().add(label_destino);
+
+		JLabel label_origin = new JLabel("Cidade Origem");
+		label_origin.setBounds(10, 172, 120, 14);
+		frame.getContentPane().add(label_origin);
+
+		JLabel lblDataPartida = new JLabel("Data Partida");
+		lblDataPartida.setBounds(360, 116, 120, 14);
+		frame.getContentPane().add(lblDataPartida);
+
+		placa = new JTextField();
+		placa.setBounds(10, 141, 316, 20);
+		frame.getContentPane().add(placa);
+		placa.setColumns(10);
+
+		data = new JTextField();
+		data.setBounds(360, 141, 316, 20);
+		frame.getContentPane().add(data);
+		data.setColumns(10);
+
+		JComboBox<Object> motorista = new JComboBox<Object>();
+		motorista.setBounds(10, 87, 666, 22);
+		frame.getContentPane().add(motorista);
+
+		JComboBox<Object> cidade_origin = new JComboBox<Object>();
+		cidade_origin.setBounds(10, 194, 316, 22);
+		frame.getContentPane().add(cidade_origin);
+
+		JComboBox<Object> cidade_destino = new JComboBox<Object>();
+		cidade_destino.setBounds(360, 194, 316, 22);
+		frame.getContentPane().add(cidade_destino);
+
+		if (criarOuAlterar.equals("cadastrar")) {
+			JLabel lable_adicionar = new JLabel("Adicionar Rotas");
+			lable_adicionar.setBounds(10, 20, 115, 14);
+			frame.getContentPane().add(lable_adicionar);
+
+			JButton adicionar = new JButton("Adicionar");
+			adicionar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					// cadastrar();
+				}
+			});
+			adicionar.setBounds(565, 258, 111, 23);
+			frame.getContentPane().add(adicionar);
+		} else {
+			JLabel lable_adicionar = new JLabel("Atualizar Rotas");
+			lable_adicionar.setBounds(10, 20, 115, 14);
+			frame.getContentPane().add(lable_adicionar);
+
+			JButton alterar = new JButton("Atualizar");
+			alterar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					// alterar();
+				}
+			});
+			alterar.setBounds(589, 256, 94, 23);
+			frame.getContentPane().add(alterar);
+		}
+
+		JButton cancelar = new JButton("Cancelar");
+		cancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+			}
+		});
+		cancelar.setBounds(435, 258, 111, 23);
+		frame.getContentPane().add(cancelar);
+
+		JLabel lblNewLabel_6 = new JLabel("");
+		URL logo = this.getClass().getResource("/public/dark_logo_min.png");
+		lblNewLabel_6.setIcon(new ImageIcon(logo));
+		lblNewLabel_6.setBounds(304, 313, 114, 14);
+		frame.getContentPane().add(lblNewLabel_6);
+
+		frame.setLocationRelativeTo(frame);
+	}
+
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 1001, 611);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setBounds(10, 37, 942, 14);
+		frame.getContentPane().add(separator_1);
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 117, 951, 297);
+		frame.getContentPane().add(scrollPane);
+
+		JLabel listar_rota = new JLabel("Listar  Rotas");
+		listar_rota.setFont(new Font("Tahoma", Font.BOLD, 12));
+		listar_rota.setBounds(456, 20, 185, 14);
+		frame.getContentPane().add(listar_rota);
+
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Nome motorista ", "Placa do veiculo ",
+				"Data de partida", "Cidade origem", "Cidade destino" }));
+
+		JButton alterar = new JButton("Alterar");
+		alterar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// alterar();
+			}
+		});
+		alterar.setBounds(705, 425, 123, 23);
+		frame.getContentPane().add(alterar);
+
+		JButton excluir = new JButton("Excluir");
+		excluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// excluir();
+			}
+		});
+		excluir.setBounds(572, 425, 123, 23);
+		frame.getContentPane().add(excluir);
+
+		input_filtrar = new JTextField();
+		input_filtrar.setBounds(10, 70, 424, 20);
+		frame.getContentPane().add(input_filtrar);
+		input_filtrar.setColumns(10);
+
+		JButton cadastrar = new JButton("Cadastrar");
+		cadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				campos("cadastrar");
+				frame.setVisible(true);
+			}
+		});
+		cadastrar.setBounds(838, 425, 123, 23);
+		frame.getContentPane().add(cadastrar);
+
+		JButton pesquisar = new JButton("Pesquisar");
+		pesquisar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// filtrar();
+			}
+		});
+		pesquisar.setBounds(444, 69, 137, 23);
+		frame.getContentPane().add(pesquisar);
+
+		JButton home = new JButton("Home");
+		home.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				home();
+			}
+		});
+		home.setBounds(10, 3, 137, 23);
+		frame.getContentPane().add(home);
+
+		JLabel dark_logo_min = new JLabel("");
+		URL logo = this.getClass().getResource("/public/dark_logo_min.png");
+		dark_logo_min.setIcon(new ImageIcon(logo));
+		dark_logo_min.setBounds(456, 524, 137, 14);
+		frame.getContentPane().add(dark_logo_min);
+
+		frame.setLocationRelativeTo(frame);
+	}
+
+	public void setVisible(boolean b) {
+		frame.setVisible(b);
+	}
+
+}

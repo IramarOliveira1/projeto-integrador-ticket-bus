@@ -15,7 +15,7 @@ import java.sql.ResultSet;
 
 import javax.swing.JTextField;
 
-import br.ba.fvc.controllrs.FuncionarioController;
+import br.ba.fvc.controller.FuncionarioController;
 
 import javax.swing.JButton;
 import java.awt.Color;
