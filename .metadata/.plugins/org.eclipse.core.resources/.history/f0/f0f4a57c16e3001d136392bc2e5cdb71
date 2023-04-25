@@ -65,6 +65,7 @@ public class VeiculoView {
 			}
 		};
 		initialize();
+		initialize();
 	}
 
 	private void home() {
