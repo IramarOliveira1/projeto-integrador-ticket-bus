@@ -38,7 +38,7 @@ public class FuncionarioDAO {
 		try {
 			Statement instance = this.connection.createStatement();
 
-			String query = "SELECT cpf, email FROM funcionario WHERE cpf = " + "'" + cpf + "' OR email = '" + email + "' ";
+			String query = "SELECT cpf, email FROM Usuario WHERE cpf = " + "'" + cpf + "' OR email = '" + email + "' ";
 
 			result = instance.executeQuery(query);
 		} catch (SQLException e) {
