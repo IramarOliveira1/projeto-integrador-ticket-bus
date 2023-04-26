@@ -15,11 +15,10 @@ public class CidadeController {
 
 	private GenericController generic;
 
-	private String tabela = "Cidade";
+	private String tabela = "cidade";
 	public String[] colunas = { "ID", "Nome", "UF" };
 	private String campos = "nome, uf";
 	private CidadeDAO dao;
-	private String[] campo_filtro = { "nome", "uf" };
 
 	public CidadeController() {
 		this.generic = new GenericController(tabela, colunas, campos);
@@ -46,7 +45,7 @@ public class CidadeController {
 
 			if (resultSet.next()) {
 				if (resultSet.getString("nome").equals(nome)) {
-					throw new Exception("Cidade jÃ¡ cadastrada!");
+					throw new Exception("Cidade já cadastrada!");
 				}
 			}
 
@@ -73,7 +72,9 @@ public class CidadeController {
 		DefaultTableModel result = null;
 		try {
 
-			result = this.generic.filter(this.campo_filtro, nome);
+			String campo_filtro = "nome";
+			
+			result = this.generic.filter(campo_filtro, nome);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}

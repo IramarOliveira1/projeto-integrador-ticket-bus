@@ -44,4 +44,6 @@
     <fullyQualifiedTypeName name="java.sql.ResultSet"/>
     <fullyQualifiedTypeName name="com.mysql.cj.xdevapi.Result"/>
     <fullyQualifiedTypeName name="java.lang.Object"/>
+    <fullyQualifiedTypeName name="br.ba.fvc.controllrs.RotaController"/>
+    <fullyQualifiedTypeName name="br.ba.fvc.controller.VeiculoController"/>
 </qualifiedTypeNameHistroy>

@@ -49,14 +49,13 @@ public class GenericDAO {
 		}
 	}
 
-	public ResultSet filter(String[] fieldsFilter, String values) {
+	public ResultSet filter(String field, String values) {
 		ResultSet result = null;
 
 		try {
 			Statement instance = this.connection.createStatement();
 
-			String query = "SELECT id, nome, cpf, email, cargo FROM " + this.table + " WHERE " + fieldsFilter[0] + " = "
-					+ "'" + values + "' OR " + fieldsFilter[1] + "  = '" + values + "' ";
+			String query = "SELECT * FROM " + this.table + " WHERE " + field + " LIKE "+ "'%" + values + "%' ";
 
 			result = instance.executeQuery(query);
 		} catch (SQLException e) {

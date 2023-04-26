@@ -339,7 +339,7 @@ public class CidadeView {
 				limparFiltro();
 			}
 		});
-		limpar_filtro.setBounds(613, 86, 125, 23);
+		limpar_filtro.setBounds(624, 71, 125, 23);
 		frame.getContentPane().add(limpar_filtro);
 
 		frame.setLocationRelativeTo(frame);

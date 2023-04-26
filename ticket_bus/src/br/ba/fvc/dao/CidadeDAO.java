@@ -21,7 +21,7 @@ public class CidadeDAO {
 
 		try {
 			Statement instance = this.connection.createStatement();
-
+			
 			String query = "SELECT * FROM cidade WHERE nome = '" + nome + "'";
 
 			result = instance.executeQuery(query);

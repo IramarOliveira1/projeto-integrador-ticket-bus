@@ -20,7 +20,6 @@ public class FuncionarioController {
 	private String tabela = "funcionario";
 	private String[] coluna = { "ID", "Nome", "CPF", "Email", "Cargo" };
 	private String campos = "nome, cpf, email, cargo, senha";
-	private String[] campo_filtro = { "nome", "cpf" };
 
 	public FuncionarioController() {
 		this.generic = new GenericController(tabela, coluna, campos);
@@ -75,7 +74,9 @@ public class FuncionarioController {
 		DefaultTableModel result = null;
 		try {
 
-			result = this.generic.filter(this.campo_filtro, nome);
+			String campo_filtro = "nome";
+
+			result = this.generic.filter(campo_filtro, nome);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
@@ -109,7 +110,7 @@ public class FuncionarioController {
 		try {
 			Object[] fields = { "nome", "cpf", "email", "cargo", "senha" };
 			Object[] data = { nome, cpf, email, cargo, senha };
-			
+
 			if (this.getIdLogado().equals(id)) {
 				this.setLogado(this.getNome());
 			}
@@ -169,7 +170,7 @@ public class FuncionarioController {
 	public void setIdLogado(String idLogado) {
 		IdLogado = idLogado;
 	}
-	
+
 	public String getLogado() {
 		return logado;
 	}

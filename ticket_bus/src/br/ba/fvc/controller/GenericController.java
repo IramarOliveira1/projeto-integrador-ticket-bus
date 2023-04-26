@@ -47,11 +47,11 @@ public class GenericController {
 		return this.tableModel;
 	}
 
-	public DefaultTableModel filter(String[] fieldsFilter, String values) {
+	public DefaultTableModel filter(String field, String values) {
 		ResultSet result = null;
 		try {
 
-			result = this.dao.filter(fieldsFilter, values);
+			result = this.dao.filter(field, values);
 
 			this.addRow(result);
 		} catch (Exception e) {
