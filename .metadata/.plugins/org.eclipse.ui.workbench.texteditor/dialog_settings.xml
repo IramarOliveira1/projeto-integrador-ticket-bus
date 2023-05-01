@@ -6,8 +6,9 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value=""/>
+		<item key="selection" value="campo_filtro"/>
 		<list key="findhistory">
+			<item value="campo_filtro"/>
 			<item value="adicionar"/>
 			<item value="funcioanrio"/>
 			<item value="rota"/>

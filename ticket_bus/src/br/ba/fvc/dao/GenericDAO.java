@@ -26,7 +26,7 @@ public class GenericDAO {
 		try {
 			Statement instance = this.connection.createStatement();
 
-			String query = "SELECT id," + this.fields + " FROM " + this.table;
+			String query = "SELECT id," + this.fields + " FROM " + this.table + " ORDER BY id ASC";
 
 			result = instance.executeQuery(query);
 		} catch (SQLException e) {
@@ -100,7 +100,9 @@ public class GenericDAO {
 
 			instance.execute(query);
 
-			JOptionPane.showMessageDialog(null, "Item excluir com sucesso!");
+			Boolean isVenda = this.table.contains("venda"); 
+
+			JOptionPane.showMessageDialog(null, isVenda ? "Passagem cancelada com sucesso!" : "Item excluir com sucesso!");
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}

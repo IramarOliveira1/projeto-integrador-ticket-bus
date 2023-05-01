@@ -13,7 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import br.ba.fvc.controller.FuncionarioController;
+import br.ba.fvc.controllrs.FuncionarioController;
 
 import javax.swing.JScrollPane;
 import java.awt.Font;
@@ -66,7 +66,6 @@ public class FuncionarioView {
 				return false;
 			}
 		};
-		
 		initialize();
 	}
 
@@ -112,7 +111,7 @@ public class FuncionarioView {
 
 	private void limparFiltro() {
 		this.list = funcionario.listar();
-		this.list.fireTableDataChanged();
+		this.list.fireTableDataChanged(); 
 	}
 
 	private void excluir() {
@@ -348,6 +347,7 @@ public class FuncionarioView {
 				home();
 			}
 		});
+
 		home.setBounds(7, 16, 89, 23);
 		frame.getContentPane().add(home);
 
