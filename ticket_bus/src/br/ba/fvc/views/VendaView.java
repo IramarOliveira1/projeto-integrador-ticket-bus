@@ -20,8 +20,8 @@ import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import br.ba.fvc.controllrs.FuncionarioController;
-import br.ba.fvc.controllrs.VendaController;
+import br.ba.fvc.controller.FuncionarioController;
+import br.ba.fvc.controller.VendaController;
 
 import javax.swing.JScrollPane;
 

@@ -42,8 +42,10 @@ public class GenericDAO {
 			String query = "INSERT INTO " + this.table + "(" + this.fields + ") VALUES (" + values + ")";
 
 			instance.execute(query);
+			
+			Boolean isVenda = this.table.contains("venda"); 
 
-			JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!");
+			JOptionPane.showMessageDialog(null, isVenda ? "Passagem vendida com sucesso!" : "Cadastro realizado com sucesso!");
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}

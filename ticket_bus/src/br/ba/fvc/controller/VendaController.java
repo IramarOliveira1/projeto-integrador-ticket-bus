@@ -1,4 +1,4 @@
-package br.ba.fvc.controllrs;
+package br.ba.fvc.controller;
 
 import java.awt.Desktop;
 import java.io.File;

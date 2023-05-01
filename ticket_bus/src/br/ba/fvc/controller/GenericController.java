@@ -11,10 +11,12 @@ public class GenericController {
 
 	public GenericDAO dao;
 	private DefaultTableModel tableModel;
+	private String table;
 
 	public GenericController(String table, String[] columns, String fields) {
 		this.dao = new GenericDAO(table, fields);
 		this.tableModel = new DefaultTableModel(null, columns);
+		this.table = table;
 	}
 
 	public DefaultTableModel all() {
@@ -36,11 +38,15 @@ public class GenericController {
 				addQuotationMarks.append("'" + values + "'" + ",");
 			}
 
+			Boolean isVenda = this.table.contains("venda");
+
 			addQuotationMarks.deleteCharAt(addQuotationMarks.length() - 1);
 
 			this.dao.store(addQuotationMarks);
+			if (!isVenda) {
+				this.tableModel = this.all();
+			}
 
-			this.tableModel = this.all();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -65,7 +71,11 @@ public class GenericController {
 
 			this.dao.destroy(id);
 
-			this.tableModel = this.all();
+			Boolean isVenda = this.table.contains("venda");
+
+			if (!isVenda) {
+				this.tableModel = this.all();
+			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -105,7 +115,7 @@ public class GenericController {
 		return this.tableModel;
 	}
 
-	public void addRow(ResultSet result) {
+	public DefaultTableModel addRow(ResultSet result) {
 		this.tableModel.setRowCount(0);
 		try {
 			while (result.next()) {
@@ -119,5 +129,7 @@ public class GenericController {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		return this.tableModel;
 	}
+
 }
