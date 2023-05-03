@@ -4,12 +4,20 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JSeparator;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -24,13 +32,21 @@ import javax.swing.JScrollPane;
 public class RotaView {
 
 	private JFrame frame;
-	private JTextField placa;
-	private JTextField input_filtrar;
-	private JTextField data;
+	private JTextField input_filter;
+	private JTextField date;
+	private JTextField value_ticket;
 	private JTable table;
 	public DefaultTableModel list;
 	public FuncionarioController funcionario;
-	public RotaController rota;
+	private RotaController router;
+	private DefaultComboBoxModel<Object> cityModel;
+	private JComboBox<Object> driver;
+	private JComboBox<Object> vehicle;
+	private JComboBox<Object> cityOrigin;
+	private JComboBox<Object> cityDestiny;
+	public ArrayList<String> comboboxEmployee;
+	public ArrayList<String> comboboxOrigin;
+	public ArrayList<String> comboBoxVehicle;
 
 	/**
 	 * Launch the application.
@@ -55,9 +71,11 @@ public class RotaView {
 	@SuppressWarnings("serial")
 	public RotaView(FuncionarioController fields) {
 		this.funcionario = fields;
-		this.rota = new RotaController();
-		//this.list = this.rota.listar();
-		this.funcionario = fields;
+		this.router = new RotaController();
+		this.list = this.router.all();
+		this.comboboxEmployee = this.router.comboboxEmployee();
+		this.comboboxOrigin = this.router.comboboxCity();
+		this.comboBoxVehicle = this.router.comboboxVehicle();
 		this.table = new JTable(this.list) {
 			public boolean editCellAt(int row, int column, java.util.EventObject e) {
 				return false;
@@ -72,7 +90,174 @@ public class RotaView {
 		frame.dispose();
 	}
 
-	private void campos(String criarOuAlterar) {
+	private void cadastrar() {
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime now = LocalDateTime.now();
+
+		System.out.println(dateFormat.format(now).compareTo(date.getText()));
+		if (dateFormat.format(now).compareTo(date.getText()) > 0) {
+			JOptionPane.showMessageDialog(null, "Data da partida menor que data atual!");
+			return;
+		}
+
+		String id_origin = cityOrigin.getSelectedItem().toString().substring(0,
+				cityOrigin.getSelectedItem().toString().indexOf('='));
+
+		String id_destiny = cityDestiny.getSelectedItem().toString().substring(0,
+				cityDestiny.getSelectedItem().toString().indexOf('='));
+
+		String id_vehicle = vehicle.getSelectedItem().toString().substring(0,
+				cityOrigin.getSelectedItem().toString().indexOf('='));
+
+		String id_employee = driver.getSelectedItem().toString().substring(0,
+				driver.getSelectedItem().toString().indexOf('='));
+
+		this.router.setDate_match(date.getText());
+		this.router.setDestiny(id_destiny);
+		this.router.setId_vehicle(id_vehicle);
+		this.router.setId_employee(id_employee);
+		this.router.setOrigin(id_origin);
+		this.router.setValue_ticket(Double.valueOf(value_ticket.getText()));
+		this.list = router.incluir();
+
+		if (this.list == null) {
+			frame.setVisible(true);
+			return;
+		}
+
+		frame.setVisible(false);
+
+		this.table.setModel(this.list);
+		this.list.fireTableDataChanged();
+	}
+
+	private void loadFieldsUpdate() {
+		if (this.table.getSelectedRowCount() == 0) {
+			JOptionPane.showMessageDialog(null, "Selecione um registro na tabela para alterar!");
+			return;
+		}
+		fields("alterar");
+
+		String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
+
+		ResultSet result = null;
+
+		try {
+			result = this.router.loadFieldsUpdate(id);
+			result.next();
+
+			value_ticket.setText(result.getString("valor_passagem"));
+			date.setText(result.getString("data_partida"));
+			loadComboboxUpdate(this.comboboxEmployee, result, this.driver, "id_funcionario");
+			loadComboboxUpdate(this.comboBoxVehicle, result, this.vehicle, "id_veiculo");
+			loadComboboxUpdate(this.comboboxOrigin, result, this.cityOrigin, "cidade_origem");
+			loadComboboxUpdate(this.comboboxOrigin, result, this.cityDestiny, "cidade_destino");
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	private void update() {
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime now = LocalDateTime.now();
+
+		if (dateFormat.format(now).compareTo(date.getText()) > 0) {
+			JOptionPane.showMessageDialog(null, "Data da partida menor que data atual!");
+			return;
+		}
+
+		String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
+		
+		String id_origin = cityOrigin.getSelectedItem().toString().substring(0,
+				cityOrigin.getSelectedItem().toString().indexOf('='));
+
+		String id_destiny = cityDestiny.getSelectedItem().toString().substring(0,
+				cityDestiny.getSelectedItem().toString().indexOf('='));
+
+		String id_vehicle = vehicle.getSelectedItem().toString().substring(0,
+				cityOrigin.getSelectedItem().toString().indexOf('='));
+
+		String id_employee = driver.getSelectedItem().toString().substring(0,
+				driver.getSelectedItem().toString().indexOf('='));
+
+		this.router.setDate_match(date.getText());
+		this.router.setDestiny(id_destiny);
+		this.router.setId_vehicle(id_vehicle);
+		this.router.setId_employee(id_employee);
+		this.router.setOrigin(id_origin);
+		this.router.setValue_ticket(Double.valueOf(value_ticket.getText()));
+		this.list = router.update(id);
+
+		if (this.list == null) {
+			frame.setVisible(true);
+			return;
+		}
+
+		frame.setVisible(false);
+		
+		this.table.getSelectionModel().clearSelection();
+		this.table.setModel(this.list);
+		this.list.fireTableDataChanged();
+	}
+
+	private void loadComboboxUpdate(ArrayList<String> list, ResultSet result, JComboBox<Object> combo, String key) {
+		try {
+			for (int i = 0; i < list.size(); i++) {
+				String index = list.get(i);
+				String id = index.toString().substring(0, index.toString().indexOf('='));
+				if (Integer.parseInt(id.trim()) == result.getInt(key)) {
+					if (key.equals("cidade_destino")) {
+						combo.setSelectedIndex(i - 1);
+					}
+					combo.setSelectedIndex(i);
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	private void loadComboDestiny(String id) {
+		this.comboboxOrigin = this.router.comboboxCity();
+
+		cityModel = new DefaultComboBoxModel<Object>(this.comboboxOrigin.toArray());
+		this.cityDestiny.setModel(cityModel);
+		this.cityDestiny.removeItemAt(this.cityOrigin.getSelectedIndex());
+		this.cityDestiny.getModel().setSelectedItem("SELECIONE");
+	}
+
+	private void destroy() {
+		if (this.table.getSelectedRowCount() == 0) {
+			JOptionPane.showMessageDialog(null, "Selecione um registro na tabela para excluir!");
+			return;
+		}
+
+		String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
+
+		this.list = this.router.excluir(id);
+
+		this.table.setModel(this.list);
+		this.list.fireTableDataChanged();
+	}
+
+	private void filter() {
+		this.router.setOrigin(input_filter.getText());
+
+		this.list = this.router.filtrar();
+
+		input_filter.setText("");
+
+		this.table.setModel(this.list);
+		this.list.fireTableDataChanged();
+	}
+
+	private void limparFiltro() {
+		this.list = this.router.all();
+		this.list.fireTableDataChanged();
+	}
+
+	private void fields(String criarOuAlterar) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 717, 389);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -86,7 +271,7 @@ public class RotaView {
 		label_nome_motorista.setBounds(10, 62, 149, 14);
 		frame.getContentPane().add(label_nome_motorista);
 
-		JLabel label_placa = new JLabel("Placa Veículo");
+		JLabel label_placa = new JLabel("Veículo");
 		label_placa.setBounds(10, 116, 86, 14);
 		frame.getContentPane().add(label_placa);
 
@@ -102,27 +287,48 @@ public class RotaView {
 		lblDataPartida.setBounds(360, 116, 120, 14);
 		frame.getContentPane().add(lblDataPartida);
 
-		placa = new JTextField();
-		placa.setBounds(10, 141, 316, 20);
-		frame.getContentPane().add(placa);
-		placa.setColumns(10);
+		vehicle = new JComboBox<Object>(this.comboBoxVehicle.toArray());
+		vehicle.getModel().setSelectedItem("SELECIONE");
+		vehicle.setBounds(10, 141, 316, 20);
+		frame.getContentPane().add(vehicle);
 
-		data = new JTextField();
-		data.setBounds(360, 141, 316, 20);
-		frame.getContentPane().add(data);
-		data.setColumns(10);
+		date = new JTextField("10/03/2023");
+		date.setBounds(360, 141, 316, 20);
+		frame.getContentPane().add(date);
+		date.setColumns(10);
 
-		JComboBox<Object> motorista = new JComboBox<Object>();
-		motorista.setBounds(10, 87, 666, 22);
-		frame.getContentPane().add(motorista);
+		driver = new JComboBox<Object>(this.comboboxEmployee.toArray());
+		driver.getModel().setSelectedItem("SELECIONE");
+		driver.setBounds(10, 87, 666, 22);
+		frame.getContentPane().add(driver);
 
-		JComboBox<Object> cidade_origin = new JComboBox<Object>();
-		cidade_origin.setBounds(10, 194, 316, 22);
-		frame.getContentPane().add(cidade_origin);
+		cityOrigin = new JComboBox<Object>(this.comboboxOrigin.toArray());
+		cityOrigin.getModel().setSelectedItem("SELECIONE");
+		cityOrigin.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if ((e.getStateChange() == ItemEvent.SELECTED)) {
+					String id = cityOrigin.getSelectedItem().toString().substring(0,
+							cityOrigin.getSelectedItem().toString().indexOf('='));
+					loadComboDestiny(id);
+				}
+			}
+		});
+		cityOrigin.setBounds(10, 194, 316, 22);
+		frame.getContentPane().add(cityOrigin);
 
-		JComboBox<Object> cidade_destino = new JComboBox<Object>();
-		cidade_destino.setBounds(360, 194, 316, 22);
-		frame.getContentPane().add(cidade_destino);
+		cityDestiny = new JComboBox<Object>();
+		cityDestiny.setBounds(360, 194, 316, 22);
+		frame.getContentPane().add(cityDestiny);
+
+		value_ticket = new JTextField();
+		value_ticket.setColumns(10);
+		value_ticket.setBounds(10, 252, 316, 20);
+		frame.getContentPane().add(value_ticket);
+
+		JLabel label_valor_passagem = new JLabel("Valor Passagem");
+		label_valor_passagem.setBounds(10, 227, 120, 14);
+		frame.getContentPane().add(label_valor_passagem);
 
 		if (criarOuAlterar.equals("cadastrar")) {
 			JLabel lable_adicionar = new JLabel("Adicionar Rotas");
@@ -132,7 +338,7 @@ public class RotaView {
 			JButton adicionar = new JButton("Adicionar");
 			adicionar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					// cadastrar();
+					cadastrar();
 				}
 			});
 			adicionar.setBounds(565, 258, 111, 23);
@@ -145,7 +351,7 @@ public class RotaView {
 			JButton alterar = new JButton("Atualizar");
 			alterar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					// alterar();
+					update();
 				}
 			});
 			alterar.setBounds(589, 256, 94, 23);
@@ -158,18 +364,17 @@ public class RotaView {
 				frame.setVisible(false);
 			}
 		});
-		cancelar.setBounds(435, 258, 111, 23);
+		cancelar.setBounds(450, 258, 111, 23);
 		frame.getContentPane().add(cancelar);
 
-		JLabel lblNewLabel_6 = new JLabel("");
+		JLabel dark_logo_min = new JLabel("");
 		URL logo = this.getClass().getResource("/public/dark_logo_min.png");
-		lblNewLabel_6.setIcon(new ImageIcon(logo));
-		lblNewLabel_6.setBounds(304, 313, 114, 14);
-		frame.getContentPane().add(lblNewLabel_6);
+		dark_logo_min.setIcon(new ImageIcon(logo));
+		dark_logo_min.setBounds(304, 313, 114, 14);
+		frame.getContentPane().add(dark_logo_min);
 
 		frame.setLocationRelativeTo(frame);
 	}
-
 
 	/**
 	 * Initialize the contents of the frame.
@@ -197,7 +402,8 @@ public class RotaView {
 		JButton alterar = new JButton("Alterar");
 		alterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// alterar();
+				loadFieldsUpdate();
+				frame.setVisible(true);
 			}
 		});
 		alterar.setBounds(705, 425, 123, 23);
@@ -206,21 +412,25 @@ public class RotaView {
 		JButton excluir = new JButton("Excluir");
 		excluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// excluir();
+				destroy();
 			}
 		});
 		excluir.setBounds(572, 425, 123, 23);
 		frame.getContentPane().add(excluir);
 
-		input_filtrar = new JTextField();
-		input_filtrar.setBounds(10, 70, 424, 20);
-		frame.getContentPane().add(input_filtrar);
-		input_filtrar.setColumns(10);
+		JLabel lblPesquisarPorCidade = new JLabel(" Pesquisar por cidade origem");
+		lblPesquisarPorCidade.setBounds(10, 50, 190, 14);
+		frame.getContentPane().add(lblPesquisarPorCidade);
+
+		input_filter = new JTextField();
+		input_filter.setBounds(10, 70, 424, 20);
+		frame.getContentPane().add(input_filter);
+		input_filter.setColumns(10);
 
 		JButton cadastrar = new JButton("Cadastrar");
 		cadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				campos("cadastrar");
+				fields("cadastrar");
 				frame.setVisible(true);
 			}
 		});
@@ -230,11 +440,20 @@ public class RotaView {
 		JButton pesquisar = new JButton("Pesquisar");
 		pesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// filtrar();
+				filter();
 			}
 		});
 		pesquisar.setBounds(444, 69, 137, 23);
 		frame.getContentPane().add(pesquisar);
+
+		JButton btnLimparFiltro = new JButton("Limpar filtro");
+		btnLimparFiltro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limparFiltro();
+			}
+		});
+		btnLimparFiltro.setBounds(591, 69, 137, 23);
+		frame.getContentPane().add(btnLimparFiltro);
 
 		JButton home = new JButton("Home");
 		home.addActionListener(new ActionListener() {
@@ -254,8 +473,7 @@ public class RotaView {
 		frame.setLocationRelativeTo(frame);
 	}
 
-	public void setVisible(boolean b) {
-		frame.setVisible(b);
+	public void setVisible(boolean visible) {
+		frame.setVisible(visible);
 	}
-
 }

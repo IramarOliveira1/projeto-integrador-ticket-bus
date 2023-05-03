@@ -43,9 +43,10 @@ public class GenericDAO {
 
 			instance.execute(query);
 			
-			Boolean isVenda = this.table.contains("venda"); 
+			Boolean isVenda = this.table.contains("venda");
 
-			JOptionPane.showMessageDialog(null, isVenda ? "Passagem vendida com sucesso!" : "Cadastro realizado com sucesso!");
+			JOptionPane.showMessageDialog(null,
+					isVenda ? "Passagem vendida com sucesso!" : "Cadastro realizado com sucesso!");
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
@@ -57,8 +58,9 @@ public class GenericDAO {
 		try {
 			Statement instance = this.connection.createStatement();
 
-			String query = "SELECT * FROM " + this.table + " WHERE " + field + " LIKE "+ "'%" + values + "%' ";
+			String query = "SELECT * FROM " + this.table + " WHERE " + field + " LIKE " + "'%" + values + "%' ";
 
+			System.out.println(query);
 			result = instance.executeQuery(query);
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
@@ -102,10 +104,16 @@ public class GenericDAO {
 
 			instance.execute(query);
 
-			Boolean isVenda = this.table.contains("venda"); 
+			Boolean isVenda = this.table.contains("venda");
 
-			JOptionPane.showMessageDialog(null, isVenda ? "Passagem cancelada com sucesso!" : "Item excluir com sucesso!");
+			JOptionPane.showMessageDialog(null,
+					isVenda ? "Passagem cancelada com sucesso!" : "Item excluir com sucesso!");
 		} catch (SQLException e) {
+			if (e.getErrorCode() == 1451) {
+				JOptionPane.showMessageDialog(null, "(" + this.table.toUpperCase()
+						+ ") não pode ser excluida, existe registros atrelado a esse Id = " + id);
+				return;
+			}
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}

@@ -56,9 +56,9 @@ public class FuncionarioController {
 
 			if (resultSet.next()) {
 				if (resultSet.getString("cpf").equals(cpf)) {
-					throw new Exception("CPF jÃ¡ cadastrado!");
+					throw new Exception("CPF já cadastrado!");
 				} else {
-					throw new Exception("Email jÃ¡ cadastrado!");
+					throw new Exception("Email já cadastrado!");
 				}
 			}
 

@@ -49,7 +49,7 @@ public class CidadeController {
 				}
 			}
 
-			Object[] data = { nome, uf };
+			Object[] data = { nome.toUpperCase(), uf.toUpperCase() };
 			result = this.generic.store(data);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());

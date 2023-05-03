@@ -195,7 +195,7 @@ public class VendaController {
 		}
 		return result;
 	}
-	
+
 	public ResultSet filterPeriod() {
 		ResultSet result = null;
 		try {
@@ -255,7 +255,7 @@ public class VendaController {
 	public void setRouter(String router) {
 		this.router = router;
 	}
-	
+
 	public String getDe() {
 		return de;
 	}

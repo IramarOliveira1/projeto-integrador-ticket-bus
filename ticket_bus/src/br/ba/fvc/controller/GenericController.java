@@ -1,6 +1,7 @@
 package br.ba.fvc.controller;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.table.DefaultTableModel;
@@ -39,11 +40,13 @@ public class GenericController {
 			}
 
 			Boolean isVenda = this.table.contains("venda");
+			
+			Boolean isRouter = this.table.contains("rota");
 
 			addQuotationMarks.deleteCharAt(addQuotationMarks.length() - 1);
 
 			this.dao.store(addQuotationMarks);
-			if (!isVenda) {
+			if (!isVenda || !isRouter) {
 				this.tableModel = this.all();
 			}
 
@@ -72,10 +75,13 @@ public class GenericController {
 			this.dao.destroy(id);
 
 			Boolean isVenda = this.table.contains("venda");
-
-			if (!isVenda) {
+			
+			Boolean isRouter = this.table.contains("rota");
+			
+			if (!isVenda || !isRouter) {
 				this.tableModel = this.all();
 			}
+			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -108,7 +114,14 @@ public class GenericController {
 			removeKey.deleteCharAt(removeKey.length() - 1);
 
 			this.dao.update(removeKey.toString(), id);
-			this.all();
+
+			Boolean isVenda = this.table.contains("venda");
+			
+			Boolean isRouter = this.table.contains("rota");
+			
+			if (!isVenda || !isRouter) {
+				this.tableModel = this.all();
+			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -130,6 +143,18 @@ public class GenericController {
 			System.out.println(e.getMessage());
 		}
 		return this.tableModel;
+	}
+
+	public ArrayList<String> addCombobox(ResultSet result) {
+		ArrayList<String> values = new ArrayList<>();
+		try {
+			while (result.next()) {
+				values.add(result.getInt(0 + 1) + " = " + result.getString(2));
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return values;
 	}
 
 }
