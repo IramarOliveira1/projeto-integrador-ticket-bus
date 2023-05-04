@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 
 import br.ba.fvc.controller.CidadeController;
 import br.ba.fvc.controller.FuncionarioController;
+import br.ba.fvc.controller.GenericController;
 
 import javax.swing.JScrollPane;
 
@@ -29,6 +30,8 @@ public class CidadeView {
 	private JTable table;
 	private JTextField nome;
 	private JTextField uf;
+	private JLabel label_cidade;
+	private JLabel label_uf;
 	public DefaultTableModel list;
 	public FuncionarioController funcionario;
 	public CidadeController cidade;
@@ -73,31 +76,43 @@ public class CidadeView {
 	}
 
 	private void cadastrar() {
+		Object[][] data = { { nome.getName(), nome.getText() }, { uf.getName(), uf.getText() } };
 
-		this.cidade.setNome(nome.getText());
-		this.cidade.setUf(uf.getText());
-		this.list = cidade.incluir();
+		Boolean error = GenericController.validateFieldsEmpty(data);
 
-		if (this.list == null) {
-			frame.setVisible(true);
-			return;
+		if (!error) {
+			this.cidade.setNome(nome.getText());
+			this.cidade.setUf(uf.getText());
+			this.list = cidade.incluir();
+
+			if (this.list == null) {
+				frame.setVisible(true);
+				return;
+			}
+
+			frame.setVisible(false);
+
+			this.table.setModel(this.list);
+			this.list.fireTableDataChanged();
 		}
-
-		frame.setVisible(false);
-
-		this.table.setModel(this.list);
-		this.list.fireTableDataChanged();
 	}
 
 	private void filtrar() {
-		this.cidade.setNome(input_filtrar.getText());
 
-		this.list = this.cidade.filtrar();
+		Object[][] data = { { input_filtrar.getName(), input_filtrar.getText() } };
 
-		input_filtrar.setText("");
+		Boolean error = GenericController.validateFieldsEmpty(data);
 
-		this.table.setModel(this.list);
-		this.list.fireTableDataChanged();
+		if (!error) {
+			this.cidade.setNome(input_filtrar.getText());
+
+			this.list = this.cidade.filtrar();
+
+			input_filtrar.setText("");
+
+			this.table.setModel(this.list);
+			this.list.fireTableDataChanged();
+		}
 	}
 
 	private void limparFiltro() {
@@ -120,7 +135,6 @@ public class CidadeView {
 	}
 
 	private void carregarCamposAlterar() {
-		System.out.println("Teste");
 		if (this.table.getSelectedRowCount() == 0) {
 			JOptionPane.showMessageDialog(null, "Selecione um registro na tabela para alterar!");
 			return;
@@ -144,17 +158,23 @@ public class CidadeView {
 	}
 
 	private void alterar() {
-		String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
+		Object[][] data = { { nome.getName(), nome.getText() }, { uf.getName(), uf.getText() } };
 
-		this.cidade.setNome(nome.getText());
-		this.cidade.setUf(uf.getText());
+		Boolean error = GenericController.validateFieldsEmpty(data);
 
-		this.list = cidade.alterar(id);
+		if (!error) {
+			String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
 
-		frame.setVisible(false);
+			this.cidade.setNome(nome.getText());
+			this.cidade.setUf(uf.getText());
 
-		this.table.setModel(this.list);
-		this.list.fireTableDataChanged();
+			this.list = cidade.alterar(id);
+
+			frame.setVisible(false);
+
+			this.table.setModel(this.list);
+			this.list.fireTableDataChanged();
+		}
 	}
 
 	private void campos(String criarOuAlterar) {
@@ -167,23 +187,25 @@ public class CidadeView {
 		separator.setBounds(10, 45, 458, 9);
 		frame.getContentPane().add(separator);
 
-		nome = new JTextField();
+		nome = new JTextField("TESTANDO");
+		nome.setName("Cidade");
 		nome.setBounds(10, 85, 274, 20);
 		frame.getContentPane().add(nome);
 		nome.setColumns(10);
 
-		uf = new JTextField();
+		uf = new JTextField("SO");
+		uf.setName("uf");
 		uf.setBounds(10, 141, 86, 20);
 		frame.getContentPane().add(uf);
 		uf.setColumns(10);
 
-		JLabel label_cidade = new JLabel("Cidade");
+		label_cidade = new JLabel("Cidade");
 		label_cidade.setBounds(10, 65, 46, 14);
 		frame.getContentPane().add(label_cidade);
 
-		JLabel lblUf = new JLabel("UF");
-		lblUf.setBounds(10, 116, 46, 14);
-		frame.getContentPane().add(lblUf);
+		label_uf = new JLabel("UF");
+		label_uf.setBounds(10, 116, 46, 14);
+		frame.getContentPane().add(label_uf);
 
 		if (criarOuAlterar.equals("cadastrar")) {
 			JLabel adicionar_func_label = new JLabel("Adicionar Cidade");
@@ -207,6 +229,7 @@ public class CidadeView {
 
 			JButton alterar = new JButton("Atualizar");
 			alterar.addActionListener(new ActionListener() {
+
 				public void actionPerformed(ActionEvent e) {
 					alterar();
 				}
@@ -262,20 +285,18 @@ public class CidadeView {
 		listar_cidade.setBounds(319, 19, 185, 14);
 		frame.getContentPane().add(listar_cidade);
 
-		table = new JTable(this.list);
-		scrollPane.setViewportView(table);
-
 		JLabel logo_cidade_list = new JLabel("");
 		URL urlToImage = this.getClass().getResource("/public/cidade.png");
 		logo_cidade_list.setIcon(new ImageIcon(urlToImage));
 		logo_cidade_list.setBounds(668, 147, 105, 130);
 		frame.getContentPane().add(logo_cidade_list);
 
-		JLabel lbl_pesquisar = new JLabel("Pesquisar");
-		lbl_pesquisar.setBounds(10, 47, 149, 14);
+		JLabel lbl_pesquisar = new JLabel("Pesquisar por nome");
+		lbl_pesquisar.setBounds(10, 47, 180, 14);
 		frame.getContentPane().add(lbl_pesquisar);
 
 		input_filtrar = new JTextField();
+		input_filtrar.setName("Pesquisar por nome");
 		input_filtrar.setBounds(10, 72, 475, 20);
 		frame.getContentPane().add(input_filtrar);
 		input_filtrar.setColumns(10);
@@ -332,7 +353,7 @@ public class CidadeView {
 		logo_dark_min_two.setIcon(new ImageIcon(logo));
 		logo_dark_min_two.setBounds(367, 523, 137, 14);
 		frame.getContentPane().add(logo_dark_min_two);
-		
+
 		JButton limpar_filtro = new JButton("Limpar filtro");
 		limpar_filtro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -343,7 +364,6 @@ public class CidadeView {
 		frame.getContentPane().add(limpar_filtro);
 
 		frame.setLocationRelativeTo(frame);
-
 	}
 
 	public void setVisible(boolean visible) {

@@ -8,7 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.HashMap;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -57,20 +57,17 @@ public class VendaController {
 		return result;
 	}
 
-	public HashMap<Integer, String> getComboBox() {
-		ResultSet result = null;
-		HashMap<Integer, String> keyAndValue = new HashMap<>();
+	public ArrayList<String> comboBoxRouter() {
+		ArrayList<String> values = new ArrayList<>();
+		ResultSet resultSet = null;
 		try {
+			resultSet = this.dao.getComboBox();
 
-			result = this.dao.getComboBox();
-			while (result.next()) {
-				keyAndValue.put(result.getInt("id"), result.getString("rota"));
-			}
+			values = this.generic.addCombobox(resultSet);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-
-		return keyAndValue;
+		return values;
 	}
 
 	public ResultSet loadComboBox(String id) {

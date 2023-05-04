@@ -10,10 +10,13 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 
 import br.ba.fvc.controller.FuncionarioController;
+import br.ba.fvc.controller.GenericController;
 
 import javax.swing.JScrollPane;
 import java.awt.Font;
@@ -27,7 +30,7 @@ public class FuncionarioView {
 	private JFrame frame;
 	private JTable table;
 	private JTextField nome;
-	private JTextField cpf;
+	private JFormattedTextField cpf;
 	private JTextField email;
 	private JTextField cargo;
 	private JTextField input_filtrar;
@@ -76,42 +79,63 @@ public class FuncionarioView {
 	}
 
 	private void cadastrar() {
-		char[] senhaChar = senha.getPassword();
+		try {
 
-		String ConvertChar = String.valueOf(senhaChar);
+			char[] senhaChar = senha.getPassword();
 
-		this.funcionario.setNome(nome.getText());
-		this.funcionario.setCpf(cpf.getText());
-		this.funcionario.setCargo(cargo.getText());
-		this.funcionario.setEmail(email.getText());
-		this.funcionario.setSenha(ConvertChar);
-		this.list = funcionario.incluir();
+			String ConvertChar = String.valueOf(senhaChar);
 
-		if (this.list == null) {
-			frame.setVisible(true);
-			return;
+			Object[][] data = { { nome.getName(), nome.getText() }, { cpf.getName(), cpf.getText() },
+					{ cargo.getName(), cargo.getText() }, { email.getName(), email.getText() },
+					{ senha.getName(), ConvertChar } };
+
+			Boolean error = GenericController.validateFieldsEmpty(data);
+
+			if (!error) {
+
+				this.funcionario.setNome(nome.getText());
+				this.funcionario.setCpf(cpf.getText());
+				this.funcionario.setCargo(cargo.getText());
+				this.funcionario.setEmail(email.getText());
+				this.funcionario.setSenha(ConvertChar);
+				this.list = funcionario.incluir();
+
+				if (this.list == null) {
+					frame.setVisible(true);
+					return;
+				}
+
+				frame.setVisible(false);
+
+				this.table.setModel(this.list);
+				this.list.fireTableDataChanged();
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 
-		frame.setVisible(false);
-
-		this.table.setModel(this.list);
-		this.list.fireTableDataChanged();
 	}
 
 	private void filtrar() {
-		this.funcionario.setNome(input_filtrar.getText());
+		Object[][] data = { { input_filtrar.getName(), input_filtrar.getText() } };
 
-		this.list = this.funcionario.filtrar();
+		Boolean error = GenericController.validateFieldsEmpty(data);
 
-		input_filtrar.setText("");
+		if (!error) {
+			this.funcionario.setNome(input_filtrar.getText());
 
-		this.table.setModel(this.list);
-		this.list.fireTableDataChanged();
+			this.list = this.funcionario.filtrar();
+
+			input_filtrar.setText("");
+
+			this.table.setModel(this.list);
+			this.list.fireTableDataChanged();
+		}
 	}
 
 	private void limparFiltro() {
 		this.list = funcionario.listar();
-		this.list.fireTableDataChanged(); 
+		this.list.fireTableDataChanged();
 	}
 
 	private void excluir() {
@@ -161,122 +185,138 @@ public class FuncionarioView {
 
 		String ConvertChar = String.valueOf(senhaChar);
 
-		this.funcionario.setNome(nome.getText());
-		this.funcionario.setCpf(cpf.getText());
-		this.funcionario.setCargo(cargo.getText());
-		this.funcionario.setEmail(email.getText());
-		this.funcionario.setSenha(ConvertChar);
-		this.list = funcionario.alterar(id);
+		Object[][] data = { { nome.getName(), nome.getText() }, { cpf.getName(), cpf.getText() },
+				{ cargo.getName(), cargo.getText() }, { email.getName(), email.getText() },
+				{ senha.getName(), ConvertChar } };
 
-		frame.setVisible(false);
+		Boolean error = GenericController.validateFieldsEmpty(data);
 
-		this.table.setModel(this.list);
-		this.list.fireTableDataChanged();
+		if (!error) {
+			this.funcionario.setNome(nome.getText());
+			this.funcionario.setCpf(cpf.getText());
+			this.funcionario.setCargo(cargo.getText());
+			this.funcionario.setEmail(email.getText());
+			this.funcionario.setSenha(ConvertChar);
+			this.list = funcionario.alterar(id);
+
+			frame.setVisible(false);
+
+			this.table.setModel(this.list);
+			this.list.fireTableDataChanged();
+		}
 	}
 
 	private void campos(String criarOuAlterar) {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 722, 353);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		try {
+			frame = new JFrame();
+			frame.setBounds(100, 100, 722, 353);
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.getContentPane().setLayout(null);
 
-		JSeparator separator = new JSeparator();
-		separator.setBounds(10, 45, 686, 9);
-		frame.getContentPane().add(separator);
+			JSeparator separator = new JSeparator();
+			separator.setBounds(10, 45, 686, 9);
+			frame.getContentPane().add(separator);
 
-		JLabel nome_label = new JLabel("Nome completo");
-		nome_label.setBounds(49, 53, 114, 14);
-		frame.getContentPane().add(nome_label);
+			JLabel nome_label = new JLabel("Nome completo");
+			nome_label.setBounds(49, 53, 114, 14);
+			frame.getContentPane().add(nome_label);
 
-		JLabel cpf_label = new JLabel("CPF");
-		cpf_label.setBounds(49, 109, 46, 14);
-		frame.getContentPane().add(cpf_label);
+			JLabel cpf_label = new JLabel("CPF");
+			cpf_label.setBounds(49, 109, 46, 14);
+			frame.getContentPane().add(cpf_label);
 
-		JLabel cargo_label = new JLabel("Cargo");
-		cargo_label.setBounds(387, 109, 46, 14);
-		frame.getContentPane().add(cargo_label);
+			JLabel cargo_label = new JLabel("Cargo");
+			cargo_label.setBounds(387, 109, 46, 14);
+			frame.getContentPane().add(cargo_label);
 
-		JLabel label_email = new JLabel("Email");
-		label_email.setBounds(49, 167, 46, 14);
-		frame.getContentPane().add(label_email);
+			JLabel label_email = new JLabel("Email");
+			label_email.setBounds(49, 167, 46, 14);
+			frame.getContentPane().add(label_email);
 
-		JLabel senha_label = new JLabel("Senha");
-		senha_label.setBounds(387, 167, 46, 14);
-		frame.getContentPane().add(senha_label);
+			JLabel senha_label = new JLabel("Senha");
+			senha_label.setBounds(387, 167, 46, 14);
+			frame.getContentPane().add(senha_label);
 
-		nome = new JTextField("");
-		nome.getText();
-		nome.setBounds(49, 78, 634, 20);
-		frame.getContentPane().add(nome);
-		nome.setColumns(10);
+			nome = new JTextField("");
+			nome.setName("nome");
+			nome.getText();
+			nome.setBounds(49, 78, 634, 20);
+			frame.getContentPane().add(nome);
+			nome.setColumns(10);
 
-		cpf = new JTextField("");
-		cpf.setBounds(49, 130, 310, 20);
-		frame.getContentPane().add(cpf);
-		cpf.setColumns(10);
+			cpf = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
+			cpf.setName("cpf");
+			cpf.setBounds(49, 130, 310, 20);
+			frame.getContentPane().add(cpf);
+			cpf.setColumns(10);
 
-		cargo = new JTextField("");
-		cargo.setBounds(387, 130, 294, 20);
-		frame.getContentPane().add(cargo);
-		cargo.setColumns(10);
+			cargo = new JTextField("");
+			cargo.setName("cargo");
+			cargo.setBounds(387, 130, 294, 20);
+			frame.getContentPane().add(cargo);
+			cargo.setColumns(10);
 
-		email = new JTextField("");
-		email.setBounds(49, 193, 310, 20);
-		frame.getContentPane().add(email);
-		email.setColumns(10);
+			email = new JTextField("");
+			email.setName("email");
+			email.setBounds(49, 193, 310, 20);
+			frame.getContentPane().add(email);
+			email.setColumns(10);
 
-		senha = new JPasswordField("");
-		senha.setBounds(389, 194, 294, 18);
-		frame.getContentPane().add(senha);
+			senha = new JPasswordField("");
+			senha.setName("senha");
+			senha.setBounds(389, 194, 294, 18);
+			frame.getContentPane().add(senha);
 
-		JLabel dark_logo = new JLabel("");
-		URL logo = this.getClass().getResource("/public/dark_logo_min.png");
-		dark_logo.setIcon(new ImageIcon(logo));
-		dark_logo.setBounds(302, 289, 114, 14);
-		frame.getContentPane().add(dark_logo);
+			JLabel dark_logo = new JLabel("");
+			URL logo = this.getClass().getResource("/public/dark_logo_min.png");
+			dark_logo.setIcon(new ImageIcon(logo));
+			dark_logo.setBounds(302, 289, 114, 14);
+			frame.getContentPane().add(dark_logo);
 
-		if (criarOuAlterar.equals("cadastrar")) {
-			JLabel adicionar_func_label = new JLabel("Adicionar Funcionários");
-			adicionar_func_label.setFont(new Font("Tahoma", Font.BOLD, 12));
-			adicionar_func_label.setBounds(10, 13, 156, 14);
-			frame.getContentPane().add(adicionar_func_label);
+			if (criarOuAlterar.equals("cadastrar")) {
+				JLabel adicionar_func_label = new JLabel("Adicionar Funcionários");
+				adicionar_func_label.setFont(new Font("Tahoma", Font.BOLD, 12));
+				adicionar_func_label.setBounds(10, 13, 156, 14);
+				frame.getContentPane().add(adicionar_func_label);
 
-			JButton adicionar = new JButton("Adicionar");
-			adicionar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					cadastrar();
-				}
-			});
-			adicionar.setBounds(589, 256, 94, 23);
-			frame.getContentPane().add(adicionar);
-		} else {
-			JLabel atualizar_func_label = new JLabel("Atualizar Funcionários");
-			atualizar_func_label.setFont(new Font("Tahoma", Font.BOLD, 12));
-			atualizar_func_label.setBounds(10, 13, 156, 14);
-			frame.getContentPane().add(atualizar_func_label);
+				JButton adicionar = new JButton("Adicionar");
+				adicionar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						cadastrar();
+					}
+				});
+				adicionar.setBounds(589, 256, 94, 23);
+				frame.getContentPane().add(adicionar);
+			} else {
+				JLabel atualizar_func_label = new JLabel("Atualizar Funcionários");
+				atualizar_func_label.setFont(new Font("Tahoma", Font.BOLD, 12));
+				atualizar_func_label.setBounds(10, 13, 156, 14);
+				frame.getContentPane().add(atualizar_func_label);
 
-			JButton alterar = new JButton("Atualizar");
-			alterar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					alterar();
-				}
-			});
-			alterar.setBounds(589, 256, 94, 23);
-			frame.getContentPane().add(alterar);
-		}
-
-		JButton btn_cancelar = new JButton("Cancelar");
-		btn_cancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frame.setVisible(false);
+				JButton alterar = new JButton("Atualizar");
+				alterar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						alterar();
+					}
+				});
+				alterar.setBounds(589, 256, 94, 23);
+				frame.getContentPane().add(alterar);
 			}
-		});
-		btn_cancelar.setBounds(476, 256, 89, 23);
-		frame.getContentPane().add(btn_cancelar);
 
-		frame.setLocationRelativeTo(frame);
+			JButton btn_cancelar = new JButton("Cancelar");
+			btn_cancelar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					frame.setVisible(false);
+				}
+			});
+			btn_cancelar.setBounds(476, 256, 89, 23);
+			frame.getContentPane().add(btn_cancelar);
 
-		frame.setVisible(true);
+			frame.setLocationRelativeTo(frame);
+
+			frame.setVisible(true);
+		} catch (Exception e) {
+		}
 	}
 
 	/**
@@ -303,12 +343,13 @@ public class FuncionarioView {
 		frame.getContentPane().add(listar_func_label);
 
 		input_filtrar = new JTextField("");
+		input_filtrar.setName("pesquisar por nome");
 		input_filtrar.setBounds(20, 87, 447, 20);
 		frame.getContentPane().add(input_filtrar);
 		input_filtrar.setColumns(10);
 
-		JLabel btn_pesquisar = new JLabel("Pesquisar");
-		btn_pesquisar.setBounds(20, 65, 76, 14);
+		JLabel btn_pesquisar = new JLabel("Pesquisar por nome");
+		btn_pesquisar.setBounds(20, 65, 130, 14);
 		frame.getContentPane().add(btn_pesquisar);
 
 		JLabel img_listar_func = new JLabel("");

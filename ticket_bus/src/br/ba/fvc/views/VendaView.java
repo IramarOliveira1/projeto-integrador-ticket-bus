@@ -7,7 +7,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.net.URL;
 import java.sql.ResultSet;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JSeparator;
@@ -21,6 +21,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import br.ba.fvc.controller.FuncionarioController;
+import br.ba.fvc.controller.GenericController;
 import br.ba.fvc.controller.VendaController;
 
 import javax.swing.JScrollPane;
@@ -42,10 +43,11 @@ public class VendaView {
 	private JLabel value;
 	private JLabel label_de;
 	private JLabel label_ate;
+	private JComboBox<Object> comboBox;
 	public FuncionarioController funcionario;
 	public VendaController venda;
 	public DefaultTableModel list;
-	public HashMap<Integer, String> combobox;
+	public ArrayList<String> comboBoxRouter;
 
 	/**
 	 * Launch the application.
@@ -71,7 +73,7 @@ public class VendaView {
 		this.funcionario = fields;
 		this.venda = new VendaController();
 		this.list = this.venda.all();
-		this.combobox = this.venda.getComboBox();
+		this.comboBoxRouter = this.venda.comboBoxRouter();
 		this.table = new JTable(this.list) {
 			public boolean editCellAt(int row, int column, java.util.EventObject e) {
 				return false;
@@ -104,21 +106,29 @@ public class VendaView {
 
 	private void cadastrar() {
 
-		this.venda.setName_passenger(nome.getText());
-		this.venda.setCpf(cpf.getText());
-		this.venda.setArmchair(poltrona.getText());
-		this.venda.setId_router(this.id_rota);
-		this.venda.setId_vehicle(id_veiculo);
-		this.list = venda.incluir();
+		Object[][] data = { { nome.getName(), nome.getText() }, { cpf.getName(), cpf.getText() },
+				{ comboBox.getName(), comboBox.getSelectedIndex() }, { poltrona.getName(), poltrona.getText() }, };
 
-		if (this.list == null) {
-			frame.setVisible(true);
-			return;
+		Boolean error = GenericController.validateFieldsEmpty(data);
+
+		if (!error) {
+
+			this.venda.setName_passenger(nome.getText());
+			this.venda.setCpf(cpf.getText());
+			this.venda.setArmchair(poltrona.getText());
+			this.venda.setId_router(this.id_rota);
+			this.venda.setId_vehicle(id_veiculo);
+			this.list = venda.incluir();
+
+			if (this.list == null) {
+				frame.setVisible(true);
+				return;
+			}
+			frame.setVisible(false);
+
+			this.table.setModel(this.list);
+			this.list.fireTableDataChanged();
 		}
-		frame.setVisible(false);
-
-		this.table.setModel(this.list);
-		this.list.fireTableDataChanged();
 	}
 
 	private void excluir() {
@@ -137,34 +147,46 @@ public class VendaView {
 	}
 
 	private void pesquisarRota() {
-		this.venda.setRouter(rota.getText());
+		Object[][] data = { { rota.getName(), rota.getText() } };
 
-		this.list = this.venda.filterRouter();
+		Boolean error = GenericController.validateFieldsEmpty(data);
+		if (!error) {
 
-		rota.setText("");
+			this.venda.setRouter(rota.getText());
 
-		this.table.setModel(this.list);
-		this.list.fireTableDataChanged();
+			this.list = this.venda.filterRouter();
+
+			rota.setText("");
+
+			this.table.setModel(this.list);
+			this.list.fireTableDataChanged();
+		}
 	}
 
 	private void pesquisarPeriodo() {
 		ResultSet result = null;
-		
+
+		Object[][] data = { { input_de.getName(), input_de.getText() }, { input_ate.getName(), input_ate.getText() } };
+
+		Boolean error = GenericController.validateFieldsEmpty(data);
 		try {
-			this.venda.setDe(input_de.getText());
-			this.venda.setAte(input_ate.getText());
 
-			camposTeste();
+			if (!error) {
+				this.venda.setDe(input_de.getText());
+				this.venda.setAte(input_ate.getText());
 
-			result = venda.filterPeriod();
-			result.next();
+				resultFilter();
 
-			label_de.setText("Periodo De: " + input_de.getText());
-			label_ate.setText("Periodo Até: " + input_ate.getText());
-			value.setText("Valor total: R$" + result.getString("valor_total"));
+				result = venda.filterPeriod();
+				result.next();
 
-			this.table.setModel(this.list);
-			this.list.fireTableDataChanged();
+				label_de.setText("Periodo De: " + input_de.getText());
+				label_ate.setText("Periodo Até: " + input_ate.getText());
+				value.setText("Valor total: R$" + result.getString("valor_total"));
+
+				this.table.setModel(this.list);
+				this.list.fireTableDataChanged();
+			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -175,7 +197,7 @@ public class VendaView {
 		this.list.fireTableDataChanged();
 	}
 
-	private void camposTeste() {
+	private void resultFilter() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 332, 315);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -228,6 +250,7 @@ public class VendaView {
 		frame.getContentPane().add(label_cpf);
 
 		cpf = new JTextField();
+		cpf.setName("cpf");
 		cpf.setBounds(361, 78, 327, 20);
 		frame.getContentPane().add(cpf);
 		cpf.setColumns(10);
@@ -247,6 +270,7 @@ public class VendaView {
 		frame.getContentPane().add(label_nome);
 
 		nome = new JTextField();
+		nome.setName("nome");
 		nome.setBounds(10, 78, 327, 20);
 		frame.getContentPane().add(nome);
 		nome.setColumns(10);
@@ -256,6 +280,7 @@ public class VendaView {
 		frame.getContentPane().add(label_poltrona);
 
 		poltrona = new JTextField();
+		poltrona.setName("poltrona");
 		poltrona.setBounds(10, 231, 327, 20);
 		frame.getContentPane().add(poltrona);
 		poltrona.setColumns(10);
@@ -274,7 +299,8 @@ public class VendaView {
 		label_cidade_origim.setBounds(10, 109, 122, 20);
 		frame.getContentPane().add(label_cidade_origim);
 
-		JComboBox<Object> comboBox = new JComboBox<Object>(this.combobox.values().toArray());
+		comboBox = new JComboBox<Object>(this.comboBoxRouter.toArray());
+		comboBox.setName("rota");
 		comboBox.getModel().setSelectedItem("SELECIONE");
 		comboBox.addItemListener(new ItemListener() {
 			@Override
@@ -341,12 +367,14 @@ public class VendaView {
 		lblPesquisarPorPeriodo.setBounds(10, 54, 162, 14);
 		frame.getContentPane().add(lblPesquisarPorPeriodo);
 
-		input_de = new JTextField("2023-01-20");
+		input_de = new JTextField("");
+		input_de.setName("periodo de");
 		input_de.setBounds(10, 79, 129, 20);
 		frame.getContentPane().add(input_de);
 		input_de.setColumns(10);
 
-		input_ate = new JTextField("2023-05-20");
+		input_ate = new JTextField("");
+		input_ate.setName("periodo ate");
 		input_ate.setBounds(157, 79, 129, 20);
 		frame.getContentPane().add(input_ate);
 		input_ate.setColumns(10);
@@ -366,6 +394,7 @@ public class VendaView {
 		frame.getContentPane().add(lblPesquisarPorRoteiro);
 
 		rota = new JTextField();
+		rota.setName("rota");
 		rota.setBounds(10, 131, 276, 20);
 		frame.getContentPane().add(rota);
 		rota.setColumns(10);

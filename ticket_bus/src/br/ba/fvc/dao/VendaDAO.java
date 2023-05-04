@@ -40,8 +40,8 @@ public class VendaDAO {
 		try {
 			Statement instance = this.connection.createStatement();
 
-			String query = "SELECT rota.id, rota.valor_passagem, "
-					+ "CONCAT(rota.id , ' = ' , origem.nome , ' / ', destino.nome, ' - ', DATE_FORMAT(rota.data_partida, '%d/%m/%Y %T')) rota  FROM rota "
+			String query = "SELECT rota.id,  "
+					+ "CONCAT(origem.nome , ' / ', destino.nome, ' - ', DATE_FORMAT(rota.data_partida, '%d/%m/%Y %T')) rota ,rota.valor_passagem FROM rota "
 					+ " INNER JOIN cidade AS origem ON rota.cidade_origem = origem.id"
 					+ " INNER JOIN cidade AS destino ON rota.cidade_destino = destino.id"
 					+ " WHERE rota.data_partida >= CURRENT_TIMESTAMP()";

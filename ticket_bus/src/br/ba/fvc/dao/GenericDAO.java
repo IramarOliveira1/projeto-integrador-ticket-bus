@@ -42,7 +42,7 @@ public class GenericDAO {
 			String query = "INSERT INTO " + this.table + "(" + this.fields + ") VALUES (" + values + ")";
 
 			instance.execute(query);
-			
+
 			Boolean isVenda = this.table.contains("venda");
 
 			JOptionPane.showMessageDialog(null,
@@ -72,6 +72,8 @@ public class GenericDAO {
 		ResultSet result = null;
 		try {
 			Statement instance = this.connection.createStatement();
+			
+			
 
 			String query = "SELECT * FROM " + this.table + " WHERE id = " + id;
 
