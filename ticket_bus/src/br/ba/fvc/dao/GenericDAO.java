@@ -60,7 +60,6 @@ public class GenericDAO {
 
 			String query = "SELECT * FROM " + this.table + " WHERE " + field + " LIKE " + "'%" + values + "%' ";
 
-			System.out.println(query);
 			result = instance.executeQuery(query);
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
@@ -72,8 +71,6 @@ public class GenericDAO {
 		ResultSet result = null;
 		try {
 			Statement instance = this.connection.createStatement();
-			
-			
 
 			String query = "SELECT * FROM " + this.table + " WHERE id = " + id;
 

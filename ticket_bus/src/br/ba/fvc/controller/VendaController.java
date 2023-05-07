@@ -82,7 +82,7 @@ public class VendaController {
 		return result;
 	}
 
-	public DefaultTableModel incluir() {
+	public DefaultTableModel store() {
 		DefaultTableModel result = null;
 		ResultSet model = null;
 		ResultSet armchair = null;
@@ -95,7 +95,7 @@ public class VendaController {
 				}
 			}
 
-			armchair = this.dao.verifyArmchairExists(this.armchair, model.getString("numero"));
+			armchair = this.dao.verifyArmchairExists(this.armchair, this.id_router);
 			if (armchair.next()) {
 				if (armchair.getString("poltrona").equals(this.armchair)) {
 					throw new Exception("Poltrona número: (" + this.armchair + ") já foi vendida!");

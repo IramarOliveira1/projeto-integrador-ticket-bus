@@ -16,6 +16,7 @@ import java.sql.ResultSet;
 import javax.swing.JTextField;
 
 import br.ba.fvc.controller.FuncionarioController;
+import br.ba.fvc.controller.GenericController;
 
 import javax.swing.JButton;
 import java.awt.Color;
@@ -58,28 +59,34 @@ public class LoginView {
 
 			String ConvertChar = String.valueOf(senhaChar);
 
-			fields.setEmail(email.getText());
+			Object[][] data = { { email.getName(), email.getText() }, { senha.getName(), ConvertChar }, };
 
-			fields.setSenha(ConvertChar);
+			Boolean error = GenericController.validateFieldsEmpty(data);
 
-			ResultSet result = fields.login();
-			
-			if (result.next()) {
-				fields.setIdLogado(result.getString("id"));
-				fields.setLogado(result.getString("nome"));
-				fields.setNome(result.getString("nome"));
-				fields.setCargo(result.getString("cargo"));
-				fields.setEmail(result.getString("email"));
-				fields.setSenha(result.getString("senha"));
-				
-				MenuView windowMenu = new MenuView(fields);
-				windowMenu.setVisible(true);
+			if (!error) {
 
-				frame.dispose();
-			} else {
-				JOptionPane.showMessageDialog(null, "LOGIN OU SENHA INVALIDOS!");
+				fields.setEmail(email.getText());
+
+				fields.setSenha(ConvertChar);
+
+				ResultSet result = fields.login();
+
+				if (result.next()) {
+					fields.setIdLogado(result.getString("id"));
+					fields.setLogado(result.getString("nome"));
+					fields.setNome(result.getString("nome"));
+					fields.setCargo(result.getString("cargo"));
+					fields.setEmail(result.getString("email"));
+					fields.setSenha(result.getString("senha"));
+
+					MenuView windowMenu = new MenuView(fields);
+					windowMenu.setVisible(true);
+
+					frame.dispose();
+				} else {
+					JOptionPane.showMessageDialog(null, "LOGIN OU SENHA INVALIDOS!");
+				}
 			}
-
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
@@ -100,6 +107,7 @@ public class LoginView {
 		frame.getContentPane().add(label_email);
 
 		email = new JTextField("teste@teste.com");
+		email.setName("email");
 		email.setBounds(293, 219, 295, 34);
 		frame.getContentPane().add(email);
 		email.setColumns(10);
@@ -128,13 +136,14 @@ public class LoginView {
 		frame.getContentPane().add(lblNewLabel_2);
 
 		senha = new JPasswordField("123456");
+		senha.setName("senha");
 		senha.setBounds(293, 290, 295, 34);
 		frame.getContentPane().add(senha);
 
 		JLabel lblNewLabel_3 = new JLabel();
 		URL urlToImage = this.getClass().getResource("/public/logo-dark.png");
 		lblNewLabel_3.setIcon(new ImageIcon(urlToImage));
-		
+
 		frame.setLocationRelativeTo(frame);
 
 		lblNewLabel_3.setBounds(324, 94, 522, 59);

@@ -26,6 +26,7 @@ import javax.swing.JScrollPane;
 public class CidadeView {
 
 	private JFrame frame;
+	private JFrame frame_fields;
 	private JTextField input_filtrar;
 	private JTable table;
 	private JTextField nome;
@@ -86,11 +87,11 @@ public class CidadeView {
 			this.list = cidade.incluir();
 
 			if (this.list == null) {
-				frame.setVisible(true);
+				frame_fields.setVisible(true);
 				return;
 			}
 
-			frame.setVisible(false);
+			frame_fields.dispose();
 
 			this.table.setModel(this.list);
 			this.list.fireTableDataChanged();
@@ -178,40 +179,42 @@ public class CidadeView {
 	}
 
 	private void campos(String criarOuAlterar) {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 494, 353);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		frame_fields = new JFrame();
+		frame_fields.setBounds(100, 100, 494, 353);
+		frame_fields.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame_fields.getContentPane().setLayout(null);
+
+		frame_fields.setVisible(true);
 
 		JSeparator separator = new JSeparator();
 		separator.setBounds(10, 45, 458, 9);
-		frame.getContentPane().add(separator);
+		frame_fields.getContentPane().add(separator);
 
-		nome = new JTextField("TESTANDO");
+		nome = new JTextField("");
 		nome.setName("Cidade");
 		nome.setBounds(10, 85, 274, 20);
-		frame.getContentPane().add(nome);
+		frame_fields.getContentPane().add(nome);
 		nome.setColumns(10);
 
-		uf = new JTextField("SO");
+		uf = new JTextField("");
 		uf.setName("uf");
 		uf.setBounds(10, 141, 86, 20);
-		frame.getContentPane().add(uf);
+		frame_fields.getContentPane().add(uf);
 		uf.setColumns(10);
 
 		label_cidade = new JLabel("Cidade");
 		label_cidade.setBounds(10, 65, 46, 14);
-		frame.getContentPane().add(label_cidade);
+		frame_fields.getContentPane().add(label_cidade);
 
 		label_uf = new JLabel("UF");
 		label_uf.setBounds(10, 116, 46, 14);
-		frame.getContentPane().add(label_uf);
+		frame_fields.getContentPane().add(label_uf);
 
 		if (criarOuAlterar.equals("cadastrar")) {
 			JLabel adicionar_func_label = new JLabel("Adicionar Cidade");
 			adicionar_func_label.setFont(new Font("Tahoma", Font.BOLD, 12));
 			adicionar_func_label.setBounds(10, 13, 156, 14);
-			frame.getContentPane().add(adicionar_func_label);
+			frame_fields.getContentPane().add(adicionar_func_label);
 
 			JButton adicionar = new JButton("Adicionar");
 			adicionar.addActionListener(new ActionListener() {
@@ -220,46 +223,45 @@ public class CidadeView {
 				}
 			});
 			adicionar.setBounds(366, 220, 97, 23);
-			frame.getContentPane().add(adicionar);
+			frame_fields.getContentPane().add(adicionar);
 		} else {
 			JLabel atualizar_func_label = new JLabel("Atualizar Cidade");
 			atualizar_func_label.setFont(new Font("Tahoma", Font.BOLD, 12));
 			atualizar_func_label.setBounds(10, 13, 156, 14);
-			frame.getContentPane().add(atualizar_func_label);
+			frame_fields.getContentPane().add(atualizar_func_label);
 
 			JButton alterar = new JButton("Atualizar");
 			alterar.addActionListener(new ActionListener() {
-
 				public void actionPerformed(ActionEvent e) {
 					alterar();
 				}
 			});
 			alterar.setBounds(366, 220, 97, 23);
-			frame.getContentPane().add(alterar);
+			frame_fields.getContentPane().add(alterar);
 		}
 
 		JButton cancelar = new JButton("Cancelar");
 		cancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.setVisible(false);
+				frame_fields.dispose();
 			}
 		});
 		cancelar.setBounds(267, 220, 89, 23);
-		frame.getContentPane().add(cancelar);
+		frame_fields.getContentPane().add(cancelar);
 
 		JLabel logo_cidade = new JLabel("");
 		URL cidade_logo = this.getClass().getResource("/public/cidade.png");
 		logo_cidade.setIcon(new ImageIcon(cidade_logo));
 		logo_cidade.setBounds(346, 61, 122, 126);
-		frame.getContentPane().add(logo_cidade);
+		frame_fields.getContentPane().add(logo_cidade);
 
 		JLabel logo_dark_min = new JLabel("");
 		URL logo = this.getClass().getResource("/public/dark_logo_min.png");
 		logo_dark_min.setIcon(new ImageIcon(logo));
 		logo_dark_min.setBounds(197, 276, 114, 14);
-		frame.getContentPane().add(logo_dark_min);
+		frame_fields.getContentPane().add(logo_dark_min);
 
-		frame.setLocationRelativeTo(frame);
+		frame_fields.setLocationRelativeTo(frame);
 	}
 
 	/**
@@ -305,7 +307,6 @@ public class CidadeView {
 		alterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				carregarCamposAlterar();
-				frame.setVisible(true);
 			}
 		});
 		alterar.setBounds(642, 397, 158, 23);
@@ -324,7 +325,6 @@ public class CidadeView {
 		cadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				campos("cadastrar");
-				frame.setVisible(true);
 			}
 		});
 		cadastrar.setBounds(642, 363, 158, 23);

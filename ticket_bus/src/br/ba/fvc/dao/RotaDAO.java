@@ -22,7 +22,7 @@ public class RotaDAO {
 		try {
 			Statement instance = this.connection.createStatement();
 
-			String query = "SELECT rota.id, funcionario.nome, veiculo.placa, DATE_FORMAT(rota.data_partida, '%d/%m/%Y %T') AS data_formatada, origem.nome AS origem, destino.nome AS destino FROM rota "
+			String query = "SELECT rota.id, funcionario.nome, veiculo.placa, DATE_FORMAT(rota.data_partida, '%d/%m/%Y %H:%i') AS data_formatada, origem.nome AS origem, destino.nome AS destino FROM rota "
 					+ "INNER JOIN funcionario ON rota.id_funcionario = funcionario.id "
 					+ "INNER JOIN veiculo ON rota.id_veiculo = veiculo.id "
 					+ "INNER JOIN cidade AS origem ON rota.cidade_origem = origem.id "

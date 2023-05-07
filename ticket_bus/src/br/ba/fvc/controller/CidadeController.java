@@ -12,9 +12,7 @@ public class CidadeController {
 
 	private String nome;
 	private String uf;
-
 	private GenericController generic;
-
 	private String tabela = "cidade";
 	public String[] colunas = { "ID", "Nome", "UF" };
 	private String campos = "nome, uf";
@@ -44,7 +42,7 @@ public class CidadeController {
 			resultSet = this.dao.verifyCidadeExists(nome);
 
 			if (resultSet.next()) {
-				if (resultSet.getString("nome").equals(nome)) {
+				if (resultSet.getString("nome").equals(nome.toUpperCase())) {
 					throw new Exception("Cidade já cadastrada!");
 				}
 			}
@@ -85,7 +83,7 @@ public class CidadeController {
 		DefaultTableModel result = null;
 		try {
 			Object[] fields = { "nome", "uf" };
-			Object[] data = { nome, uf };
+			Object[] data = { nome.toUpperCase(), uf.toUpperCase() };
 
 			result = this.generic.update(fields, data, id);
 		} catch (Exception e) {

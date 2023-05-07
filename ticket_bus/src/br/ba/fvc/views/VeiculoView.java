@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.swing.JFrame;
 import javax.swing.JSeparator;
@@ -28,16 +30,17 @@ import javax.swing.JFormattedTextField;
 public class VeiculoView {
 
 	private JFrame frame;
-	private JTextField placa;
-	private JFormattedTextField data_compra;
+	private JFrame frame_fields;
+	private JTextField input_filtrar;
 	private JTextField modelo;
-	private JTextField quantidade_poltrona;
-	private JTextField numero;
+	private JFormattedTextField placa;
+	private JFormattedTextField data_compra;
+	private JFormattedTextField quantidade_poltrona;
+	private JFormattedTextField numero;
 	private JTable table;
 	public DefaultTableModel list;
 	public FuncionarioController funcionario;
 	public VeiculoController veiculo;
-	private JTextField input_filtrar;
 
 	/**
 	 * Launch the application.
@@ -79,26 +82,29 @@ public class VeiculoView {
 	}
 
 	private void cadastrar() {
-		Object[][] data = { { numero.getName(), numero.getText() }, { placa.getName(), placa.getText() },
-				{ modelo.getName(), modelo.getText() }, { data_compra.getName(), data_compra.getText() },
-				{ quantidade_poltrona.getName(), quantidade_poltrona.getText() } };
+		Object[][] data = { { numero.getName(), numero.getValue() }, { placa.getName(), placa.getValue() },
+				{ modelo.getName(), modelo.getText() }, { data_compra.getName(), data_compra.getValue() },
+				{ quantidade_poltrona.getName(), quantidade_poltrona.getValue() } };
 
 		Boolean error = GenericController.validateFieldsEmpty(data);
 
 		if (!error) {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+			LocalDate date_purchase = LocalDate.parse(data_compra.getText(), formatter);
+
 			this.veiculo.setNumero(numero.getText());
 			this.veiculo.setPlaca(placa.getText());
 			this.veiculo.setModelo(modelo.getText());
-			this.veiculo.setData_compra(data_compra.getText());
+			this.veiculo.setData_compra(date_purchase.toString());
 			this.veiculo.setQuantidade_poltronas(quantidade_poltrona.getText());
 			this.list = veiculo.incluir();
 
 			if (this.list == null) {
-				frame.setVisible(true);
+				frame_fields.dispose();
 				return;
 			}
 
-			frame.setVisible(false);
+			frame_fields.dispose();
 
 			this.table.setModel(this.list);
 			this.list.fireTableDataChanged();
@@ -111,7 +117,6 @@ public class VeiculoView {
 		Boolean error = GenericController.validateFieldsEmpty(data);
 
 		if (!error) {
-
 			this.veiculo.setNumero(input_filtrar.getText());
 
 			this.list = this.veiculo.filtrar();
@@ -158,11 +163,20 @@ public class VeiculoView {
 			result = veiculo.carregaCamposAlterar(id);
 			result.next();
 
-			numero.setText(result.getString("Numero"));
-			placa.setText(result.getString("Placa"));
+			DateTimeFormatter formatterDatabase = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+			LocalDate convertDateDatabase = LocalDate.parse(result.getString("data_compra"), formatterDatabase);
+
+			DateTimeFormatter formatterDatePTBR = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+			LocalDate convertDatePTBR = LocalDate.parse(convertDateDatabase.format(formatterDatePTBR),
+					formatterDatePTBR);
+
+			numero.setText(result.getString("numero"));
+			placa.setValue(result.getString("placa"));
 			modelo.setText(result.getString("modelo"));
-			data_compra.setText(result.getString("data_compra"));
-			quantidade_poltrona.setText(result.getString("quantidade_poltronas"));
+			data_compra.setText(formatterDatePTBR.format(convertDatePTBR));
+			quantidade_poltrona.setValue(result.getString("quantidade_poltronas"));
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -170,23 +184,26 @@ public class VeiculoView {
 	}
 
 	private void alterar() {
-		Object[][] data = { { numero.getName(), numero.getText() }, { placa.getName(), placa.getText() },
+		Object[][] data = { { numero.getName(), numero.getValue() }, { placa.getName(), placa.getText() },
 				{ modelo.getName(), modelo.getText() }, { data_compra.getName(), data_compra.getText() },
-				{ quantidade_poltrona.getName(), quantidade_poltrona.getText() } };
-
+				{ quantidade_poltrona.getName(), quantidade_poltrona.getValue() } };
+		
 		Boolean error = GenericController.validateFieldsEmpty(data);
 
 		if (!error) {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+			LocalDate date_purchase = LocalDate.parse(data_compra.getText(), formatter);
+
 			String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
 
 			this.veiculo.setNumero(numero.getText());
 			this.veiculo.setPlaca(placa.getText());
 			this.veiculo.setModelo(modelo.getText());
-			this.veiculo.setData_compra(data_compra.getText());
+			this.veiculo.setData_compra(date_purchase.toString());
 			this.veiculo.setQuantidade_poltronas(quantidade_poltrona.getText());
 			this.list = veiculo.alterar(id);
 
-			frame.setVisible(false);
+			frame_fields.dispose();
 
 			this.table.setModel(this.list);
 			this.list.fireTableDataChanged();
@@ -194,86 +211,85 @@ public class VeiculoView {
 	}
 
 	private void campos(String criarOuAlterar) {
-
 		try {
+			frame_fields = new JFrame();
+			frame_fields.setBounds(100, 100, 610, 393);
+			frame_fields.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame_fields.getContentPane().setLayout(null);
 
-			frame = new JFrame();
-			frame.setBounds(100, 100, 610, 393);
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frame.getContentPane().setLayout(null);
+			frame_fields.setVisible(true);
 
 			JSeparator separator = new JSeparator();
 			separator.setBounds(10, 45, 563, 9);
-			frame.getContentPane().add(separator);
+			frame_fields.getContentPane().add(separator);
 
 			JLabel label_qtd_poltrona = new JLabel("Quant. de poltrona");
 			label_qtd_poltrona.setBounds(309, 170, 115, 14);
-			frame.getContentPane().add(label_qtd_poltrona);
+			frame_fields.getContentPane().add(label_qtd_poltrona);
 
-			quantidade_poltrona = new JTextField();
+			quantidade_poltrona = new JFormattedTextField(new MaskFormatter("##"));
 			quantidade_poltrona.setName("poltrona");
 			quantidade_poltrona.setBounds(313, 195, 260, 20);
-			frame.getContentPane().add(quantidade_poltrona);
+			frame_fields.getContentPane().add(quantidade_poltrona);
 			quantidade_poltrona.setColumns(10);
 
 			JLabel label_data_compra = new JLabel(" Data da compra");
 			label_data_compra.setBounds(10, 170, 115, 14);
-			frame.getContentPane().add(label_data_compra);
+			frame_fields.getContentPane().add(label_data_compra);
 
 			data_compra = new JFormattedTextField(new MaskFormatter("##/##/####"));
 			data_compra.setName("data compra");
 			data_compra.setBounds(10, 195, 260, 20);
-			frame.getContentPane().add(data_compra);
+			frame_fields.getContentPane().add(data_compra);
 			data_compra.setColumns(10);
 
 			JLabel label_Modelo = new JLabel(" Modelo");
 			label_Modelo.setBounds(311, 107, 68, 14);
-			frame.getContentPane().add(label_Modelo);
+			frame_fields.getContentPane().add(label_Modelo);
 
 			modelo = new JTextField();
 			modelo.setName("modelo");
 			modelo.setBounds(313, 132, 260, 20);
-			frame.getContentPane().add(modelo);
+			frame_fields.getContentPane().add(modelo);
 			modelo.setColumns(10);
 
 			JLabel label_placa = new JLabel(" Placa");
 			label_placa.setBounds(10, 107, 46, 14);
-			frame.getContentPane().add(label_placa);
+			frame_fields.getContentPane().add(label_placa);
 
-			placa = new JTextField();
+			placa = new JFormattedTextField(new MaskFormatter("AAA-#A##"));
 			placa.setName("placa");
 			placa.setBounds(10, 132, 260, 20);
-			frame.getContentPane().add(placa);
+			frame_fields.getContentPane().add(placa);
 			placa.setColumns(10);
 
 			JLabel label_nemeracao = new JLabel("Numeração Veículo");
 			label_nemeracao.setBounds(10, 51, 159, 14);
-			frame.getContentPane().add(label_nemeracao);
+			frame_fields.getContentPane().add(label_nemeracao);
 
-			numero = new JTextField();
+			numero = new JFormattedTextField(new MaskFormatter("####"));
 			numero.setName("número");
 			numero.setBounds(10, 76, 563, 20);
-			frame.getContentPane().add(numero);
+			frame_fields.getContentPane().add(numero);
 			numero.setColumns(10);
 
 			if (criarOuAlterar.equals("cadastrar")) {
 				JLabel label_cadastrar = new JLabel("Adicionar Veículos");
 				label_cadastrar.setBounds(10, 20, 115, 14);
-				frame.getContentPane().add(label_cadastrar);
+				frame_fields.getContentPane().add(label_cadastrar);
 
 				JButton adicionar = new JButton(" Adicionar");
 				adicionar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-
 						cadastrar();
 					}
 				});
 				adicionar.setBounds(473, 257, 100, 23);
-				frame.getContentPane().add(adicionar);
+				frame_fields.getContentPane().add(adicionar);
 			} else {
 				JLabel label_atualizar = new JLabel("Atualizar Veículos");
 				label_atualizar.setBounds(10, 20, 115, 14);
-				frame.getContentPane().add(label_atualizar);
+				frame_fields.getContentPane().add(label_atualizar);
 
 				JButton alterar = new JButton("Atualizar");
 				alterar.addActionListener(new ActionListener() {
@@ -282,24 +298,24 @@ public class VeiculoView {
 					}
 				});
 				alterar.setBounds(473, 257, 100, 23);
-				frame.getContentPane().add(alterar);
+				frame_fields.getContentPane().add(alterar);
 			}
 
 			JButton btn_cancelar = new JButton(" Cancelar");
 			btn_cancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					frame.setVisible(false);
+					frame_fields.dispose();
 				}
 			});
 			btn_cancelar.setBounds(361, 257, 89, 23);
-			frame.getContentPane().add(btn_cancelar);
+			frame_fields.getContentPane().add(btn_cancelar);
 
 			JLabel dark_logo_min = new JLabel("");
 			URL logo = this.getClass().getResource("/public/dark_logo_min.png");
 			dark_logo_min.setIcon(new ImageIcon(logo));
 			dark_logo_min.setBounds(245, 317, 114, 14);
-			frame.getContentPane().add(dark_logo_min);
-			frame.setLocationRelativeTo(frame);
+			frame_fields.getContentPane().add(dark_logo_min);
+			frame_fields.setLocationRelativeTo(frame);
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -349,7 +365,6 @@ public class VeiculoView {
 		cadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				campos("cadastrar");
-				frame.setVisible(true);
 			}
 		});
 		cadastrar.setBounds(682, 356, 135, 23);
@@ -359,7 +374,6 @@ public class VeiculoView {
 		alterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				carregarCamposAlterar();
-				frame.setVisible(true);
 			}
 		});
 		alterar.setBounds(682, 393, 135, 23);

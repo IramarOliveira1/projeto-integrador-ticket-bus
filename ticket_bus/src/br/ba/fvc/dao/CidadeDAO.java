@@ -22,7 +22,7 @@ public class CidadeDAO {
 		try {
 			Statement instance = this.connection.createStatement();
 			
-			String query = "SELECT * FROM cidade WHERE nome = '" + nome + "'";
+			String query = "SELECT * FROM cidade WHERE nome = UPPER('" + nome + "')";
 
 			result = instance.executeQuery(query);
 		} catch (SQLException e) {

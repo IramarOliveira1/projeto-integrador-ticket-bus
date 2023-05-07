@@ -28,6 +28,7 @@ import java.sql.ResultSet;
 public class FuncionarioView {
 
 	private JFrame frame;
+	private JFrame frame_fields;
 	private JTable table;
 	private JTextField nome;
 	private JFormattedTextField cpf;
@@ -83,11 +84,11 @@ public class FuncionarioView {
 
 			char[] senhaChar = senha.getPassword();
 
-			String ConvertChar = String.valueOf(senhaChar);
+			String convertChar = String.valueOf(senhaChar);
 
-			Object[][] data = { { nome.getName(), nome.getText() }, { cpf.getName(), cpf.getText() },
+			Object[][] data = { { nome.getName(), nome.getText() }, { cpf.getName(), cpf.getValue() },
 					{ cargo.getName(), cargo.getText() }, { email.getName(), email.getText() },
-					{ senha.getName(), ConvertChar } };
+					{ senha.getName(), convertChar } };
 
 			Boolean error = GenericController.validateFieldsEmpty(data);
 
@@ -97,15 +98,15 @@ public class FuncionarioView {
 				this.funcionario.setCpf(cpf.getText());
 				this.funcionario.setCargo(cargo.getText());
 				this.funcionario.setEmail(email.getText());
-				this.funcionario.setSenha(ConvertChar);
+				this.funcionario.setSenha(convertChar);
 				this.list = funcionario.incluir();
 
 				if (this.list == null) {
-					frame.setVisible(true);
+					frame_fields.setVisible(true);
 					return;
 				}
 
-				frame.setVisible(false);
+				frame_fields.dispose();
 
 				this.table.setModel(this.list);
 				this.list.fireTableDataChanged();
@@ -168,7 +169,7 @@ public class FuncionarioView {
 			result.next();
 
 			nome.setText(result.getString("nome"));
-			cpf.setText(result.getString("cpf"));
+			cpf.setValue(result.getString("cpf"));
 			cargo.setText(result.getString("cargo"));
 			email.setText(result.getString("email"));
 			senha.setText(result.getString("senha"));
@@ -183,11 +184,11 @@ public class FuncionarioView {
 
 		char[] senhaChar = senha.getPassword();
 
-		String ConvertChar = String.valueOf(senhaChar);
+		String convertChar = String.valueOf(senhaChar);
 
-		Object[][] data = { { nome.getName(), nome.getText() }, { cpf.getName(), cpf.getText() },
+		Object[][] data = { { nome.getName(), nome.getText() }, { cpf.getName(), cpf.getValue() },
 				{ cargo.getName(), cargo.getText() }, { email.getName(), email.getText() },
-				{ senha.getName(), ConvertChar } };
+				{ senha.getName(), convertChar } };
 
 		Boolean error = GenericController.validateFieldsEmpty(data);
 
@@ -196,10 +197,10 @@ public class FuncionarioView {
 			this.funcionario.setCpf(cpf.getText());
 			this.funcionario.setCargo(cargo.getText());
 			this.funcionario.setEmail(email.getText());
-			this.funcionario.setSenha(ConvertChar);
+			this.funcionario.setSenha(convertChar);
 			this.list = funcionario.alterar(id);
 
-			frame.setVisible(false);
+			frame_fields.dispose();
 
 			this.table.setModel(this.list);
 			this.list.fireTableDataChanged();
@@ -208,76 +209,78 @@ public class FuncionarioView {
 
 	private void campos(String criarOuAlterar) {
 		try {
-			frame = new JFrame();
-			frame.setBounds(100, 100, 722, 353);
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frame.getContentPane().setLayout(null);
+			frame_fields = new JFrame();
+			frame_fields.setBounds(100, 100, 722, 353);
+			frame_fields.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame_fields.getContentPane().setLayout(null);
+
+			frame_fields.setVisible(true);
 
 			JSeparator separator = new JSeparator();
 			separator.setBounds(10, 45, 686, 9);
-			frame.getContentPane().add(separator);
+			frame_fields.getContentPane().add(separator);
 
 			JLabel nome_label = new JLabel("Nome completo");
 			nome_label.setBounds(49, 53, 114, 14);
-			frame.getContentPane().add(nome_label);
+			frame_fields.getContentPane().add(nome_label);
 
 			JLabel cpf_label = new JLabel("CPF");
 			cpf_label.setBounds(49, 109, 46, 14);
-			frame.getContentPane().add(cpf_label);
+			frame_fields.getContentPane().add(cpf_label);
 
 			JLabel cargo_label = new JLabel("Cargo");
 			cargo_label.setBounds(387, 109, 46, 14);
-			frame.getContentPane().add(cargo_label);
+			frame_fields.getContentPane().add(cargo_label);
 
 			JLabel label_email = new JLabel("Email");
 			label_email.setBounds(49, 167, 46, 14);
-			frame.getContentPane().add(label_email);
+			frame_fields.getContentPane().add(label_email);
 
 			JLabel senha_label = new JLabel("Senha");
 			senha_label.setBounds(387, 167, 46, 14);
-			frame.getContentPane().add(senha_label);
+			frame_fields.getContentPane().add(senha_label);
 
 			nome = new JTextField("");
 			nome.setName("nome");
 			nome.getText();
 			nome.setBounds(49, 78, 634, 20);
-			frame.getContentPane().add(nome);
+			frame_fields.getContentPane().add(nome);
 			nome.setColumns(10);
 
 			cpf = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
 			cpf.setName("cpf");
 			cpf.setBounds(49, 130, 310, 20);
-			frame.getContentPane().add(cpf);
+			frame_fields.getContentPane().add(cpf);
 			cpf.setColumns(10);
 
 			cargo = new JTextField("");
 			cargo.setName("cargo");
 			cargo.setBounds(387, 130, 294, 20);
-			frame.getContentPane().add(cargo);
+			frame_fields.getContentPane().add(cargo);
 			cargo.setColumns(10);
 
 			email = new JTextField("");
 			email.setName("email");
 			email.setBounds(49, 193, 310, 20);
-			frame.getContentPane().add(email);
+			frame_fields.getContentPane().add(email);
 			email.setColumns(10);
 
 			senha = new JPasswordField("");
 			senha.setName("senha");
 			senha.setBounds(389, 194, 294, 18);
-			frame.getContentPane().add(senha);
+			frame_fields.getContentPane().add(senha);
 
 			JLabel dark_logo = new JLabel("");
 			URL logo = this.getClass().getResource("/public/dark_logo_min.png");
 			dark_logo.setIcon(new ImageIcon(logo));
 			dark_logo.setBounds(302, 289, 114, 14);
-			frame.getContentPane().add(dark_logo);
+			frame_fields.getContentPane().add(dark_logo);
 
 			if (criarOuAlterar.equals("cadastrar")) {
 				JLabel adicionar_func_label = new JLabel("Adicionar Funcionários");
 				adicionar_func_label.setFont(new Font("Tahoma", Font.BOLD, 12));
 				adicionar_func_label.setBounds(10, 13, 156, 14);
-				frame.getContentPane().add(adicionar_func_label);
+				frame_fields.getContentPane().add(adicionar_func_label);
 
 				JButton adicionar = new JButton("Adicionar");
 				adicionar.addActionListener(new ActionListener() {
@@ -286,12 +289,12 @@ public class FuncionarioView {
 					}
 				});
 				adicionar.setBounds(589, 256, 94, 23);
-				frame.getContentPane().add(adicionar);
+				frame_fields.getContentPane().add(adicionar);
 			} else {
 				JLabel atualizar_func_label = new JLabel("Atualizar Funcionários");
 				atualizar_func_label.setFont(new Font("Tahoma", Font.BOLD, 12));
 				atualizar_func_label.setBounds(10, 13, 156, 14);
-				frame.getContentPane().add(atualizar_func_label);
+				frame_fields.getContentPane().add(atualizar_func_label);
 
 				JButton alterar = new JButton("Atualizar");
 				alterar.addActionListener(new ActionListener() {
@@ -300,22 +303,21 @@ public class FuncionarioView {
 					}
 				});
 				alterar.setBounds(589, 256, 94, 23);
-				frame.getContentPane().add(alterar);
+				frame_fields.getContentPane().add(alterar);
 			}
 
 			JButton btn_cancelar = new JButton("Cancelar");
 			btn_cancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					frame.setVisible(false);
+					frame_fields.dispose();
 				}
 			});
 			btn_cancelar.setBounds(476, 256, 89, 23);
-			frame.getContentPane().add(btn_cancelar);
+			frame_fields.getContentPane().add(btn_cancelar);
 
-			frame.setLocationRelativeTo(frame);
-
-			frame.setVisible(true);
+			frame_fields.setLocationRelativeTo(frame);
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 	}
 
@@ -396,7 +398,6 @@ public class FuncionarioView {
 		cadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				campos("cadastrar");
-				frame.setVisible(true);
 			}
 		});
 		cadastrar.setBounds(692, 341, 125, 23);

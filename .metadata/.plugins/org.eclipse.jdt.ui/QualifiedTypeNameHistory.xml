@@ -47,4 +47,11 @@
     <fullyQualifiedTypeName name="br.ba.fvc.controllrs.RotaController"/>
     <fullyQualifiedTypeName name="br.ba.fvc.controller.VeiculoController"/>
     <fullyQualifiedTypeName name="br.ba.fvc.controller.FuncionarioController"/>
+    <fullyQualifiedTypeName name="java.sql.Date"/>
+    <fullyQualifiedTypeName name="java.time.ZonedDateTime"/>
+    <fullyQualifiedTypeName name="java.text.DateFormat"/>
+    <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
+    <fullyQualifiedTypeName name="java.util.Date"/>
+    <fullyQualifiedTypeName name="java.time.LocalDate"/>
+    <fullyQualifiedTypeName name="java.time.LocalDateTime"/>
 </qualifiedTypeNameHistroy>

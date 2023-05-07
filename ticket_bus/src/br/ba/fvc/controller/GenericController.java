@@ -1,8 +1,6 @@
 package br.ba.fvc.controller;
 
 import java.sql.ResultSet;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -46,13 +44,15 @@ public class GenericController {
 
 			Boolean isRouter = this.table.contains("rota");
 
+			Boolean isVehicle = this.table.contains("veiculo");
+
 			addQuotationMarks.deleteCharAt(addQuotationMarks.length() - 1);
 
 			this.dao.store(addQuotationMarks);
-			if (!isVenda || !isRouter) {
+
+			if (!isVenda || !isRouter || !isVehicle) {
 				this.tableModel = this.all();
 			}
-
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -81,10 +81,11 @@ public class GenericController {
 
 			Boolean isRouter = this.table.contains("rota");
 
-			if (!isVenda || !isRouter) {
+			Boolean isVehicle = this.table.contains("veiculo");
+
+			if (!isVenda || !isRouter || !isVehicle) {
 				this.tableModel = this.all();
 			}
-
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -118,11 +119,11 @@ public class GenericController {
 
 			this.dao.update(removeKey.toString(), id);
 
-			Boolean isVenda = this.table.contains("venda");
+			Boolean isVehicle = this.table.contains("veiculo");
 
 			Boolean isRouter = this.table.contains("rota");
 
-			if (!isVenda || !isRouter) {
+			if (!isRouter || !isVehicle) {
 				this.tableModel = this.all();
 			}
 		} catch (Exception e) {
@@ -165,7 +166,7 @@ public class GenericController {
 		try {
 			for (int i = 0; i < fields.length; i++) {
 				for (int j = 0; j < fields[i].length; j++) {
-					if (fields[i][j].toString().isEmpty() || fields[i][j].equals(-1)) {
+					if (fields[i][j] == null || fields[i][j].toString().isEmpty() || fields[i][j].equals(-1)) {
 						error = true;
 						throw new Exception("Campo (" + fields[i][0].toString().toUpperCase() + ") obrigatório!");
 					}
@@ -175,18 +176,5 @@ public class GenericController {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "ATENÇÃO ", JOptionPane.ERROR_MESSAGE);
 		}
 		return error;
-	}
-
-	public static LocalDateTime convertDate(String date) {
-		LocalDateTime convertDate = null;
-		try {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-			convertDate = LocalDateTime.parse(date, formatter);
-
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage());
-		}
-
-		return convertDate;
 	}
 }

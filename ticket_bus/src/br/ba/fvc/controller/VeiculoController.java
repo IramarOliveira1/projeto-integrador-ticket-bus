@@ -17,7 +17,7 @@ public class VeiculoController {
 	private GenericController generic;
 	private VeiculoDAO dao;
 	private String tabela = "veiculo";
-	private String[] coluna = { "ID", "Numero", "Placa", "Modelo", "Data Compra", "Qtd poltronas" };
+	private String[] coluna = { "ID", "Numero", "Placa", "Modelo", "Data Compra", " Qtd poltronas" };
 	private String campos = "numero, placa, modelo, data_compra, quantidade_poltronas";
 
 	public VeiculoController() {
@@ -27,9 +27,11 @@ public class VeiculoController {
 
 	public DefaultTableModel listar() {
 		DefaultTableModel result = null;
+		ResultSet resultSet = null;
 		try {
 
-			result = this.generic.all();
+			resultSet = this.dao.all();
+			result = this.generic.addRow(resultSet); 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -39,21 +41,20 @@ public class VeiculoController {
 	public DefaultTableModel incluir() {
 		DefaultTableModel result = null;
 		ResultSet resultSet = null;
-
 		try {
 
 			resultSet = this.dao.verifyNumeroExists(numero, placa);
 
 			if (resultSet.next()) {
 				if (resultSet.getString("numero").equals(numero)) {
-					throw new Exception("numero já cadastrado!");
+					throw new Exception("Número já cadastrado!");
 				} else {
-					throw new Exception("placa já cadastrada!");
+					throw new Exception("Placa já cadastrada!");
 				}
 			}
-
-			Object[] data = { numero, placa.toUpperCase(), modelo, data_compra, quantidade_poltronas };
+			Object[] data = { numero, placa.toUpperCase(), modelo.toUpperCase(), data_compra, quantidade_poltronas };
 			result = this.generic.store(data);
+			this.listar();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
@@ -78,6 +79,7 @@ public class VeiculoController {
 		try {
 
 			result = this.generic.destroy(id);
+			this.listar();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
@@ -86,7 +88,6 @@ public class VeiculoController {
 
 	public ResultSet carregaCamposAlterar(String id) {
 		ResultSet result = null;
-
 		try {
 
 			result = this.generic.index(id);
@@ -104,10 +105,10 @@ public class VeiculoController {
 			Object[] data = { numero, placa, modelo, data_compra, quantidade_poltronas };
 
 			result = this.generic.update(fields, data, id);
+			this.listar();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
-
 		return result;
 	}
 
@@ -149,37 +150,5 @@ public class VeiculoController {
 
 	public void setQuantidade_poltronas(String quantidade_poltronas) {
 		this.quantidade_poltronas = quantidade_poltronas;
-	}
-
-	public GenericController getGeneric() {
-		return generic;
-	}
-
-	public void setGeneric(GenericController generic) {
-		this.generic = generic;
-	}
-
-	public String getTabela() {
-		return tabela;
-	}
-
-	public void setTabela(String tabela) {
-		this.tabela = tabela;
-	}
-
-	public String[] getColuna() {
-		return coluna;
-	}
-
-	public void setColuna(String[] coluna) {
-		this.coluna = coluna;
-	}
-
-	public String getCampos() {
-		return campos;
-	}
-
-	public void setCampos(String campos) {
-		this.campos = campos;
 	}
 }

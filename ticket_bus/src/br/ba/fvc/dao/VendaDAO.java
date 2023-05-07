@@ -23,7 +23,7 @@ public class VendaDAO {
 			Statement instance = this.connection.createStatement();
 
 			String query = "SELECT venda.id, venda.nome_passageiro, venda.cpf, origem.nome, destino.nome, "
-					+ " DATE_FORMAT(rota.data_partida, '%d/%m/%Y %T') AS data_formatada FROM venda "
+					+ " DATE_FORMAT(rota.data_partida, '%d/%m/%Y %H:%i') AS data_formatada FROM venda "
 					+ " INNER JOIN rota ON venda.id_rota = rota.id"
 					+ " INNER JOIN cidade AS origem ON rota.cidade_origem = origem.id"
 					+ " INNER JOIN cidade AS destino ON rota.cidade_destino = destino.id ORDER BY venda.id ASC";
@@ -83,15 +83,15 @@ public class VendaDAO {
 		return result;
 	}
 
-	public ResultSet verifyArmchairExists(String poltrona, String numero) {
+	public ResultSet verifyArmchairExists(String armchair, String id_router) {
 		ResultSet result = null;
 		try {
 			Statement instance = this.connection.createStatement();
 
 			String query = "SELECT venda.id, venda.poltrona, veiculo.id, veiculo.quantidade_poltronas FROM venda "
 					+ "INNER JOIN rota ON venda.id_rota = rota.id "
-					+ "INNER JOIN veiculo ON rota.id_veiculo = veiculo.id " + " WHERE venda.poltrona = " + poltrona
-					+ " AND veiculo.numero = " + numero + " AND rota.data_partida >= CURRENT_TIMESTAMP()";
+					+ "INNER JOIN veiculo ON rota.id_veiculo = veiculo.id " + " WHERE venda.poltrona = " + armchair
+					+ " AND rota.id = " + id_router;
 
 			result = instance.executeQuery(query);
 		} catch (SQLException e) {

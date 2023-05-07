@@ -9,6 +9,7 @@ import java.awt.event.ItemListener;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -34,6 +35,7 @@ import javax.swing.JScrollPane;
 public class RotaView {
 
 	private JFrame frame;
+	private JFrame frame_fields;
 	private JTextField input_filter;
 	private JFormattedTextField date;
 	private JTextField value_ticket;
@@ -94,19 +96,19 @@ public class RotaView {
 
 	private void cadastrar() {
 		Object[][] data = { { driver.getName(), driver.getSelectedIndex() },
-				{ vehicle.getName(), vehicle.getSelectedIndex() }, { date.getName(), date.getText() },
-				{ cityOrigin.getName(), cityOrigin.getSelectedIndex() },
-				{ cityDestiny.getName(), cityDestiny.getSelectedIndex() },
-				{ value_ticket.getName(), value_ticket.getText() } };
-
+			{ vehicle.getName(), vehicle.getSelectedIndex() }, { date.getName(), date.getValue() },
+			{ cityOrigin.getName(), cityOrigin.getSelectedIndex() },
+			{ cityDestiny.getName(), cityDestiny.getSelectedIndex() },
+			{ value_ticket.getName(), value_ticket.getText() } };
+		
 		Boolean error = GenericController.validateFieldsEmpty(data);
 
 		if (!error) {
-
-			LocalDateTime convertDate = GenericController.convertDate(date.getText());
-
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+			LocalDateTime convertDate = LocalDateTime.parse(date.getText(), formatter);
+	
 			LocalDateTime now = LocalDateTime.now();
-
+	
 			if (now.compareTo(convertDate) > 0) {
 				JOptionPane.showMessageDialog(null, "Data da partida menor que data atual!");
 				return;
@@ -133,11 +135,11 @@ public class RotaView {
 			this.list = router.incluir();
 
 			if (this.list == null) {
-				frame.setVisible(true);
+				frame_fields.setVisible(true);
 				return;
 			}
 
-			frame.setVisible(false);
+			frame_fields.dispose();
 
 			this.table.setModel(this.list);
 			this.list.fireTableDataChanged();
@@ -159,7 +161,17 @@ public class RotaView {
 			result = this.router.loadFieldsUpdate(id);
 			result.next();
 
-			date.setText(result.getString("data_partida"));			
+			DateTimeFormatter formatterDatabase = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+			LocalDateTime convertDateDatabase = LocalDateTime.parse(result.getString("data_partida"),
+					formatterDatabase);
+
+			DateTimeFormatter formatterDatePTBR = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
+			LocalDateTime convertDatePTBR = LocalDateTime.parse(convertDateDatabase.format(formatterDatePTBR),
+					formatterDatePTBR);
+
+			date.setValue(formatterDatePTBR.format(convertDatePTBR));			
 			value_ticket.setText(result.getString("valor_passagem"));
 			loadComboboxUpdate(this.comboboxEmployee, result, this.driver, "id_funcionario");
 			loadComboboxUpdate(this.comboBoxVehicle, result, this.vehicle, "id_veiculo");
@@ -174,7 +186,7 @@ public class RotaView {
 	private void update() {
 
 		Object[][] data = { { driver.getName(), driver.getSelectedIndex() },
-				{ vehicle.getName(), vehicle.getSelectedIndex() }, { date.getName(), date.getText() },
+				{ vehicle.getName(), vehicle.getSelectedIndex() }, { date.getName(), date.getValue() },
 				{ cityOrigin.getName(), cityOrigin.getSelectedIndex() },
 				{ cityDestiny.getName(), cityDestiny.getSelectedIndex() },
 				{ value_ticket.getName(), value_ticket.getText() } };
@@ -182,10 +194,11 @@ public class RotaView {
 		Boolean error = GenericController.validateFieldsEmpty(data);
 
 		if (!error) {
-			LocalDateTime convertDate = GenericController.convertDate(date.getText());
-
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+			LocalDateTime convertDate = LocalDateTime.parse(date.getText(), formatter);
+	
 			LocalDateTime now = LocalDateTime.now();
-
+	
 			if (now.compareTo(convertDate) > 0) {
 				JOptionPane.showMessageDialog(null, "Data da partida menor que data atual!");
 				return;
@@ -214,13 +227,12 @@ public class RotaView {
 			this.list = router.update(id);
 
 			if (this.list == null) {
-				frame.setVisible(true);
+				frame_fields.setVisible(true);
 				return;
 			}
 
-			frame.setVisible(false);
+			frame_fields.dispose();
 
-			this.table.getSelectionModel().clearSelection();
 			this.table.setModel(this.list);
 			this.list.fireTableDataChanged();
 		}
@@ -232,10 +244,7 @@ public class RotaView {
 				String index = list.get(i);
 				String id = index.toString().substring(0, index.toString().indexOf('='));
 				if (Integer.parseInt(id.trim()) == result.getInt(key)) {
-					if (key.equals("cidade_destino")) {
-						combo.setSelectedIndex(i + 1);
-					}
-					combo.setSelectedIndex(i);
+					combo.setSelectedItem(index);
 				}
 			}
 		} catch (Exception e) {
@@ -291,52 +300,54 @@ public class RotaView {
 	private void fields(String criarOuAlterar) {
 		try {
 
-			frame = new JFrame();
-			frame.setBounds(100, 100, 717, 389);
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frame.getContentPane().setLayout(null);
+			frame_fields = new JFrame();
+			frame_fields.setBounds(100, 100, 717, 389);
+			frame_fields.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame_fields.getContentPane().setLayout(null);
+
+			frame_fields.setVisible(true);
 
 			JSeparator separator = new JSeparator();
 			separator.setBounds(10, 40, 681, 14);
-			frame.getContentPane().add(separator);
+			frame_fields.getContentPane().add(separator);
 
 			JLabel label_nome_motorista = new JLabel("Nome Motorista");
 			label_nome_motorista.setBounds(10, 62, 149, 14);
-			frame.getContentPane().add(label_nome_motorista);
+			frame_fields.getContentPane().add(label_nome_motorista);
 
 			JLabel label_placa = new JLabel("Veículo");
 			label_placa.setBounds(10, 116, 86, 14);
-			frame.getContentPane().add(label_placa);
+			frame_fields.getContentPane().add(label_placa);
 
 			JLabel label_destino = new JLabel("Cidade Destino");
 			label_destino.setBounds(360, 172, 120, 14);
-			frame.getContentPane().add(label_destino);
+			frame_fields.getContentPane().add(label_destino);
 
 			JLabel label_origin = new JLabel("Cidade Origem");
 			label_origin.setBounds(10, 172, 120, 14);
-			frame.getContentPane().add(label_origin);
+			frame_fields.getContentPane().add(label_origin);
 
 			JLabel lblDataPartida = new JLabel("Data Partida");
 			lblDataPartida.setBounds(360, 116, 120, 14);
-			frame.getContentPane().add(lblDataPartida);
+			frame_fields.getContentPane().add(lblDataPartida);
 
 			vehicle = new JComboBox<Object>(this.comboBoxVehicle.toArray());
 			vehicle.setName("veiculo");
 			vehicle.getModel().setSelectedItem("SELECIONE");
 			vehicle.setBounds(10, 141, 316, 20);
-			frame.getContentPane().add(vehicle);
+			frame_fields.getContentPane().add(vehicle);
 
 			date = new JFormattedTextField(new MaskFormatter("##/##/#### ##:##"));
 			date.setName("date partida");
 			date.setBounds(360, 141, 316, 20);
-			frame.getContentPane().add(date);
+			frame_fields.getContentPane().add(date);
 			date.setColumns(10);
 
 			driver = new JComboBox<Object>(this.comboboxEmployee.toArray());
 			driver.setName("Motorista");
 			driver.getModel().setSelectedItem("SELECIONE");
 			driver.setBounds(10, 87, 666, 22);
-			frame.getContentPane().add(driver);
+			frame_fields.getContentPane().add(driver);
 
 			cityOrigin = new JComboBox<Object>(this.comboboxOrigin.toArray());
 			cityOrigin.setName("cidade origem");
@@ -352,27 +363,27 @@ public class RotaView {
 				}
 			});
 			cityOrigin.setBounds(10, 194, 316, 22);
-			frame.getContentPane().add(cityOrigin);
+			frame_fields.getContentPane().add(cityOrigin);
 
 			cityDestiny = new JComboBox<Object>();
 			cityDestiny.setName("cidade destino");
 			cityDestiny.setBounds(360, 194, 316, 22);
-			frame.getContentPane().add(cityDestiny);
+			frame_fields.getContentPane().add(cityDestiny);
 
 			value_ticket = new JTextField();
 			value_ticket.setName("valor da passagem");
 			value_ticket.setColumns(10);
 			value_ticket.setBounds(10, 252, 316, 20);
-			frame.getContentPane().add(value_ticket);
+			frame_fields.getContentPane().add(value_ticket);
 
 			JLabel label_valor_passagem = new JLabel("Valor Passagem");
 			label_valor_passagem.setBounds(10, 227, 120, 14);
-			frame.getContentPane().add(label_valor_passagem);
+			frame_fields.getContentPane().add(label_valor_passagem);
 
 			if (criarOuAlterar.equals("cadastrar")) {
 				JLabel lable_adicionar = new JLabel("Adicionar Rotas");
 				lable_adicionar.setBounds(10, 20, 115, 14);
-				frame.getContentPane().add(lable_adicionar);
+				frame_fields.getContentPane().add(lable_adicionar);
 
 				JButton adicionar = new JButton("Adicionar");
 				adicionar.addActionListener(new ActionListener() {
@@ -381,11 +392,11 @@ public class RotaView {
 					}
 				});
 				adicionar.setBounds(565, 258, 111, 23);
-				frame.getContentPane().add(adicionar);
+				frame_fields.getContentPane().add(adicionar);
 			} else {
 				JLabel lable_adicionar = new JLabel("Atualizar Rotas");
 				lable_adicionar.setBounds(10, 20, 115, 14);
-				frame.getContentPane().add(lable_adicionar);
+				frame_fields.getContentPane().add(lable_adicionar);
 
 				JButton alterar = new JButton("Atualizar");
 				alterar.addActionListener(new ActionListener() {
@@ -394,25 +405,25 @@ public class RotaView {
 					}
 				});
 				alterar.setBounds(589, 256, 94, 23);
-				frame.getContentPane().add(alterar);
+				frame_fields.getContentPane().add(alterar);
 			}
 
 			JButton cancelar = new JButton("Cancelar");
 			cancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					frame.setVisible(false);
+					frame_fields.dispose();
 				}
 			});
 			cancelar.setBounds(450, 258, 111, 23);
-			frame.getContentPane().add(cancelar);
+			frame_fields.getContentPane().add(cancelar);
 
 			JLabel dark_logo_min = new JLabel("");
 			URL logo = this.getClass().getResource("/public/dark_logo_min.png");
 			dark_logo_min.setIcon(new ImageIcon(logo));
 			dark_logo_min.setBounds(304, 313, 114, 14);
-			frame.getContentPane().add(dark_logo_min);
+			frame_fields.getContentPane().add(dark_logo_min);
 
-			frame.setLocationRelativeTo(frame);
+			frame_fields.setLocationRelativeTo(frame);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -445,7 +456,6 @@ public class RotaView {
 		alterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				loadFieldsUpdate();
-				frame.setVisible(true);
 			}
 		});
 		alterar.setBounds(705, 425, 123, 23);
@@ -474,7 +484,6 @@ public class RotaView {
 		cadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				fields("cadastrar");
-				frame.setVisible(true);
 			}
 		});
 		cadastrar.setBounds(838, 425, 123, 23);

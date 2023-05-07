@@ -45,7 +45,7 @@ public class MenuView {
 		windowEmployee.setVisible(true);
 		frame.dispose();
 	}
-	
+
 	private void windowVehicle() {
 		VeiculoView windowVehicle = new VeiculoView(this.user);
 		windowVehicle.setVisible(true);
@@ -57,33 +57,34 @@ public class MenuView {
 		windowCity.setVisible(true);
 		frame.dispose();
 	}
-	
+
 	private void windowRouter() {
 		RotaView windowRouter = new RotaView(this.user);
 		windowRouter.setVisible(true);
 		frame.dispose();
 	}
-	
+
 	private void windowSale() {
 		VendaView windowSale = new VendaView(this.user);
 		windowSale.setVisible(true);
 		frame.dispose();
 	}
+
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 450, 337);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("Funcionario: " + this.user.getLogado());
-		lblNewLabel.setBounds(136, 28, 248, 14);
+		lblNewLabel.setBounds(136, 48, 248, 14);
 		frame.getContentPane().add(lblNewLabel);
 
 		JSeparator separator = new JSeparator();
-		separator.setBounds(10, 53, 414, 2);
+		separator.setBounds(10, 73, 414, 2);
 		frame.getContentPane().add(separator);
 
 		JButton btn_funcionario = new JButton("");
@@ -94,10 +95,10 @@ public class MenuView {
 		});
 		URL funcionario_image = this.getClass().getResource("/public/funcionario_menu.png");
 		btn_funcionario.setIcon(new ImageIcon(funcionario_image));
-		btn_funcionario.setBounds(20, 66, 97, 73);
+		btn_funcionario.setBounds(20, 99, 97, 73);
 		frame.getContentPane().add(btn_funcionario);
 
-		JButton btn_veiculos= new JButton("");
+		JButton btn_veiculos = new JButton("");
 		btn_veiculos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				windowVehicle();
@@ -105,7 +106,7 @@ public class MenuView {
 		});
 		URL onibus_image = this.getClass().getResource("/public/onibus_menu.png");
 		btn_veiculos.setIcon(new ImageIcon(onibus_image));
-		btn_veiculos.setBounds(20, 177, 97, 73);
+		btn_veiculos.setBounds(20, 216, 97, 73);
 		frame.getContentPane().add(btn_veiculos);
 
 		JButton btn_cidade = new JButton("");
@@ -116,7 +117,7 @@ public class MenuView {
 		});
 		URL cidade_image = this.getClass().getResource("/public/cidade_menu.png");
 		btn_cidade.setIcon(new ImageIcon(cidade_image));
-		btn_cidade.setBounds(300, 66, 97, 73);
+		btn_cidade.setBounds(300, 99, 97, 73);
 		frame.getContentPane().add(btn_cidade);
 
 		JButton btn_rota = new JButton("");
@@ -127,7 +128,7 @@ public class MenuView {
 		});
 		URL rota_image = this.getClass().getResource("/public/rota_menu.png");
 		btn_rota.setIcon(new ImageIcon(rota_image));
-		btn_rota.setBounds(308, 177, 89, 73);
+		btn_rota.setBounds(300, 216, 97, 73);
 		frame.getContentPane().add(btn_rota);
 
 		JButton btn_venda = new JButton("");
@@ -138,8 +139,17 @@ public class MenuView {
 		});
 		URL venda_image = this.getClass().getResource("/public/venda_menu.png");
 		btn_venda.setIcon(new ImageIcon(venda_image));
-		btn_venda.setBounds(164, 119, 97, 73);
+		btn_venda.setBounds(165, 139, 97, 73);
 		frame.getContentPane().add(btn_venda);
+
+		JButton btn_logout = new JButton("Sair");
+		btn_logout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		btn_logout.setBounds(337, 11, 89, 23);
+		frame.getContentPane().add(btn_logout);
 
 		frame.setLocationRelativeTo(frame);
 	}
