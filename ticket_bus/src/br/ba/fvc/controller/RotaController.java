@@ -48,10 +48,12 @@ public class RotaController {
 		ResultSet resultSet = null;
 		try {
 
-			resultSet = this.dao.verifyDateExists(date_match, id_vehicle);
+			String date = date_match.toString().substring(0, date_match.toString().indexOf('='));
+			
+			resultSet = this.dao.verifyDateExists(date, id_vehicle);
 
 			if (resultSet.next()) {
-				if (resultSet.getString("data_partida").equals(date_match)) {
+				if (resultSet.getString("data_partida").equals(date)) {
 					throw new Exception("Veiculo já cadastrado para essa data!");
 				}
 			}

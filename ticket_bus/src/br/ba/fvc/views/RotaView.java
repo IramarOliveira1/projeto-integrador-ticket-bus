@@ -126,7 +126,7 @@ public class RotaView {
 			String id_employee = driver.getSelectedItem().toString().substring(0,
 					driver.getSelectedItem().toString().indexOf('='));
 
-			this.router.setDate_match(convertDate.toString());
+			this.router.setDate_match(convertDate.toLocalDate() + "=" + convertDate.toLocalTime());
 			this.router.setDestiny(id_destiny);
 			this.router.setId_vehicle(id_vehicle);
 			this.router.setId_employee(id_employee);
