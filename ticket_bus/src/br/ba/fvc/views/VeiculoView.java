@@ -223,8 +223,8 @@ public class VeiculoView {
 			separator.setBounds(10, 45, 563, 9);
 			frame_fields.getContentPane().add(separator);
 
-			JLabel label_qtd_poltrona = new JLabel("Quant. de poltrona");
-			label_qtd_poltrona.setBounds(309, 170, 115, 14);
+			JLabel label_qtd_poltrona = new JLabel(" Quantidade de poltrona");
+			label_qtd_poltrona.setBounds(309, 170, 222, 14);
 			frame_fields.getContentPane().add(label_qtd_poltrona);
 
 			quantidade_poltrona = new JFormattedTextField(new MaskFormatter("##"));
