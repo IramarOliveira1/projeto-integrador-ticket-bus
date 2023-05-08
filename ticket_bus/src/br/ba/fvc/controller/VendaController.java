@@ -61,7 +61,7 @@ public class VendaController {
 		ArrayList<String> values = new ArrayList<>();
 		ResultSet resultSet = null;
 		try {
-			resultSet = this.dao.getComboBox();
+			resultSet = this.dao.comboBoxRouter();
 
 			values = this.generic.addCombobox(resultSet);
 		} catch (Exception e) {
@@ -81,24 +81,55 @@ public class VendaController {
 		}
 		return result;
 	}
+	
+	public ResultSet countArmchair(String id) {
+		ResultSet result = null;
+		try {
+
+			result = this.dao.countArmchair(id);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return result;
+	}
+	
+	public ArrayList<String> comboboxArmchair(String id) {
+		ArrayList<String> values = new ArrayList<>();
+		ResultSet resultSet = null;
+		try {
+			resultSet = this.dao.comboboxArmchair(id);
+
+			values = this.generic.addCombobox(resultSet);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return values;
+	}
+	
+	public ResultSet getCombobox(String id) {
+		ResultSet result = null;
+		try {
+
+			result = this.dao.getArmchair(id);
+			result.next();
+			result = this.dao.getVehicle(result.getString("id_veiculo"));
+			result.next();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return result;
+	}
 
 	public DefaultTableModel store() {
 		DefaultTableModel result = null;
 		ResultSet model = null;
-		ResultSet armchair = null;
 		try {
 			model = this.dao.where("veiculo", "id", id_vehicle);
 
 			if (model.next()) {
 				if (Integer.parseInt(this.armchair) > Integer.parseInt(model.getString("quantidade_poltronas"))) {
 					throw new Exception("Número da poltrona informado é maior que o número total para o veiculo!");
-				}
-			}
-
-			armchair = this.dao.verifyArmchairExists(this.armchair, this.id_router);
-			if (armchair.next()) {
-				if (armchair.getString("poltrona").equals(this.armchair)) {
-					throw new Exception("Poltrona número: (" + this.armchair + ") já foi vendida!");
 				}
 			}
 

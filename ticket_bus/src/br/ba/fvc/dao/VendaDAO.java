@@ -35,7 +35,7 @@ public class VendaDAO {
 		return result;
 	}
 
-	public ResultSet getComboBox() {
+	public ResultSet comboBoxRouter() {
 		ResultSet result = null;
 		try {
 			Statement instance = this.connection.createStatement();
@@ -68,13 +68,60 @@ public class VendaDAO {
 
 		return result;
 	}
-
-	public ResultSet where(String table, String field, String value) {
+	
+	public ResultSet countArmchair(String id) {
 		ResultSet result = null;
 		try {
 			Statement instance = this.connection.createStatement();
 
-			String query = "SELECT * FROM " + table + " WHERE " + field + " = " + "'" + value + "'";
+			String query = "SELECT COUNT(poltrona) AS poltrona FROM venda " + "WHERE id_rota = " + id;
+
+			result = instance.executeQuery(query);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+
+		return result;
+	}
+
+	public ResultSet comboboxArmchair(String id) {
+		ResultSet result = null;
+
+		try {
+			Statement instance = this.connection.createStatement();
+
+			String query = "SELECT  rota.id_veiculo,venda.poltrona  FROM venda "
+					+ "INNER JOIN rota ON venda.id_rota = rota.id WHERE rota.id = " + id;
+
+			result = instance.executeQuery(query);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return result;
+	}
+	
+	public ResultSet getVehicle(String id) {
+		ResultSet result = null;
+
+		try {
+			Statement instance = this.connection.createStatement();
+
+			String query = "SELECT quantidade_poltronas FROM veiculo WHERE id = " + id;
+
+			result = instance.executeQuery(query);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return result;
+	}
+	
+	public ResultSet getArmchair(String id) {
+		ResultSet result = null;
+
+		try {
+			Statement instance = this.connection.createStatement();
+
+			String query = "SELECT id, id_veiculo  FROM rota WHERE id = " + id;
 
 			result = instance.executeQuery(query);
 		} catch (SQLException e) {
@@ -83,15 +130,12 @@ public class VendaDAO {
 		return result;
 	}
 
-	public ResultSet verifyArmchairExists(String armchair, String id_router) {
+	public ResultSet where(String table, String field, String value) {
 		ResultSet result = null;
 		try {
 			Statement instance = this.connection.createStatement();
 
-			String query = "SELECT venda.id, venda.poltrona, veiculo.id, veiculo.quantidade_poltronas FROM venda "
-					+ "INNER JOIN rota ON venda.id_rota = rota.id "
-					+ "INNER JOIN veiculo ON rota.id_veiculo = veiculo.id " + " WHERE venda.poltrona = " + armchair
-					+ " AND rota.id = " + id_router;
+			String query = "SELECT * FROM " + table + " WHERE " + field + " = " + "'" + value + "' ORDER BY id DESC";
 
 			result = instance.executeQuery(query);
 		} catch (SQLException e) {

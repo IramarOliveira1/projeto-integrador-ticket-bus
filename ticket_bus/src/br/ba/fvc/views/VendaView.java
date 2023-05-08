@@ -16,6 +16,7 @@ import javax.swing.JSeparator;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -40,7 +41,6 @@ public class VendaView {
 	private JFormattedTextField cpf;
 	private JTextField valor;
 	private JTextField data;
-	private JTextField poltrona;
 	private JFormattedTextField input_de;
 	private JFormattedTextField input_ate;
 	private JTextField rota;
@@ -49,11 +49,14 @@ public class VendaView {
 	private JLabel value;
 	private JLabel label_de;
 	private JLabel label_ate;
+	private DefaultComboBoxModel<Object> armchairModel;
+	private JComboBox<Object> poltrona;
 	private JComboBox<Object> comboBox;
 	public FuncionarioController funcionario;
 	public VendaController venda;
 	public DefaultTableModel list;
 	public ArrayList<String> comboBoxRouter;
+	public ArrayList<String> comboBoxPoltrona;
 
 	/**
 	 * Launch the application.
@@ -95,14 +98,44 @@ public class VendaView {
 	}
 
 	private void loadComboBox(String id) {
-		ResultSet result = null;
-
 		try {
-			result = this.venda.loadComboBox(id);
-			if (result.next()) {
-				data.setText(result.getString("data_formatada"));
-				valor.setText(result.getString("valor_passagem"));
-				this.id_veiculo = result.getString("id_veiculo");
+			ArrayList<String> add_list = new ArrayList<>();
+			ArrayList<String> index_remove = new ArrayList<>();
+
+			ResultSet resultSet = this.venda.loadComboBox(id);
+			ResultSet countArmchair = this.venda.countArmchair(id);
+			this.comboBoxPoltrona = this.venda.comboboxArmchair(id);
+			ResultSet result = this.venda.getCombobox(id);
+
+			for (int i = 0; i <= result.getInt("quantidade_poltronas"); i++) {
+				add_list.add("" + i + "");
+				armchairModel = new DefaultComboBoxModel<Object>(add_list.toArray());
+				this.poltrona.setModel(armchairModel);
+				this.poltrona.getModel().setSelectedItem("SELECIONE");
+				for (int j = 0; j < this.comboBoxPoltrona.size(); j++) {
+					String index = this.comboBoxPoltrona.get(j);
+					String id_armchair = index.toString().substring(index.lastIndexOf("=") + 1);
+					if (this.comboBoxPoltrona.size() != 0) {
+						if (Integer.parseInt(id_armchair.trim()) == Integer.parseInt(id_armchair.trim())) {
+							index_remove.add(id_armchair.trim());
+						}
+						for (int a = 0; a <= j; a++) {
+							this.poltrona.removeItem(index_remove.get(a));
+						}
+					}
+				}
+			}
+
+			if (countArmchair.next()) {
+				if (countArmchair.getInt("poltrona") > result.getInt("quantidade_poltronas")) {
+					this.poltrona.getModel().setSelectedItem("PASSAGEM ESGOTADA!");
+					JOptionPane.showMessageDialog(null, "Pssagem esgotada, por favor selecione outra rota!");
+				}
+			}
+			if (resultSet.next()) {
+				data.setText(resultSet.getString("data_formatada"));
+				valor.setText(resultSet.getString("valor_passagem"));
+				this.id_veiculo = resultSet.getString("id_veiculo");
 				this.id_rota = id;
 			}
 		} catch (Exception e) {
@@ -113,14 +146,14 @@ public class VendaView {
 	private void cadastrar() {
 
 		Object[][] data = { { nome.getName(), nome.getText() }, { cpf.getName(), cpf.getValue() },
-				{ comboBox.getName(), comboBox.getSelectedIndex() }, { poltrona.getName(), poltrona.getText() }, };
+				{ comboBox.getName(), comboBox.getSelectedIndex() }, { poltrona.getName(), poltrona.getSelectedIndex() }, };
 
 		Boolean error = GenericController.validateFieldsEmpty(data);
 
 		if (!error) {
 			this.venda.setName_passenger(nome.getText());
 			this.venda.setCpf(cpf.getText());
-			this.venda.setArmchair(poltrona.getText());
+			this.venda.setArmchair(poltrona.getSelectedItem().toString());
 			this.venda.setId_router(this.id_rota);
 			this.venda.setId_vehicle(id_veiculo);
 			this.list = venda.store();
@@ -304,11 +337,10 @@ public class VendaView {
 			label_poltrona.setBounds(10, 209, 70, 14);
 			frame_fields.getContentPane().add(label_poltrona);
 
-			poltrona = new JTextField();
+			poltrona = new JComboBox<Object>();
 			poltrona.setName("poltrona");
 			poltrona.setBounds(10, 231, 327, 20);
 			frame_fields.getContentPane().add(poltrona);
-			poltrona.setColumns(10);
 
 			JLabel label_valor_passagem = new JLabel("Valor Passagem");
 			label_valor_passagem.setBounds(349, 163, 102, 23);
