@@ -82,32 +82,36 @@ public class VeiculoView {
 	}
 
 	private void cadastrar() {
-		Object[][] data = { { numero.getName(), numero.getValue() }, { placa.getName(), placa.getValue() },
-				{ modelo.getName(), modelo.getText() }, { data_compra.getName(), data_compra.getValue() },
-				{ quantidade_poltrona.getName(), quantidade_poltrona.getValue() } };
+		try {
+			Object[][] data = { { numero.getName(), numero.getValue() }, { placa.getName(), placa.getValue() },
+					{ modelo.getName(), modelo.getText() }, { data_compra.getName(), data_compra.getValue() },
+					{ quantidade_poltrona.getName(), quantidade_poltrona.getValue() } };
 
-		Boolean error = GenericController.validateFieldsEmpty(data);
+			Boolean error = GenericController.validateFieldsEmpty(data);
 
-		if (!error) {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-			LocalDate date_purchase = LocalDate.parse(data_compra.getText(), formatter);
+			if (!error) {
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+				LocalDate date_purchase = LocalDate.parse(data_compra.getText(), formatter);
 
-			this.veiculo.setNumero(numero.getText());
-			this.veiculo.setPlaca(placa.getText());
-			this.veiculo.setModelo(modelo.getText());
-			this.veiculo.setData_compra(date_purchase.toString());
-			this.veiculo.setQuantidade_poltronas(quantidade_poltrona.getText());
-			this.list = veiculo.incluir();
+				this.veiculo.setNumero(numero.getText());
+				this.veiculo.setPlaca(placa.getText());
+				this.veiculo.setModelo(modelo.getText());
+				this.veiculo.setData_compra(date_purchase.toString());
+				this.veiculo.setQuantidade_poltronas(quantidade_poltrona.getText());
+				this.list = veiculo.incluir();
 
-			if (this.list == null) {
+				if (this.list == null) {
+					frame_fields.setVisible(true);
+					return;
+				}
+
 				frame_fields.dispose();
-				return;
+
+				this.table.setModel(this.list);
+				this.list.fireTableDataChanged();
 			}
-
-			frame_fields.dispose();
-
-			this.table.setModel(this.list);
-			this.list.fireTableDataChanged();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}
 
@@ -140,12 +144,17 @@ public class VeiculoView {
 			return;
 		}
 
-		String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
+		int dialog = JOptionPane.showConfirmDialog(null, "Deseja excluir esse veículo?", "Excluir veículo",
+				JOptionPane.YES_NO_OPTION);
 
-		this.list = this.veiculo.excluir(id);
+		if (dialog == 0) {
+			String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
 
-		this.table.setModel(this.list);
-		this.list.fireTableDataChanged();
+			this.list = this.veiculo.excluir(id);
+
+			this.table.setModel(this.list);
+			this.list.fireTableDataChanged();
+		}
 	}
 
 	private void carregarCamposAlterar() {
@@ -184,29 +193,33 @@ public class VeiculoView {
 	}
 
 	private void alterar() {
-		Object[][] data = { { numero.getName(), numero.getValue() }, { placa.getName(), placa.getText() },
-				{ modelo.getName(), modelo.getText() }, { data_compra.getName(), data_compra.getText() },
-				{ quantidade_poltrona.getName(), quantidade_poltrona.getValue() } };
-		
-		Boolean error = GenericController.validateFieldsEmpty(data);
+		try {
+			Object[][] data = { { numero.getName(), numero.getValue() }, { placa.getName(), placa.getText() },
+					{ modelo.getName(), modelo.getText() }, { data_compra.getName(), data_compra.getText() },
+					{ quantidade_poltrona.getName(), quantidade_poltrona.getValue() } };
 
-		if (!error) {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-			LocalDate date_purchase = LocalDate.parse(data_compra.getText(), formatter);
+			Boolean error = GenericController.validateFieldsEmpty(data);
 
-			String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
+			if (!error) {
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+				LocalDate date_purchase = LocalDate.parse(data_compra.getText(), formatter);
 
-			this.veiculo.setNumero(numero.getText());
-			this.veiculo.setPlaca(placa.getText());
-			this.veiculo.setModelo(modelo.getText());
-			this.veiculo.setData_compra(date_purchase.toString());
-			this.veiculo.setQuantidade_poltronas(quantidade_poltrona.getText());
-			this.list = veiculo.alterar(id);
+				String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
 
-			frame_fields.dispose();
+				this.veiculo.setNumero(numero.getText());
+				this.veiculo.setPlaca(placa.getText());
+				this.veiculo.setModelo(modelo.getText());
+				this.veiculo.setData_compra(date_purchase.toString());
+				this.veiculo.setQuantidade_poltronas(quantidade_poltrona.getText());
+				this.list = veiculo.alterar(id);
 
-			this.table.setModel(this.list);
-			this.list.fireTableDataChanged();
+				frame_fields.dispose();
+
+				this.table.setModel(this.list);
+				this.list.fireTableDataChanged();
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}
 
@@ -214,7 +227,7 @@ public class VeiculoView {
 		try {
 			frame_fields = new JFrame();
 			frame_fields.setBounds(100, 100, 610, 393);
-			frame_fields.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame_fields.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			frame_fields.getContentPane().setLayout(null);
 
 			frame_fields.setVisible(true);

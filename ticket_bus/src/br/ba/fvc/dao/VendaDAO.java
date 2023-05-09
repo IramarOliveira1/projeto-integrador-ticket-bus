@@ -68,7 +68,7 @@ public class VendaDAO {
 
 		return result;
 	}
-	
+
 	public ResultSet countArmchair(String id) {
 		ResultSet result = null;
 		try {
@@ -99,7 +99,7 @@ public class VendaDAO {
 		}
 		return result;
 	}
-	
+
 	public ResultSet getVehicle(String id) {
 		ResultSet result = null;
 
@@ -114,7 +114,7 @@ public class VendaDAO {
 		}
 		return result;
 	}
-	
+
 	public ResultSet getArmchair(String id) {
 		ResultSet result = null;
 

@@ -1,5 +1,6 @@
 package br.ba.fvc.views;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -79,7 +80,7 @@ public class MenuView {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("Funcionario: " + this.user.getLogado());
+		JLabel lblNewLabel = new JLabel("Funcionario: " + this.user.getLogado().toUpperCase());
 		lblNewLabel.setBounds(136, 48, 248, 14);
 		frame.getContentPane().add(lblNewLabel);
 
@@ -88,9 +89,17 @@ public class MenuView {
 		frame.getContentPane().add(separator);
 
 		JButton btn_funcionario = new JButton("");
+		if (!this.user.getCargoLogado().equals("ADMNISTRADOR")) {
+			btn_funcionario.setBackground(Color.gray);
+			btn_funcionario.setToolTipText("Você não ter permissão para acessar o modulo de funcionário.");
+		}
 		btn_funcionario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				windowEmployee();
+				btn_funcionario.setEnabled(true);
+				if (user.getCargoLogado().equals("ADMNISTRADOR")) {
+					btn_funcionario.setEnabled(false);
+					windowEmployee();
+				}
 			}
 		});
 		URL funcionario_image = this.getClass().getResource("/public/funcionario_menu.png");
@@ -98,21 +107,37 @@ public class MenuView {
 		btn_funcionario.setBounds(20, 99, 97, 73);
 		frame.getContentPane().add(btn_funcionario);
 
-		JButton btn_veiculos = new JButton("");
-		btn_veiculos.addActionListener(new ActionListener() {
+		JButton btn_veiculo = new JButton("");
+		if (!this.user.getCargoLogado().equals("ADMNISTRADOR")) {
+			btn_veiculo.setBackground(Color.gray);
+			btn_veiculo.setToolTipText("Você não ter permissão para acessar o modulo de veiculo.");
+		}
+		btn_veiculo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				windowVehicle();
+				btn_funcionario.setEnabled(true);
+				if (user.getCargoLogado().equals("ADMNISTRADOR")) {
+					btn_funcionario.setEnabled(false);
+					windowVehicle();
+				}
 			}
 		});
 		URL onibus_image = this.getClass().getResource("/public/onibus_menu.png");
-		btn_veiculos.setIcon(new ImageIcon(onibus_image));
-		btn_veiculos.setBounds(20, 216, 97, 73);
-		frame.getContentPane().add(btn_veiculos);
+		btn_veiculo.setIcon(new ImageIcon(onibus_image));
+		btn_veiculo.setBounds(20, 216, 97, 73);
+		frame.getContentPane().add(btn_veiculo);
 
 		JButton btn_cidade = new JButton("");
+		if (!this.user.getCargoLogado().equals("ADMNISTRADOR")) {
+			btn_cidade.setBackground(Color.gray);
+			btn_cidade.setToolTipText("Você não ter permissão para acessar o modulo de cidade.");
+		}
 		btn_cidade.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				windowCity();
+				btn_funcionario.setEnabled(true);
+				if (user.getCargoLogado().equals("ADMNISTRADOR")) {
+					btn_funcionario.setEnabled(false);
+					windowCity();
+				}
 			}
 		});
 		URL cidade_image = this.getClass().getResource("/public/cidade_menu.png");
@@ -121,9 +146,17 @@ public class MenuView {
 		frame.getContentPane().add(btn_cidade);
 
 		JButton btn_rota = new JButton("");
+		if (!this.user.getCargoLogado().equals("ADMNISTRADOR")) {
+			btn_rota.setBackground(Color.gray);
+			btn_rota.setToolTipText("Você não ter permissão para acessar o modulo de rota.");
+		}
 		btn_rota.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				windowRouter();
+				btn_funcionario.setEnabled(true);
+				if (user.getCargoLogado().equals("ADMNISTRADOR")) {
+					btn_funcionario.setEnabled(false);
+					windowRouter();
+				}
 			}
 		});
 		URL rota_image = this.getClass().getResource("/public/rota_menu.png");

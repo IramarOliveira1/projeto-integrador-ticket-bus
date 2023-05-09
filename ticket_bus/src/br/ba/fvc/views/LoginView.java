@@ -76,6 +76,7 @@ public class LoginView {
 					fields.setLogado(result.getString("nome"));
 					fields.setNome(result.getString("nome"));
 					fields.setCargo(result.getString("cargo"));
+					fields.setCargoLogado(result.getString("cargo"));
 					fields.setEmail(result.getString("email"));
 					fields.setSenha(result.getString("senha"));
 

@@ -127,12 +127,16 @@ public class CidadeView {
 			return;
 		}
 
-		String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
+		int dialog = JOptionPane.showConfirmDialog(null, "Deseja excluir essa cidade?", "Excluir cidade", JOptionPane.YES_NO_OPTION);
+		
+		if (dialog == 0) {
+			String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
 
-		this.list = this.cidade.excluir(id);
+			this.list = this.cidade.excluir(id);
 
-		this.table.setModel(this.list);
-		this.list.fireTableDataChanged();
+			this.table.setModel(this.list);
+			this.list.fireTableDataChanged();
+		}
 	}
 
 	private void carregarCamposAlterar() {
@@ -181,7 +185,7 @@ public class CidadeView {
 	private void campos(String criarOuAlterar) {
 		frame_fields = new JFrame();
 		frame_fields.setBounds(100, 100, 494, 353);
-		frame_fields.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame_fields.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame_fields.getContentPane().setLayout(null);
 
 		frame_fields.setVisible(true);

@@ -8,6 +8,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -81,7 +83,7 @@ public class VendaController {
 		}
 		return result;
 	}
-	
+
 	public ResultSet countArmchair(String id) {
 		ResultSet result = null;
 		try {
@@ -93,7 +95,7 @@ public class VendaController {
 		}
 		return result;
 	}
-	
+
 	public ArrayList<String> comboboxArmchair(String id) {
 		ArrayList<String> values = new ArrayList<>();
 		ResultSet resultSet = null;
@@ -106,7 +108,7 @@ public class VendaController {
 		}
 		return values;
 	}
-	
+
 	public ResultSet getCombobox(String id) {
 		ResultSet result = null;
 		try {
@@ -197,17 +199,29 @@ public class VendaController {
 		document.close();
 	}
 
-	public DefaultTableModel excluir(String id) {
+	public DefaultTableModel destroy(String id) {
 		DefaultTableModel result = null;
 		try {
 
-			result = this.generic.destroy(id);
+			ResultSet resultSet = this.dao.getSale(id);
 
+			if (resultSet.next()) {
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+				LocalDateTime convertDate = LocalDateTime.parse(resultSet.getString("hora_data"), formatter);
+
+				LocalDateTime now = LocalDateTime.now();
+				
+				if (now.compareTo(convertDate) > 0) {
+					throw new Exception("Passagem não pode ser cancelada, data da viagem já passou!");
+				}
+			}
+			result = this.generic.destroy(id);
 			this.all();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return result;
+
 	}
 
 	public DefaultTableModel filterRouter() {

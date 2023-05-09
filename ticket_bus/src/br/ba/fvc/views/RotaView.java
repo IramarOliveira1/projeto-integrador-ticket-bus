@@ -95,54 +95,58 @@ public class RotaView {
 	}
 
 	private void cadastrar() {
-		Object[][] data = { { driver.getName(), driver.getSelectedIndex() },
-			{ vehicle.getName(), vehicle.getSelectedIndex() }, { date.getName(), date.getValue() },
-			{ cityOrigin.getName(), cityOrigin.getSelectedIndex() },
-			{ cityDestiny.getName(), cityDestiny.getSelectedIndex() },
-			{ value_ticket.getName(), value_ticket.getText() } };
-		
-		Boolean error = GenericController.validateFieldsEmpty(data);
+		try {
+			Object[][] data = { { driver.getName(), driver.getSelectedIndex() },
+					{ vehicle.getName(), vehicle.getSelectedIndex() }, { date.getName(), date.getValue() },
+					{ cityOrigin.getName(), cityOrigin.getSelectedIndex() },
+					{ cityDestiny.getName(), cityDestiny.getSelectedIndex() },
+					{ value_ticket.getName(), value_ticket.getText() } };
 
-		if (!error) {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-			LocalDateTime convertDate = LocalDateTime.parse(date.getText(), formatter);
-	
-			LocalDateTime now = LocalDateTime.now();
-	
-			if (now.compareTo(convertDate) > 0) {
-				JOptionPane.showMessageDialog(null, "Data da partida menor que data atual!");
-				return;
+			Boolean error = GenericController.validateFieldsEmpty(data);
+
+			if (!error) {
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+				LocalDateTime convertDate = LocalDateTime.parse(date.getText(), formatter);
+
+				LocalDateTime now = LocalDateTime.now();
+
+				if (now.compareTo(convertDate) > 0) {
+					JOptionPane.showMessageDialog(null, "Data da partida menor que data atual!");
+					return;
+				}
+
+				String id_origin = cityOrigin.getSelectedItem().toString().substring(0,
+						cityOrigin.getSelectedItem().toString().indexOf('='));
+
+				String id_destiny = cityDestiny.getSelectedItem().toString().substring(0,
+						cityDestiny.getSelectedItem().toString().indexOf('='));
+
+				String id_vehicle = vehicle.getSelectedItem().toString().substring(0,
+						cityOrigin.getSelectedItem().toString().indexOf('='));
+
+				String id_employee = driver.getSelectedItem().toString().substring(0,
+						driver.getSelectedItem().toString().indexOf('='));
+
+				this.router.setDate_match(convertDate.toLocalDate() + "=" + convertDate.toLocalTime());
+				this.router.setDestiny(id_destiny);
+				this.router.setId_vehicle(id_vehicle);
+				this.router.setId_employee(id_employee);
+				this.router.setOrigin(id_origin);
+				this.router.setValue_ticket(Double.valueOf(value_ticket.getText()));
+				this.list = router.incluir();
+
+				if (this.list == null) {
+					frame_fields.setVisible(true);
+					return;
+				}
+
+				frame_fields.dispose();
+
+				this.table.setModel(this.list);
+				this.list.fireTableDataChanged();
 			}
-
-			String id_origin = cityOrigin.getSelectedItem().toString().substring(0,
-					cityOrigin.getSelectedItem().toString().indexOf('='));
-
-			String id_destiny = cityDestiny.getSelectedItem().toString().substring(0,
-					cityDestiny.getSelectedItem().toString().indexOf('='));
-
-			String id_vehicle = vehicle.getSelectedItem().toString().substring(0,
-					cityOrigin.getSelectedItem().toString().indexOf('='));
-
-			String id_employee = driver.getSelectedItem().toString().substring(0,
-					driver.getSelectedItem().toString().indexOf('='));
-
-			this.router.setDate_match(convertDate.toLocalDate() + "=" + convertDate.toLocalTime());
-			this.router.setDestiny(id_destiny);
-			this.router.setId_vehicle(id_vehicle);
-			this.router.setId_employee(id_employee);
-			this.router.setOrigin(id_origin);
-			this.router.setValue_ticket(Double.valueOf(value_ticket.getText()));
-			this.list = router.incluir();
-
-			if (this.list == null) {
-				frame_fields.setVisible(true);
-				return;
-			}
-
-			frame_fields.dispose();
-
-			this.table.setModel(this.list);
-			this.list.fireTableDataChanged();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}
 
@@ -171,7 +175,7 @@ public class RotaView {
 			LocalDateTime convertDatePTBR = LocalDateTime.parse(convertDateDatabase.format(formatterDatePTBR),
 					formatterDatePTBR);
 
-			date.setValue(formatterDatePTBR.format(convertDatePTBR));			
+			date.setValue(formatterDatePTBR.format(convertDatePTBR));
 			value_ticket.setText(result.getString("valor_passagem"));
 			loadComboboxUpdate(this.comboboxEmployee, result, this.driver, "id_funcionario");
 			loadComboboxUpdate(this.comboBoxVehicle, result, this.vehicle, "id_veiculo");
@@ -184,57 +188,60 @@ public class RotaView {
 	}
 
 	private void update() {
+		try {
+			Object[][] data = { { driver.getName(), driver.getSelectedIndex() },
+					{ vehicle.getName(), vehicle.getSelectedIndex() }, { date.getName(), date.getValue() },
+					{ cityOrigin.getName(), cityOrigin.getSelectedIndex() },
+					{ cityDestiny.getName(), cityDestiny.getSelectedIndex() },
+					{ value_ticket.getName(), value_ticket.getText() } };
 
-		Object[][] data = { { driver.getName(), driver.getSelectedIndex() },
-				{ vehicle.getName(), vehicle.getSelectedIndex() }, { date.getName(), date.getValue() },
-				{ cityOrigin.getName(), cityOrigin.getSelectedIndex() },
-				{ cityDestiny.getName(), cityDestiny.getSelectedIndex() },
-				{ value_ticket.getName(), value_ticket.getText() } };
+			Boolean error = GenericController.validateFieldsEmpty(data);
 
-		Boolean error = GenericController.validateFieldsEmpty(data);
+			if (!error) {
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+				LocalDateTime convertDate = LocalDateTime.parse(date.getText(), formatter);
 
-		if (!error) {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-			LocalDateTime convertDate = LocalDateTime.parse(date.getText(), formatter);
-	
-			LocalDateTime now = LocalDateTime.now();
-	
-			if (now.compareTo(convertDate) > 0) {
-				JOptionPane.showMessageDialog(null, "Data da partida menor que data atual!");
-				return;
+				LocalDateTime now = LocalDateTime.now();
+
+				if (now.compareTo(convertDate) > 0) {
+					JOptionPane.showMessageDialog(null, "Data da partida menor que data atual!");
+					return;
+				}
+
+				String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
+
+				String id_origin = cityOrigin.getSelectedItem().toString().substring(0,
+						cityOrigin.getSelectedItem().toString().indexOf('='));
+
+				String id_destiny = cityDestiny.getSelectedItem().toString().substring(0,
+						cityDestiny.getSelectedItem().toString().indexOf('='));
+
+				String id_vehicle = vehicle.getSelectedItem().toString().substring(0,
+						cityOrigin.getSelectedItem().toString().indexOf('='));
+
+				String id_employee = driver.getSelectedItem().toString().substring(0,
+						driver.getSelectedItem().toString().indexOf('='));
+
+				this.router.setDate_match(convertDate.toString());
+				this.router.setDestiny(id_destiny);
+				this.router.setId_vehicle(id_vehicle);
+				this.router.setId_employee(id_employee);
+				this.router.setOrigin(id_origin);
+				this.router.setValue_ticket(Double.valueOf(value_ticket.getText()));
+				this.list = router.update(id);
+
+				if (this.list == null) {
+					frame_fields.setVisible(true);
+					return;
+				}
+
+				frame_fields.dispose();
+
+				this.table.setModel(this.list);
+				this.list.fireTableDataChanged();
 			}
-
-			String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
-
-			String id_origin = cityOrigin.getSelectedItem().toString().substring(0,
-					cityOrigin.getSelectedItem().toString().indexOf('='));
-
-			String id_destiny = cityDestiny.getSelectedItem().toString().substring(0,
-					cityDestiny.getSelectedItem().toString().indexOf('='));
-
-			String id_vehicle = vehicle.getSelectedItem().toString().substring(0,
-					cityOrigin.getSelectedItem().toString().indexOf('='));
-
-			String id_employee = driver.getSelectedItem().toString().substring(0,
-					driver.getSelectedItem().toString().indexOf('='));
-
-			this.router.setDate_match(convertDate.toString());
-			this.router.setDestiny(id_destiny);
-			this.router.setId_vehicle(id_vehicle);
-			this.router.setId_employee(id_employee);
-			this.router.setOrigin(id_origin);
-			this.router.setValue_ticket(Double.valueOf(value_ticket.getText()));
-			this.list = router.update(id);
-
-			if (this.list == null) {
-				frame_fields.setVisible(true);
-				return;
-			}
-
-			frame_fields.dispose();
-
-			this.table.setModel(this.list);
-			this.list.fireTableDataChanged();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}
 
@@ -267,12 +274,17 @@ public class RotaView {
 			return;
 		}
 
-		String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
+		int dialog = JOptionPane.showConfirmDialog(null, "Deseja excluir essa rota?", "Excluir rota",
+				JOptionPane.YES_NO_OPTION);
 
-		this.list = this.router.excluir(id);
+		if (dialog == 0) {
+			String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
 
-		this.table.setModel(this.list);
-		this.list.fireTableDataChanged();
+			this.list = this.router.excluir(id);
+
+			this.table.setModel(this.list);
+			this.list.fireTableDataChanged();
+		}
 	}
 
 	private void filter() {
@@ -299,10 +311,9 @@ public class RotaView {
 
 	private void fields(String criarOuAlterar) {
 		try {
-
 			frame_fields = new JFrame();
 			frame_fields.setBounds(100, 100, 717, 389);
-			frame_fields.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame_fields.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			frame_fields.getContentPane().setLayout(null);
 
 			frame_fields.setVisible(true);

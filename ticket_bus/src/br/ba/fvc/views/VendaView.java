@@ -129,7 +129,7 @@ public class VendaView {
 			if (countArmchair.next()) {
 				if (countArmchair.getInt("poltrona") > result.getInt("quantidade_poltronas")) {
 					this.poltrona.getModel().setSelectedItem("PASSAGEM ESGOTADA!");
-					JOptionPane.showMessageDialog(null, "Pssagem esgotada, por favor selecione outra rota!");
+					JOptionPane.showMessageDialog(null, "Passagem esgotada, por favor selecione outra rota!");
 				}
 			}
 			if (resultSet.next()) {
@@ -144,9 +144,9 @@ public class VendaView {
 	}
 
 	private void cadastrar() {
-
 		Object[][] data = { { nome.getName(), nome.getText() }, { cpf.getName(), cpf.getValue() },
-				{ comboBox.getName(), comboBox.getSelectedIndex() }, { poltrona.getName(), poltrona.getSelectedIndex() }, };
+				{ comboBox.getName(), comboBox.getSelectedIndex() },
+				{ poltrona.getName(), poltrona.getSelectedIndex() }, };
 
 		Boolean error = GenericController.validateFieldsEmpty(data);
 
@@ -175,13 +175,21 @@ public class VendaView {
 			return;
 		}
 
-		String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
-		System.out.println(id);
+		int dialog = JOptionPane.showConfirmDialog(null, "Deseja cancelar passagem?", "Cancelar passagem",
+				JOptionPane.YES_NO_OPTION);
 
-		this.list = this.venda.excluir(id);
+		if (dialog == 0) {
+			String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
 
-		this.table.setModel(this.list);
-		this.list.fireTableDataChanged();
+			this.list = this.venda.destroy(id);
+
+			if (this.list == null) {
+				return;
+			}
+
+			this.table.setModel(this.list);
+			this.list.fireTableDataChanged();
+		}
 	}
 
 	private void pesquisarRota() {
@@ -240,7 +248,7 @@ public class VendaView {
 				input_ate.setValue("");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}
 
@@ -252,7 +260,7 @@ public class VendaView {
 	private void resultFilter() {
 		frame_result_filter = new JFrame();
 		frame_result_filter.setBounds(100, 100, 332, 315);
-		frame_result_filter.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame_result_filter.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame_result_filter.getContentPane().setLayout(null);
 
 		frame_result_filter.setVisible(true);
@@ -291,10 +299,9 @@ public class VendaView {
 
 	private void campos() {
 		try {
-
 			frame_fields = new JFrame();
 			frame_fields.setBounds(100, 100, 714, 391);
-			frame_fields.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame_fields.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			frame_fields.getContentPane().setLayout(null);
 
 			frame_fields.setVisible(true);
@@ -405,7 +412,6 @@ public class VendaView {
 	 */
 	private void initialize() {
 		try {
-
 			this.table.getColumnModel().getColumn(0).setMaxWidth(50);
 			frame = new JFrame();
 			frame.setBounds(100, 100, 862, 613);
@@ -497,9 +503,16 @@ public class VendaView {
 			frame.getContentPane().add(cadastrar);
 
 			JButton cancelar_passagem = new JButton("Cancelar Passagem");
+			if (!this.funcionario.getCargoLogado().equals("ADMNISTRADOR")) {
+				cancelar_passagem.setVisible(false);
+			}
 			cancelar_passagem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					excluir();
+					cancelar_passagem.setEnabled(false);
+					if (funcionario.getCargoLogado().equals("ADMNISTRADOR")) {
+						cancelar_passagem.setEnabled(true);
+						excluir();
+					}
 				}
 			});
 			cancelar_passagem.setBounds(500, 481, 162, 23);
@@ -513,7 +526,7 @@ public class VendaView {
 
 			frame.setLocationRelativeTo(frame);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}
 

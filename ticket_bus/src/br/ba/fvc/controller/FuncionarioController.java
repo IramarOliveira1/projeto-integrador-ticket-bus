@@ -13,6 +13,7 @@ public class FuncionarioController {
 	private String nome;
 	private String cpf;
 	private String cargo;
+	private String cargoLogado;
 	private String email;
 	private String senha;
 	private GenericController generic;
@@ -58,10 +59,10 @@ public class FuncionarioController {
 				if (resultSet.getString("cpf").equals(cpf)) {
 					throw new Exception("CPF já cadastrado!");
 				} else {
-					throw new Exception("Email já cadastrado!");
+					throw new Exception("E-mail já cadastrado!");
 				}
 			}
-
+			
 			Object[] data = { nome, cpf, email, cargo, senha };
 			result = this.generic.store(data);
 		} catch (Exception e) {
@@ -113,13 +114,13 @@ public class FuncionarioController {
 
 			if (this.getIdLogado().equals(id)) {
 				this.setLogado(this.getNome());
+				this.setCargoLogado(this.getCargo());
 			}
 
 			result = this.generic.update(fields, data, id);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
-
 		return result;
 	}
 
@@ -178,4 +179,13 @@ public class FuncionarioController {
 	public void setLogado(String logado) {
 		this.logado = logado;
 	}
+	
+	public String getCargoLogado() {
+		return cargoLogado;
+	}
+
+	public void setCargoLogado(String cargoLogado) {
+		this.cargoLogado = cargoLogado;
+	}
+
 }
