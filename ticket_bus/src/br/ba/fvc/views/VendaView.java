@@ -503,13 +503,13 @@ public class VendaView {
 			frame.getContentPane().add(cadastrar);
 
 			JButton cancelar_passagem = new JButton("Cancelar Passagem");
-			if (!this.funcionario.getCargoLogado().equals("ADMNISTRADOR")) {
+			if (!this.funcionario.getCargoLogado().equals("ADMINISTRADOR")) {
 				cancelar_passagem.setVisible(false);
 			}
 			cancelar_passagem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					cancelar_passagem.setEnabled(false);
-					if (funcionario.getCargoLogado().equals("ADMNISTRADOR")) {
+					if (funcionario.getCargoLogado().equals("ADMINISTRADOR")) {
 						cancelar_passagem.setEnabled(true);
 						excluir();
 					}

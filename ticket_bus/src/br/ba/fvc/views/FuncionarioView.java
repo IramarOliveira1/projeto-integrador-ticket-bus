@@ -155,7 +155,7 @@ public class FuncionarioView {
 			}
 			
 			if (Integer.parseInt(id) == 1) {
-				JOptionPane.showMessageDialog(null, "Não é possível excluir o (ADMNISTRADOR PADRÃO)");
+				JOptionPane.showMessageDialog(null, "Não é possível excluir o (ADMINISTRADOR PADRÃO)");
 				return;
 			}
 	
@@ -274,7 +274,7 @@ public class FuncionarioView {
 			frame_fields.getContentPane().add(cpf);
 			cpf.setColumns(10);
 
-			String[] cargos = { "ADMNISTRADOR", "OPERADOR", "MOTORISTA" };
+			String[] cargos = { "ADMINISTRADOR", "OPERADOR", "MOTORISTA" };
 			cargo = new JComboBox<Object>(cargos);
 			cargo.setEnabled(true);
 			cargo.getModel().setSelectedItem("SELECIONE");

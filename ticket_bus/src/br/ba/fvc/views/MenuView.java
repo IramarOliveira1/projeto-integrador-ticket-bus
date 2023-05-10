@@ -89,14 +89,14 @@ public class MenuView {
 		frame.getContentPane().add(separator);
 
 		JButton btn_funcionario = new JButton("");
-		if (!this.user.getCargoLogado().equals("ADMNISTRADOR")) {
+		if (!this.user.getCargoLogado().equals("ADMINISTRADOR")) {
 			btn_funcionario.setBackground(Color.gray);
 			btn_funcionario.setToolTipText("Você não ter permissão para acessar o modulo de funcionário.");
 		}
 		btn_funcionario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btn_funcionario.setEnabled(true);
-				if (user.getCargoLogado().equals("ADMNISTRADOR")) {
+				if (user.getCargoLogado().equals("ADMINISTRADOR")) {
 					btn_funcionario.setEnabled(false);
 					windowEmployee();
 				}
@@ -108,14 +108,14 @@ public class MenuView {
 		frame.getContentPane().add(btn_funcionario);
 
 		JButton btn_veiculo = new JButton("");
-		if (!this.user.getCargoLogado().equals("ADMNISTRADOR")) {
+		if (!this.user.getCargoLogado().equals("ADMINISTRADOR")) {
 			btn_veiculo.setBackground(Color.gray);
 			btn_veiculo.setToolTipText("Você não ter permissão para acessar o modulo de veiculo.");
 		}
 		btn_veiculo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btn_funcionario.setEnabled(true);
-				if (user.getCargoLogado().equals("ADMNISTRADOR")) {
+				if (user.getCargoLogado().equals("ADMINISTRADOR")) {
 					btn_funcionario.setEnabled(false);
 					windowVehicle();
 				}
@@ -127,14 +127,14 @@ public class MenuView {
 		frame.getContentPane().add(btn_veiculo);
 
 		JButton btn_cidade = new JButton("");
-		if (!this.user.getCargoLogado().equals("ADMNISTRADOR")) {
+		if (!this.user.getCargoLogado().equals("ADMINISTRADOR")) {
 			btn_cidade.setBackground(Color.gray);
 			btn_cidade.setToolTipText("Você não ter permissão para acessar o modulo de cidade.");
 		}
 		btn_cidade.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btn_funcionario.setEnabled(true);
-				if (user.getCargoLogado().equals("ADMNISTRADOR")) {
+				if (user.getCargoLogado().equals("ADMINISTRADOR")) {
 					btn_funcionario.setEnabled(false);
 					windowCity();
 				}
@@ -146,14 +146,14 @@ public class MenuView {
 		frame.getContentPane().add(btn_cidade);
 
 		JButton btn_rota = new JButton("");
-		if (!this.user.getCargoLogado().equals("ADMNISTRADOR")) {
+		if (!this.user.getCargoLogado().equals("ADMINISTRADOR")) {
 			btn_rota.setBackground(Color.gray);
 			btn_rota.setToolTipText("Você não ter permissão para acessar o modulo de rota.");
 		}
 		btn_rota.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btn_funcionario.setEnabled(true);
-				if (user.getCargoLogado().equals("ADMNISTRADOR")) {
+				if (user.getCargoLogado().equals("ADMINISTRADOR")) {
 					btn_funcionario.setEnabled(false);
 					windowRouter();
 				}

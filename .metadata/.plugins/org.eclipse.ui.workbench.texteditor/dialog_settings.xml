@@ -6,8 +6,13 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="verifyDateExists"/>
+		<item key="selection" value=""/>
 		<list key="findhistory">
+			<item value="JPanel"/>
+			<item value="JPanel "/>
+			<item value="where("/>
+			<item value="where"/>
+			<item value="getCombobox"/>
 			<item value="verifyDateExists"/>
 			<item value="#"/>
 			<item value="campo_filtro"/>
@@ -25,5 +30,9 @@
 		<item key="DIALOG_WIDTH" value="511"/>
 		<item key="DIALOG_HEIGHT" value="523"/>
 		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-18|0|0|0|400|0|0|0|1|0|0|5|0|Segoe UI"/>
+	</section>
+	<section name="org.eclipse.ui.texteditor.GotoLineAction$GotoLineDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="567"/>
+		<item key="DIALOG_Y_ORIGIN" value="308"/>
 	</section>
 </section>
