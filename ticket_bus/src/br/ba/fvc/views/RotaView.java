@@ -338,8 +338,8 @@ public class RotaView {
 			label_origin.setBounds(10, 172, 120, 14);
 			frame_fields.getContentPane().add(label_origin);
 
-			JLabel lblDataPartida = new JLabel("Data Partida");
-			lblDataPartida.setBounds(360, 116, 120, 14);
+			JLabel lblDataPartida = new JLabel("Data Partida / Hora partida");
+			lblDataPartida.setBounds(360, 116, 160, 14);
 			frame_fields.getContentPane().add(lblDataPartida);
 
 			vehicle = new JComboBox<Object>(this.comboBoxVehicle.toArray());

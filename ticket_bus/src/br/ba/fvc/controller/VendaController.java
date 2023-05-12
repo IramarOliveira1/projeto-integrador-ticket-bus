@@ -210,7 +210,7 @@ public class VendaController {
 				LocalDateTime convertDate = LocalDateTime.parse(resultSet.getString("hora_data"), formatter);
 
 				LocalDateTime now = LocalDateTime.now();
-				
+
 				if (now.compareTo(convertDate) > 0) {
 					throw new Exception("Passagem não pode ser cancelada, data da viagem já passou!");
 				}
