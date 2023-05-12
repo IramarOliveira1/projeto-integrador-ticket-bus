@@ -7,9 +7,12 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.net.URL;
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.swing.JFrame;
 import javax.swing.JSeparator;
@@ -134,13 +137,28 @@ public class VendaView {
 			}
 			if (resultSet.next()) {
 				data.setText(resultSet.getString("data_formatada"));
-				valor.setText(resultSet.getString("valor_passagem"));
+
+				String ticketValue = this.formatMoney(resultSet.getDouble("valor_passagem"));
+
+				valor.setText(ticketValue);
 				this.id_veiculo = resultSet.getString("id_veiculo");
 				this.id_rota = id;
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+	}
+
+	private String formatMoney(Double value) {
+		String money = null;
+		Locale ptBr = new Locale("pt", "BR");
+
+		DecimalFormatSymbols formatSymbolPTBR = new DecimalFormatSymbols(ptBr);
+
+		DecimalFormat formatMoney = new DecimalFormat("¤ ###,###,##0.00", formatSymbolPTBR);
+
+		money = formatMoney.format(value);
+		return money;
 	}
 
 	private void cadastrar() {
@@ -231,15 +249,17 @@ public class VendaView {
 				result = venda.filterPeriod();
 				result.next();
 
-				String values = result.getString("valor_total");
+				double values = result.getDouble("valor_total");
 
 				if (result.getString("valor_total") == null) {
-					values = "0,0";
+					values = 0.0;
 				}
+
+				String valuePeriod = this.formatMoney(values);
 
 				label_de.setText("Periodo De: " + input_de.getText());
 				label_ate.setText("Periodo Até: " + input_ate.getText());
-				value.setText("Valor total: R$" + values);
+				value.setText("Valor total: " + valuePeriod);
 
 				this.table.setModel(this.list);
 				this.list.fireTableDataChanged();
