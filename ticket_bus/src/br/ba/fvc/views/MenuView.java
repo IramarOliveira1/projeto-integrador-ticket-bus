@@ -121,7 +121,7 @@ public class MenuView {
 				}
 			}
 		});
-		URL onibus_image = this.getClass().getResource("/public/onibus_menu.png");
+		URL onibus_image = this.getClass().getResource("/public/veiculo_menu.png");
 		btn_veiculo.setIcon(new ImageIcon(onibus_image));
 		btn_veiculo.setBounds(20, 216, 97, 73);
 		frame.getContentPane().add(btn_veiculo);
