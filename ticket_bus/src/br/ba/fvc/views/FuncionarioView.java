@@ -142,23 +142,23 @@ public class FuncionarioView {
 			JOptionPane.showMessageDialog(null, "Selecione um registro na tabela para excluir!");
 			return;
 		}
-	
+
 		int dialog = JOptionPane.showConfirmDialog(null, "Deseja excluir esse funcionário?", "Excluir funcionário",
 				JOptionPane.YES_NO_OPTION);
 
 		if (dialog == 0) {
 			String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
-			
+
 			if (id.equals(this.funcionario.getIdLogado())) {
 				JOptionPane.showMessageDialog(null, "Não é possível excluir a conta logada!");
 				return;
 			}
-			
+
 			if (Integer.parseInt(id) == 1) {
 				JOptionPane.showMessageDialog(null, "Não é possível excluir o (ADMINISTRADOR PADRÃO)");
 				return;
 			}
-	
+
 			this.list = this.funcionario.excluir(id);
 
 			this.table.setModel(this.list);
@@ -174,11 +174,11 @@ public class FuncionarioView {
 		campos("alterar");
 
 		String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
-		
+
 		if (id.equals(this.funcionario.getIdLogado())) {
 			cargo.setEnabled(false);
 		}
-		
+
 		if (Integer.parseInt(id) == 1) {
 			cargo.setEnabled(false);
 		}
@@ -202,7 +202,7 @@ public class FuncionarioView {
 
 	private void alterar() {
 		String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
-		
+
 		char[] senhaChar = senha.getPassword();
 
 		String convertChar = String.valueOf(senhaChar);
@@ -348,6 +348,11 @@ public class FuncionarioView {
 	 * Initialize the contents of the frame.
 	 */
 	public void initialize() {
+		this.table.getColumnModel().getColumn(0).setMaxWidth(80);
+		this.table.getColumnModel().getColumn(1).setMaxWidth(400);
+		this.table.getColumnModel().getColumn(2).setMaxWidth(140);
+		this.table.getColumnModel().getColumn(3).setMaxWidth(520);
+		this.table.getColumnModel().getColumn(4).setMaxWidth(170);
 		frame = new JFrame();
 		frame.setBounds(100, 100, 862, 613);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

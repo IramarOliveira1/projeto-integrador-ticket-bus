@@ -107,7 +107,7 @@ public class LoginView {
 		label_email.setBounds(293, 175, 141, 40);
 		frame.getContentPane().add(label_email);
 
-		email = new JTextField("teste@teste.com");
+		email = new JTextField("");
 		email.setName("email");
 		email.setBounds(293, 219, 295, 34);
 		frame.getContentPane().add(email);
@@ -136,7 +136,7 @@ public class LoginView {
 
 		frame.getContentPane().add(lblNewLabel_2);
 
-		senha = new JPasswordField("123456");
+		senha = new JPasswordField("");
 		senha.setName("senha");
 		senha.setBounds(293, 290, 295, 34);
 		frame.getContentPane().add(senha);
