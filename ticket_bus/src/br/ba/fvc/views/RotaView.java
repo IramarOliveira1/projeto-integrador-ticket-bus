@@ -94,7 +94,7 @@ public class RotaView {
 		frame.dispose();
 	}
 
-	private void cadastrar() {
+	private void store() {
 		try {
 			Object[][] data = { { driver.getName(), driver.getSelectedIndex() },
 					{ vehicle.getName(), vehicle.getSelectedIndex() }, { date.getName(), date.getValue() },
@@ -295,7 +295,7 @@ public class RotaView {
 		if (!error) {
 			this.router.setOrigin(input_filter.getText());
 
-			this.list = this.router.filtrar();
+			this.list = this.router.filtrar(); 
 
 			input_filter.setText("");
 
@@ -304,7 +304,7 @@ public class RotaView {
 		}
 	}
 
-	private void limparFiltro() {
+	private void clearFilter() {
 		this.list = this.router.all();
 		this.list.fireTableDataChanged();
 	}
@@ -399,7 +399,7 @@ public class RotaView {
 				JButton adicionar = new JButton("Adicionar");
 				adicionar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						cadastrar();
+						store();
 					}
 				});
 				adicionar.setBounds(565, 258, 111, 23);
@@ -512,7 +512,7 @@ public class RotaView {
 		JButton btnLimparFiltro = new JButton("Limpar filtro");
 		btnLimparFiltro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				limparFiltro();
+				clearFilter();
 			}
 		});
 		btnLimparFiltro.setBounds(591, 69, 137, 23);

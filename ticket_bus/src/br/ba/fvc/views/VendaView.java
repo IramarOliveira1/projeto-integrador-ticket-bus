@@ -184,6 +184,7 @@ public class VendaView {
 
 			this.table.setModel(this.list);
 			this.list.fireTableDataChanged();
+			this.table.getColumnModel().getColumn(0).setMaxWidth(50);
 		}
 	}
 
