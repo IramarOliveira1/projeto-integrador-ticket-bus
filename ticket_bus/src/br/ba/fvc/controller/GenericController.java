@@ -1,5 +1,7 @@
 package br.ba.fvc.controller;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -176,5 +178,19 @@ public class GenericController {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "ATENÇÃO ", JOptionPane.ERROR_MESSAGE);
 		}
 		return error;
+	}
+
+	public static String crypto(String password) {
+		String cryptoPasssword = null;
+		try {
+			MessageDigest crypto = MessageDigest.getInstance("MD5"); 
+
+			crypto.update(password.getBytes(), 0, password.length());
+
+			cryptoPasssword = new BigInteger(1, crypto.digest()).toString(16);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "ATENÇÃO ", JOptionPane.ERROR_MESSAGE);
+		}
+		return cryptoPasssword;
 	}
 }

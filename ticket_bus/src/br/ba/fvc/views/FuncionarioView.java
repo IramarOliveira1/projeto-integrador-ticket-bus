@@ -1,5 +1,6 @@
 package br.ba.fvc.views;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -23,6 +24,8 @@ import javax.swing.JScrollPane;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.net.URL;
 import java.sql.ResultSet;
 
@@ -82,22 +85,31 @@ public class FuncionarioView {
 
 	private void cadastrar() {
 		try {
+
 			char[] senhaChar = senha.getPassword();
 
 			String convertChar = String.valueOf(senhaChar);
 
+			Object[] passwordEmpty = { senha.getName(), convertChar };
+			Object[] objectEmpty = {};
+			if (cargo.getSelectedItem().equals("MOTORISTA")) {
+				passwordEmpty = null;
+			}
+
 			Object[][] data = { { nome.getName(), nome.getText() }, { cpf.getName(), cpf.getValue() },
 					{ cargo.getName(), cargo.getSelectedIndex() }, { email.getName(), email.getText() },
-					{ senha.getName(), convertChar } };
+					passwordEmpty == null ? objectEmpty : passwordEmpty };
 
 			Boolean error = GenericController.validateFieldsEmpty(data);
+
+			String password = GenericController.crypto(convertChar);
 
 			if (!error) {
 				this.funcionario.setNome(nome.getText());
 				this.funcionario.setCpf(cpf.getText());
 				this.funcionario.setCargo(cargo.getSelectedItem().toString());
 				this.funcionario.setEmail(email.getText());
-				this.funcionario.setSenha(convertChar);
+				this.funcionario.setSenha(password);
 				this.list = funcionario.incluir();
 
 				if (this.list == null) {
@@ -108,11 +120,11 @@ public class FuncionarioView {
 
 				this.table.setModel(this.list);
 				this.list.fireTableDataChanged();
+				this.sizeCell();
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-
 	}
 
 	private void filtrar() {
@@ -143,27 +155,22 @@ public class FuncionarioView {
 			return;
 		}
 
-		int dialog = JOptionPane.showConfirmDialog(null, "Deseja excluir esse funcionário?", "Excluir funcionário",
-				JOptionPane.YES_NO_OPTION);
+		String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
 
-		if (dialog == 0) {
-			String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
-
-			if (id.equals(this.funcionario.getIdLogado())) {
-				JOptionPane.showMessageDialog(null, "Não é possível excluir a conta logada!");
-				return;
-			}
-
-			if (Integer.parseInt(id) == 1) {
-				JOptionPane.showMessageDialog(null, "Não é possível excluir o (ADMINISTRADOR PADRÃO)");
-				return;
-			}
-
-			this.list = this.funcionario.excluir(id);
-
-			this.table.setModel(this.list);
-			this.list.fireTableDataChanged();
+		if (id.equals(this.funcionario.getIdLogado())) {
+			JOptionPane.showMessageDialog(null, "Não é possível excluir a conta logada!");
+			return;
 		}
+
+		if (Integer.parseInt(id) == 1) {
+			JOptionPane.showMessageDialog(null, "Não é possível excluir o (ADMINISTRADOR PADRÃO)");
+			return;
+		}
+
+		this.list = this.funcionario.excluir(id);
+
+		this.table.setModel(this.list);
+		this.list.fireTableDataChanged();
 	}
 
 	private void carregarCamposAlterar() {
@@ -171,9 +178,15 @@ public class FuncionarioView {
 			JOptionPane.showMessageDialog(null, "Selecione um registro na tabela para alterar!");
 			return;
 		}
-		campos("alterar");
 
 		String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
+
+		if (Integer.parseInt(this.funcionario.getIdLogado()) != 1 && Integer.parseInt(id) == 1) {
+			JOptionPane.showMessageDialog(null, "Você não tem permissão para alterar esse funcionário!");
+			return;
+		}
+
+		campos("alterar");
 
 		if (id.equals(this.funcionario.getIdLogado())) {
 			cargo.setEnabled(false);
@@ -194,10 +207,17 @@ public class FuncionarioView {
 			cargo.setSelectedItem(result.getString("cargo"));
 			email.setText(result.getString("email"));
 			senha.setText(result.getString("senha"));
-
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+	}
+
+	private void sizeCell() {
+		this.table.getColumnModel().getColumn(0).setMaxWidth(80);
+		this.table.getColumnModel().getColumn(1).setMaxWidth(400);
+		this.table.getColumnModel().getColumn(2).setMaxWidth(140);
+		this.table.getColumnModel().getColumn(3).setMaxWidth(520);
+		this.table.getColumnModel().getColumn(4).setMaxWidth(170);
 	}
 
 	private void alterar() {
@@ -207,24 +227,33 @@ public class FuncionarioView {
 
 		String convertChar = String.valueOf(senhaChar);
 
+		Object[] passwordEmpty = { senha.getName(), convertChar };
+		Object[] objectEmpty = {};
+		if (cargo.getSelectedItem().equals("MOTORISTA")) {
+			passwordEmpty = null;
+		}
+
 		Object[][] data = { { nome.getName(), nome.getText() }, { cpf.getName(), cpf.getValue() },
 				{ cargo.getName(), cargo.getSelectedIndex() }, { email.getName(), email.getText() },
-				{ senha.getName(), convertChar } };
+				passwordEmpty == null ? objectEmpty : passwordEmpty };
 
 		Boolean error = GenericController.validateFieldsEmpty(data);
+
+		String password = GenericController.crypto(convertChar);
 
 		if (!error) {
 			this.funcionario.setNome(nome.getText());
 			this.funcionario.setCpf(cpf.getText());
 			this.funcionario.setCargo(cargo.getSelectedItem().toString());
 			this.funcionario.setEmail(email.getText());
-			this.funcionario.setSenha(convertChar);
+			this.funcionario.setSenha(password);
 			this.list = funcionario.alterar(id);
 
 			frame_fields.dispose();
 
 			this.table.setModel(this.list);
 			this.list.fireTableDataChanged();
+			this.sizeCell();
 		}
 	}
 
@@ -234,7 +263,6 @@ public class FuncionarioView {
 			frame_fields.setBounds(100, 100, 722, 353);
 			frame_fields.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			frame_fields.getContentPane().setLayout(null);
-
 			frame_fields.setVisible(true);
 
 			JSeparator separator = new JSeparator();
@@ -274,8 +302,28 @@ public class FuncionarioView {
 			frame_fields.getContentPane().add(cpf);
 			cpf.setColumns(10);
 
+			senha = new JPasswordField("");
+			senha.setName("senha");
+			senha.setBounds(389, 194, 294, 18);
+			frame_fields.getContentPane().add(senha);
+
 			String[] cargos = { "ADMINISTRADOR", "OPERADOR", "MOTORISTA" };
 			cargo = new JComboBox<Object>(cargos);
+			cargo.addItemListener(new ItemListener() {
+				@Override
+				public void itemStateChanged(ItemEvent e) {
+					if ((e.getStateChange() == ItemEvent.SELECTED)) {
+						if (cargo.getSelectedItem().equals("MOTORISTA")) {
+							senha.setBackground(Color.gray);
+							senha.setEnabled(false);
+							senha.setText("");
+						} else {
+							senha.setBackground(Color.white);
+							senha.setEnabled(true);
+						}
+					}
+				}
+			});
 			cargo.setEnabled(true);
 			cargo.getModel().setSelectedItem("SELECIONE");
 			cargo.setName("cargo");
@@ -287,11 +335,6 @@ public class FuncionarioView {
 			email.setBounds(49, 193, 310, 20);
 			frame_fields.getContentPane().add(email);
 			email.setColumns(10);
-
-			senha = new JPasswordField("");
-			senha.setName("senha");
-			senha.setBounds(389, 194, 294, 18);
-			frame_fields.getContentPane().add(senha);
 
 			JLabel dark_logo = new JLabel("");
 			URL logo = this.getClass().getResource("/public/dark_logo_min.png");
@@ -348,11 +391,7 @@ public class FuncionarioView {
 	 * Initialize the contents of the frame.
 	 */
 	public void initialize() {
-		this.table.getColumnModel().getColumn(0).setMaxWidth(80);
-		this.table.getColumnModel().getColumn(1).setMaxWidth(400);
-		this.table.getColumnModel().getColumn(2).setMaxWidth(140);
-		this.table.getColumnModel().getColumn(3).setMaxWidth(520);
-		this.table.getColumnModel().getColumn(4).setMaxWidth(170);
+		this.sizeCell();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 862, 613);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -426,6 +465,7 @@ public class FuncionarioView {
 		cadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				campos("cadastrar");
+				System.out.println(frame_fields.getComponentCount());
 			}
 		});
 		cadastrar.setBounds(692, 341, 125, 23);

@@ -70,6 +70,12 @@ public class MenuView {
 		windowSale.setVisible(true);
 		frame.dispose();
 	}
+	
+	private void windowLogin() {
+		LoginView windowLogin = new LoginView();
+		windowLogin.setVisible(true);
+		frame.dispose();
+	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -178,7 +184,7 @@ public class MenuView {
 		JButton btn_logout = new JButton("Sair");
 		btn_logout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				windowLogin();
 			}
 		});
 		btn_logout.setBounds(337, 11, 89, 23);

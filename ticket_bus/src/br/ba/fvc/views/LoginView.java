@@ -57,17 +57,19 @@ public class LoginView {
 
 			char[] senhaChar = senha.getPassword();
 
-			String ConvertChar = String.valueOf(senhaChar);
+			String convertChar = String.valueOf(senhaChar);
 
-			Object[][] data = { { email.getName(), email.getText() }, { senha.getName(), ConvertChar }, };
+			Object[][] data = { { email.getName(), email.getText() }, { senha.getName(), convertChar }, };
 
 			Boolean error = GenericController.validateFieldsEmpty(data);
 
+			String password = GenericController.crypto(convertChar);
+			
 			if (!error) {
 
 				fields.setEmail(email.getText());
 
-				fields.setSenha(ConvertChar);
+				fields.setSenha(password);
 
 				ResultSet result = fields.login();
 
@@ -149,5 +151,9 @@ public class LoginView {
 
 		lblNewLabel_3.setBounds(324, 94, 522, 59);
 		frame.getContentPane().add(lblNewLabel_3);
+	}
+	
+	public void setVisible(boolean visible) {
+		frame.setVisible(visible);
 	}
 }
