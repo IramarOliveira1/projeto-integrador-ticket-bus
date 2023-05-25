@@ -110,7 +110,7 @@ public class GenericDAO {
 		} catch (SQLException e) {
 			if (e.getErrorCode() == 1451) {
 				JOptionPane.showMessageDialog(null, "(" + this.table.toUpperCase()
-						+ ") não pode ser excluida, existe registros esta atrelado a outros registros.");
+						+ ") não pode ser excluido(a), este registro esta atrelado a outros registros.");
 				return;
 			}
 			JOptionPane.showMessageDialog(null, e.getMessage());
