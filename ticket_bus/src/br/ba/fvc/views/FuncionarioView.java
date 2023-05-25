@@ -155,22 +155,28 @@ public class FuncionarioView {
 			return;
 		}
 
-		String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
+		int dialog = JOptionPane.showConfirmDialog(null, "Deseja excluir esse funcionário?", "Excluir funcionário",
+				JOptionPane.YES_NO_OPTION);
 
-		if (id.equals(this.funcionario.getIdLogado())) {
-			JOptionPane.showMessageDialog(null, "Não é possível excluir a conta logada!");
-			return;
+		if (dialog == 0) {
+			String id = this.table.getModel().getValueAt(this.table.getSelectedRow(), 0).toString();
+
+			if (id.equals(this.funcionario.getIdLogado())) {
+				JOptionPane.showMessageDialog(null, "Não é possível excluir a conta logada!");
+				return;
+			}
+
+			if (Integer.parseInt(id) == 1) {
+				JOptionPane.showMessageDialog(null, "Não é possível excluir o (ADMINISTRADOR PADRÃO)");
+				return;
+			}
+
+			this.list = this.funcionario.excluir(id);
+
+			this.table.setModel(this.list);
+			this.list.fireTableDataChanged();
+			this.sizeCell();
 		}
-
-		if (Integer.parseInt(id) == 1) {
-			JOptionPane.showMessageDialog(null, "Não é possível excluir o (ADMINISTRADOR PADRÃO)");
-			return;
-		}
-
-		this.list = this.funcionario.excluir(id);
-
-		this.table.setModel(this.list);
-		this.list.fireTableDataChanged();
 	}
 
 	private void carregarCamposAlterar() {
@@ -229,6 +235,7 @@ public class FuncionarioView {
 
 		Object[] passwordEmpty = { senha.getName(), convertChar };
 		Object[] objectEmpty = {};
+		
 		if (cargo.getSelectedItem().equals("MOTORISTA")) {
 			passwordEmpty = null;
 		}
