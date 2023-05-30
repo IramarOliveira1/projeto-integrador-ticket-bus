@@ -187,7 +187,7 @@ public class CidadeView {
 		frame_fields.setBounds(100, 100, 494, 353);
 		frame_fields.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame_fields.getContentPane().setLayout(null);
-
+		frame_fields.setResizable(false);
 		frame_fields.setVisible(true);
 
 		JSeparator separator = new JSeparator();
@@ -276,6 +276,7 @@ public class CidadeView {
 		frame.setBounds(100, 100, 862, 613);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.setResizable(false);
 
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setBounds(10, 37, 826, 14);

@@ -315,7 +315,7 @@ public class RotaView {
 			frame_fields.setBounds(100, 100, 717, 389);
 			frame_fields.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			frame_fields.getContentPane().setLayout(null);
-
+			frame_fields.setResizable(false);
 			frame_fields.setVisible(true);
 
 			JSeparator separator = new JSeparator();
@@ -448,6 +448,7 @@ public class RotaView {
 		frame.setBounds(100, 100, 1001, 611);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.setResizable(false);
 
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setBounds(10, 37, 942, 14);

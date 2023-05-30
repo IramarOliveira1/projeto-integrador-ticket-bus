@@ -85,6 +85,7 @@ public class MenuView {
 		frame.setBounds(100, 100, 450, 337);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.setResizable(false);
 
 		JLabel lblNewLabel = new JLabel("Funcionario: " + this.user.getLogado().toUpperCase());
 		lblNewLabel.setBounds(136, 48, 248, 14);

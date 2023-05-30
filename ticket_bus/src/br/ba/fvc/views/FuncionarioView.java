@@ -270,6 +270,7 @@ public class FuncionarioView {
 			frame_fields.setBounds(100, 100, 722, 353);
 			frame_fields.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			frame_fields.getContentPane().setLayout(null);
+			frame_fields.setResizable(false);
 			frame_fields.setVisible(true);
 
 			JSeparator separator = new JSeparator();
@@ -403,6 +404,7 @@ public class FuncionarioView {
 		frame.setBounds(100, 100, 862, 613);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.setResizable(false);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(20, 150, 662, 321);
@@ -472,7 +474,6 @@ public class FuncionarioView {
 		cadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				campos("cadastrar");
-				System.out.println(frame_fields.getComponentCount());
 			}
 		});
 		cadastrar.setBounds(692, 341, 125, 23);

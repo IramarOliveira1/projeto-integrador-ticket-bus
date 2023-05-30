@@ -37,6 +37,7 @@ public class LoginView {
 				try {
 					LoginView window = new LoginView();
 					window.frame.setVisible(true);
+					window.frame.setResizable(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -103,6 +104,7 @@ public class LoginView {
 		frame.setBounds(100, 100, 862, 613);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.setResizable(false);
 
 		JLabel label_email = new JLabel("Email");
 		label_email.setFont(new Font("Tahoma", Font.PLAIN, 15));

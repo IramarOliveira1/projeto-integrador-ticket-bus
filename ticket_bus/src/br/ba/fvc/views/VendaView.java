@@ -283,6 +283,7 @@ public class VendaView {
 		frame_result_filter.setBounds(100, 100, 332, 315);
 		frame_result_filter.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame_result_filter.getContentPane().setLayout(null);
+		frame_result_filter.setResizable(false);
 
 		frame_result_filter.setVisible(true);
 
@@ -324,7 +325,7 @@ public class VendaView {
 			frame_fields.setBounds(100, 100, 714, 391);
 			frame_fields.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			frame_fields.getContentPane().setLayout(null);
-
+			frame_fields.setResizable(false);
 			frame_fields.setVisible(true);
 
 			JSeparator separator_1 = new JSeparator();
@@ -438,6 +439,7 @@ public class VendaView {
 			frame.setBounds(100, 100, 862, 613);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.getContentPane().setLayout(null);
+			frame.setResizable(false);
 
 			JSeparator separator_1 = new JSeparator();
 			separator_1.setBounds(10, 37, 826, 14);

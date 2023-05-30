@@ -6,8 +6,11 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="123456"/>
+		<item key="selection" value="excluir"/>
 		<list key="findhistory">
+			<item value="excluir"/>
+			<item value="permissão"/>
+			<item value="ALTERAR"/>
 			<item value="123456"/>
 			<item value="JPanel"/>
 			<item value="JPanel "/>
@@ -20,7 +23,6 @@
 			<item value="adicionar"/>
 			<item value="funcioanrio"/>
 			<item value="rota"/>
-			<item value="router"/>
 		</list>
 		<list key="replacehistory">
 		</list>
