@@ -31,7 +31,7 @@ public class VeiculoController {
 		try {
 
 			resultSet = this.dao.all();
-			result = this.generic.addRow(resultSet); 
+			result = this.generic.addRow(resultSet);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -63,11 +63,11 @@ public class VeiculoController {
 
 	public DefaultTableModel filtrar() {
 		DefaultTableModel result = null;
+		ResultSet resultSet = null;
 		try {
 
-			String campo_filtro = "numero";
-
-			result = this.generic.filter(campo_filtro, numero);
+			resultSet = this.dao.filter(numero);
+			result = this.generic.addRow(resultSet);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}

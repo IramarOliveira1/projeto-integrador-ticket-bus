@@ -487,7 +487,7 @@ public class RotaView {
 		frame.getContentPane().add(lblPesquisarPorCidade);
 
 		input_filter = new JTextField();
-		input_filter.setName("pesquisar por rota");
+		input_filter.setName("pesquisar por cidade origem");
 		input_filter.setBounds(10, 70, 424, 20);
 		frame.getContentPane().add(input_filter);
 		input_filter.setColumns(10);

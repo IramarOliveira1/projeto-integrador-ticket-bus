@@ -175,7 +175,7 @@ public class CidadeView {
 
 			this.list = cidade.alterar(id);
 
-			frame.setVisible(false);
+			frame_fields.setVisible(false);
 
 			this.table.setModel(this.list);
 			this.list.fireTableDataChanged();

@@ -29,6 +29,21 @@ public class VeiculoDAO {
 		}
 		return result;
 	}
+	
+	public ResultSet filter(String values) {
+		ResultSet result = null;
+		try {
+			Statement instance = this.connection.createStatement(); 
+
+			String query = "SELECT id, numero, placa, modelo, DATE_FORMAT(data_compra, '%d/%m/%Y') AS data_formatada, quantidade_poltronas FROM veiculo WHERE numero  LIKE " + "'%" + values + "%'";
+
+			result = instance.executeQuery(query);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return result;
+	}
+	
 
 	public ResultSet verifyNumeroExists(String numero, String placa) {
 		ResultSet result = null;

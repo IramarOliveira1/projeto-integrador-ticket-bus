@@ -147,6 +147,7 @@ public class FuncionarioView {
 	private void limparFiltro() {
 		this.list = funcionario.listar();
 		this.list.fireTableDataChanged();
+		this.sizeCell();
 	}
 
 	private void excluir() {

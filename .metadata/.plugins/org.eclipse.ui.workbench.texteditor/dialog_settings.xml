@@ -6,8 +6,9 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="excluir"/>
+		<item key="selection" value="cadastrar"/>
 		<list key="findhistory">
+			<item value="cadastrar"/>
 			<item value="excluir"/>
 			<item value="permissão"/>
 			<item value="ALTERAR"/>
@@ -22,7 +23,6 @@
 			<item value="campo_filtro"/>
 			<item value="adicionar"/>
 			<item value="funcioanrio"/>
-			<item value="rota"/>
 		</list>
 		<list key="replacehistory">
 		</list>
